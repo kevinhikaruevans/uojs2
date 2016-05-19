@@ -1,0 +1,5 @@
+class Huffman {
+    constructor() {
+        // TODO
+    }
+}
