@@ -1,3 +1,5 @@
+import { PacketTypes } from './constants';
+
 export class Packet {
     constructor(data) {
         this.data = new Uint8Array(data);
@@ -28,5 +30,23 @@ export class Packet {
 
     getInt(offset) {
         return this.getNumber(offset, 4);
+    }
+
+    toBuffer() {
+        console.log('toBuffer called!', this.data.buffer);
+        return this.data.buffer;
+    }
+
+    toString() {
+        if (!this.data.length) {
+            return '[Packet: empty]';
+        }
+
+        const initialByte = this.data[0];
+
+        if (PacketTypes[initialByte]) {
+            return `[Packet: ${PacketTypes[initialByte][0]}]`;
+        }
+        return `[Packet: Unknown 0x${this.data[0].toString(16)}]`;
     }
 }
