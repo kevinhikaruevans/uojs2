@@ -3,6 +3,7 @@ import { PacketTypes } from './constants';
 export class Packet {
     constructor(data) {
         this.data = new Uint8Array(data);
+        this.position = 0; //TODO seek
     }
 
     getNumber(offset, size) {
@@ -32,6 +33,25 @@ export class Packet {
         return this.getNumber(offset, 4);
     }
 
+    append() {
+        for(let i = 0; i < arguments.length; i++) {
+            let arg = arguments[i];
+            let t = typeof(arg);
+
+            if (t === 'number') {
+                // just assume t is a byte
+                this.data[this.position++] = arg & 0xFF;
+            } else if (t === 'string') {
+                // iterate through the string
+                for(let j = 0; j < arg.length; j++) {
+                    this.data[this.position++] = arg.charCodeAt(j) & 0xFF;
+                }
+            } else {
+                throw `cannot append type ${t}`;
+            }
+        }
+    }
+
     toBuffer() {
         console.log('toBuffer called!', this.data.buffer);
         return this.data.buffer;
@@ -48,5 +68,19 @@ export class Packet {
             return `[Packet: ${PacketTypes[initialByte][0]}]`;
         }
         return `[Packet: Unknown 0x${this.data[0].toString(16)}]`;
+    }
+
+    toPrettyString() {
+        if (!this.data.length) {
+            return '[Packet: empty]';
+        }
+
+        //const prettyString = this.data.map(x => (x).toString(16)).join(', ');
+        const prettyString = Array.prototype.map.call(this.data, x => x.toString(16)).join(', ').toUpperCase();
+        const initialByte = this.data[0];
+        if (PacketTypes[initialByte]) {
+            return `[${PacketTypes[initialByte][0]}: ${prettyString}]`;
+        }
+        return `[Packet: ${prettyString}]`;
     }
 }

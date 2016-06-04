@@ -50,6 +50,7 @@ export const PacketTypes = {
   0x77: ['Mobile Moving',             17],
   0x78: ['Mobile Incomming',          -1],
   0x7C: ['Display Menu',              -1],
+  0x80: ['Login',                     62],
   0x82: ['Login Rejection',            2],
   0x85: ['Del Char Response',          2],
   0x86: ['Char List Update',          -1],
