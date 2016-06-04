@@ -1,14 +1,17 @@
 import { Packet } from './packet';
 import { StringPad } from '../utils';
+import { PacketRegistry } from './packetregistry';
 
 export class GameSocket {
-    constructor() {
+    constructor(packetRegistry) {
         const socket = this.socket = new WebSocket('ws://kevinhikaruevans.com:2594', 'binary');
         // tbh, the WebSocket constructor confuses me.
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.open;
         socket.onmessage = this.receive;
 
+        //this.registry = new PacketRegistry();
+        this.registry = packetRegistry;
     }
 
     state = {
@@ -20,10 +23,17 @@ export class GameSocket {
         if (this.state.compressed) {
             throw 'compression is not handled yet';
         }
-        
+        if (!this.registry) {
+            throw 'no handlers available :(';
+        }
         const packet = new Packet(new Uint8Array(message.data));
 
-        console.log('received', packet.toPrettyString());
+        console.log('received packet:');
+        console.log(packet.toPrettyString());
+        console.log(packet.toASCIIString());
+        console.log('---------------------------------------');
+
+        this.registry.executeHandler(packet);
     }
 
     open = () => {
@@ -58,7 +68,10 @@ export class GameSocket {
     }
     send(packet) {
         if (packet && packet instanceof Packet) {
-            console.log('sending packet', packet.toPrettyString());
+            console.log('sending packet:');
+            console.log(packet.toPrettyString());
+            console.log(packet.toASCIIString());
+            console.log('---------------------------------------');
             this.socket.send(packet.toBuffer());
         } else if (packet instanceof Array) {
             throw 'cannot send Arrays at this time';

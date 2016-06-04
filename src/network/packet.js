@@ -6,6 +6,9 @@ export class Packet {
         this.position = 0; //TODO seek
     }
 
+    getId() {
+        return ~~this.data[0];
+    }
     getNumber(offset, size) {
         let result = 0;
         for(let i = 0; i < size; i++) {
@@ -69,7 +72,20 @@ export class Packet {
         }
         return `[Packet: Unknown 0x${this.data[0].toString(16)}]`;
     }
+    toASCIIString() {
+        if (!this.data.length) {
+            return '[Packet: empty]';
+        }
 
+        const asciiString = Array.prototype.map.call(this.data, x => {
+            if (x < 0x7F && x > 0x1F) {
+                return String.fromCharCode(x);
+            }
+            return '?';
+        }).join('');
+
+        return `[Packet: "${asciiString}"]`;
+    }
     toPrettyString() {
         if (!this.data.length) {
             return '[Packet: empty]';
