@@ -4,18 +4,26 @@ import { StringPad } from '../utils';
 export class GameSocket {
     constructor() {
         const socket = this.socket = new WebSocket('ws://kevinhikaruevans.com:2594', 'binary');
-
+        // tbh, the WebSocket constructor confuses me.
+        socket.binaryType = 'arraybuffer';
         socket.onopen = this.open;
-
+        socket.onmessage = this.receive;
 
     }
 
     state = {
-        sentLogin: false
+        sentLogin: false,
+        compressed: false
     }
 
-    receive = (data) => {
+    receive = (message) => {
+        if (this.state.compressed) {
+            throw 'compression is not handled yet';
+        }
+        
+        const packet = new Packet(new Uint8Array(message.data));
 
+        console.log('received', packet.toPrettyString());
     }
 
     open = () => {
@@ -23,7 +31,6 @@ export class GameSocket {
         this.seed = this.generateSeedPacket();
 
         this.send(this.seed);
-
         this.login('kevans', 'kevans');
     }
 
@@ -59,9 +66,5 @@ export class GameSocket {
             console.error('failed to send');
             throw 'attempted to send an incorrectly formatted packet';
         }
-    }
-
-    beginClientHandshake() {
-
     }
 }

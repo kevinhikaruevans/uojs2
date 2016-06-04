@@ -47,13 +47,13 @@ export class Packet {
                     this.data[this.position++] = arg.charCodeAt(j) & 0xFF;
                 }
             } else {
+                // unknown type
                 throw `cannot append type ${t}`;
             }
         }
     }
 
     toBuffer() {
-        console.log('toBuffer called!', this.data.buffer);
         return this.data.buffer;
     }
 
@@ -75,11 +75,10 @@ export class Packet {
             return '[Packet: empty]';
         }
 
-        //const prettyString = this.data.map(x => (x).toString(16)).join(', ');
         const prettyString = Array.prototype.map.call(this.data, x => x.toString(16)).join(', ').toUpperCase();
         const initialByte = this.data[0];
         if (PacketTypes[initialByte]) {
-            return `[${PacketTypes[initialByte][0]}: ${prettyString}]`;
+            return `[Packet(${PacketTypes[initialByte][0]}): ${prettyString}]`;
         }
         return `[Packet: ${prettyString}]`;
     }
