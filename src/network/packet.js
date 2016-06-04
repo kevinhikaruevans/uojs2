@@ -22,8 +22,9 @@ export class Packet {
         for(let i = 0; i < length; i++) {
             buffer += String.fromCharCode(this.data[offset + i]);
         }
-        return buffer;
+        return buffer.trim();
     }
+
     getByte(offset) {
         return this.getNumber(offset, 1);
     }
@@ -72,6 +73,7 @@ export class Packet {
         }
         return `[Packet: Unknown 0x${this.data[0].toString(16)}]`;
     }
+
     toASCIIString() {
         if (!this.data.length) {
             return '[Packet: empty]';
@@ -86,6 +88,7 @@ export class Packet {
 
         return `[Packet: "${asciiString}"]`;
     }
+
     toPrettyString() {
         if (!this.data.length) {
             return '[Packet: empty]';

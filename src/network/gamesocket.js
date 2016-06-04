@@ -1,5 +1,5 @@
 import { Packet } from './packet';
-import { StringPad } from '../utils';
+import { StringUtils } from '../utils';
 import { PacketRegistry } from './packetregistry';
 
 export class GameSocket {
@@ -33,7 +33,7 @@ export class GameSocket {
         console.log(packet.toASCIIString());
         console.log('---------------------------------------');
 
-        this.registry.executeHandler(packet);
+        this.registry.handle(packet);
     }
 
     open = () => {
@@ -49,8 +49,8 @@ export class GameSocket {
 
         loginPacket.append(
             0x80,
-            StringPad(username, 30),
-            StringPad(password, 30),
+            StringUtils.padRight(username, 30),
+            StringUtils.padRight(password, 30),
             0x5D
         );
 

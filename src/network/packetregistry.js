@@ -12,11 +12,13 @@ export class PacketRegistry {
         this.registry[packetId] = handler;
     }
 
-    executeHandler(packet) {
+    handle(packet) {
         if (packet instanceof Packet) {
             const id = packet.getId();
 
             this.registry[id](packet);
+        } else {
+            throw 'handler called for non packet';
         }
     }
 }
