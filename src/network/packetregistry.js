@@ -10,8 +10,13 @@ export class PacketRegistry {
 
     registerPacket(packetId, handler) {
         this.registry[packetId] = handler;
-    }
 
+        console.log('registerPacket', packetId);
+        console.log(this.registry);
+    }
+    canHandle(packet) {
+        return !!this.registry[packet.getId()];
+    }
     handle(packet) {
         if (packet instanceof Packet) {
             const id = packet.getId();

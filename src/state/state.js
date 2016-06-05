@@ -1,6 +1,6 @@
 export class State {
-    constructor() {
-        this.state = {};
+    constructor(initialState) {
+        this.state = initialState || {};
         this.listeners = [];
     }
 

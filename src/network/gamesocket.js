@@ -1,17 +1,18 @@
 import { Packet } from './packet';
 import { StringUtils } from '../utils';
 import { PacketRegistry } from './packetregistry';
+import { State } from '../state/state';
 
 export class GameSocket {
     constructor(packetRegistry) {
         this.registry = packetRegistry;
         this.connect();
     }
-
-    state = {
+    state = new State({
         sentLogin: false,
-        compressed: false
-    };
+        compressed: false,
+        connected: false
+    });
 
     connect() {
         const socket = this.socket = new WebSocket('ws://kevinhikaruevans.com:2594', 'binary');
@@ -19,18 +20,33 @@ export class GameSocket {
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.open;
         socket.onmessage = this.receive;
+        socket.onclose = socket.onerror = this.close;
     }
     reconnect(shard) {
-        console.log('reconnect to shard');
-        console.log(shard);
+        console.log('reconnect', shard);
+        const packet = new Packet(3);
+        // shard.id is technically a short, but I'm saying it's a byte
+        // and padding the first with a zero.
+        packet.append(0xA0, 0, shard.id);
+        this.send(packet);
+    }
+    close = (e) => {
+        // update .state?
+        this.state.update({
+            connected: false
+        });
+
+        console.log('closing socket');
     }
     receive = (message) => {
+        console.log('message', message);
         if (this.state.compressed) {
             throw 'compression is not handled yet';
         }
         if (!this.registry) {
             throw 'no handlers available :(';
         }
+
         const packet = new Packet(new Uint8Array(message.data));
 
         console.log('received packet:');
@@ -42,11 +58,14 @@ export class GameSocket {
     }
 
     open = () => {
-        this.connected = true;
-        this.seed = this.generateSeedPacket();
+        const seed = this.generateSeedPacket();
+        this.state.update({
+            connected: true,
+            seed
+        });
 
-        this.send(this.seed);
-        this.login('kevans', 'kevans');
+        this.send(seed);
+        this.login('kevans', 'kevansa');
     }
 
     login(username, password) {
@@ -60,7 +79,9 @@ export class GameSocket {
         );
 
         this.send(loginPacket);
-        this.state.sentLogin = true;
+        this.state.update({
+            sentLogin: true
+        });
     }
 
     generateSeedPacket() {

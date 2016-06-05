@@ -11,3 +11,7 @@ globalState.login.addEventListener('serverlist', (state) => {
     const shard = serverList[0];
     gameSocket.reconnect(shard);
 });
+
+globalState.login.addEventListener('login-failure', (state) => {
+    console.log('login failed', state);
+})
