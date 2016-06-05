@@ -4,21 +4,26 @@ import { PacketRegistry } from './packetregistry';
 
 export class GameSocket {
     constructor(packetRegistry) {
-        const socket = this.socket = new WebSocket('ws://kevinhikaruevans.com:2594', 'binary');
-        // tbh, the WebSocket constructor confuses me.
-        socket.binaryType = 'arraybuffer';
-        socket.onopen = this.open;
-        socket.onmessage = this.receive;
-
-        //this.registry = new PacketRegistry();
         this.registry = packetRegistry;
+        this.connect();
     }
 
     state = {
         sentLogin: false,
         compressed: false
-    }
+    };
 
+    connect() {
+        const socket = this.socket = new WebSocket('ws://kevinhikaruevans.com:2594', 'binary');
+        // tbh, the WebSocket constructor confuses me.
+        socket.binaryType = 'arraybuffer';
+        socket.onopen = this.open;
+        socket.onmessage = this.receive;
+    }
+    reconnect(shard) {
+        console.log('reconnect to shard');
+        console.log(shard);
+    }
     receive = (message) => {
         if (this.state.compressed) {
             throw 'compression is not handled yet';
@@ -66,6 +71,7 @@ export class GameSocket {
             ~~(Math.random() * 0xFF)
         ]);
     }
+
     send(packet) {
         if (packet && packet instanceof Packet) {
             console.log('sending packet:');

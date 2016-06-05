@@ -19,9 +19,12 @@ export const register = (registry, state) => {
                 address: address.join('.')
             };
         });
-        state.update({
-            loggedIn: true,
-            serverList
-        });
+        state.update(
+            {
+                loggedIn: true,
+                serverList
+            },
+            'serverlist'
+        );
     });
 };
