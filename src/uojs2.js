@@ -9,9 +9,13 @@ const gameSocket = new GameSocket(registry);
 globalState.login.addEventListener('serverlist', (state) => {
     const serverList = state.serverList;
     const shard = serverList[0];
-    gameSocket.reconnect(shard);
+    gameSocket.pickShard(shard);
 });
 
 globalState.login.addEventListener('login-failure', (state) => {
     console.log('login failed', state);
-})
+});
+
+globalState.login.addEventListener('login-success', (state) => {
+    gameSocket.reconnect(state);
+});

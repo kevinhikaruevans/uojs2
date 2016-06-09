@@ -15,15 +15,25 @@ export class GameSocket {
     });
 
     connect() {
-        const socket = this.socket = new WebSocket('ws://kevinhikaruevans.com:2594', 'binary');
+        const socket = this.socket = new WebSocket('ws://167.88.112.167:2594', 'binary');
         // tbh, the WebSocket constructor confuses me.
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.open;
         socket.onmessage = this.receive;
         socket.onclose = socket.onerror = this.close;
     }
-    reconnect(shard) {
-        console.log('reconnect', shard);
+
+    reconnect(server) {
+        console.log('reconnect', server);
+        console.warn(`this should connect to ${server.address}:${server.port}, but I can't. :( it's not a big deal, since we'll connect to the same server as the login server`);
+        this.state.update({
+            loginKey: server.key
+        });
+        this.connect();
+    }
+
+    pickShard(shard) {
+        console.log('pick shard', shard);
         const packet = new Packet(3);
         // shard.id is technically a short, but I'm saying it's a byte
         // and padding the first with a zero.
@@ -31,7 +41,6 @@ export class GameSocket {
         this.send(packet);
     }
     close = (e) => {
-        // update .state?
         this.state.update({
             connected: false
         });
@@ -58,16 +67,45 @@ export class GameSocket {
     }
 
     open = () => {
-        const seed = this.generateSeedPacket();
-        this.state.update({
-            connected: true,
-            seed
-        });
+        // this is shitty and NEEDS to be refactored.
+        // maybe look at a flux implementation.
+        if (this.state.get('sentLogin')) {
+            this.state.update({
+                connected: true
+            });
 
-        this.send(seed);
-        this.login('kevans', 'kevansa');
+            const loginKey = this.state.get('loginKey');
+            console.log('login key', loginKey);
+            //this.send(loginKey);
+            this.relogin(loginKey, 'kevans', 'kevans');
+        } else {
+            const seed = this.generateSeedPacket();
+            this.state.update({
+                connected: true,
+                seed
+            });
+
+            this.send(seed);
+            this.login('kevans', 'kevans');
+        }
     }
-
+    relogin(loginKey, username, password) {
+        this.send(new Packet(loginKey));
+        const loginKeyPacket = new Packet(65);
+        loginKeyPacket.append(
+            0x91,
+            loginKey[0],
+            loginKey[1],
+            loginKey[2],
+            loginKey[3],
+            StringUtils.padRight(username, 30),
+            StringUtils.padRight(password, 30)
+        );
+        this.send(loginKeyPacket);
+        this.state.update({
+            sentRelogin: true
+        });
+    }
     login(username, password) {
         const loginPacket = new Packet(62);
 

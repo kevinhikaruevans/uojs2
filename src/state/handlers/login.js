@@ -27,9 +27,14 @@ export const register = (registry, state) => {
             'serverlist'
         );
     });
+
     registry.registerPacket(0x82, (packet) => {
-        console.log('login failure');
-        // login failure
+        /*
+            depending on the server used (particularly runuo/servuo), this packet
+            might not even exist. there is a bug in these servers that causes the packet
+            to not get written to the stream. the socket closes (on their end) before
+            its flushed.
+         */
         const reason = {
             0: 'Incorrect name/password',
             1: 'Someone is already using this account',
@@ -50,13 +55,36 @@ export const register = (registry, state) => {
         }, 'login-failure');
     });
     registry.registerPacket(0x8C, (packet) => {
-        // login success
+        // login success (server relay)
+        /*
+            this packet sends the client the [new] address to (re)connect to.
+            generally, it's the same address of the login server, but in a couple
+            of cases, they can be different.
+
+            HOWEVER! currently, since we're using websockify, we can only reconnect
+            onto the same server at this time. I think there's a way to setup tokens
+            through websockify to change this, but I haven't had the time to look
+            into that...
+
+            so instead of connecting to the given server, we're gonna reconnect
+            to the same server :/
+
+            also, weirdly enough, this does NOT use big endian for the address.
+         */
         const address = [
+            packet.getByte(1),
+            packet.getByte(2),
+            packet.getByte(3),
+            packet.getByte(4)
+        ].join('.');
 
+        const port = packet.getShort(5);
+        const key = [
+            packet.getByte(7),
+            packet.getByte(8),
+            packet.getByte(9),
+            packet.getByte(10)
         ];
-
-        const port = packet.getShort();
-        const key = packet.getInt();
 
         state.update({
             address, port, key

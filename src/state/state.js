@@ -3,7 +3,9 @@ export class State {
         this.state = initialState || {};
         this.listeners = [];
     }
-
+    get(key) {
+        return this.state[key];
+    }
     getState() {
         return this.state;
     }
