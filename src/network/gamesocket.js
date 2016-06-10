@@ -49,7 +49,7 @@ export class GameSocket {
     }
     receive = (message) => {
         console.log('message', message);
-        if (this.state.compressed) {
+        if (this.state.get('compressed')) {
             throw 'compression is not handled yet';
         }
         if (!this.registry) {
@@ -103,7 +103,10 @@ export class GameSocket {
         );
         this.send(loginKeyPacket);
         this.state.update({
-            sentRelogin: true
+            sentRelogin: true,
+            // I don't know if this is actually true or not, but it seems to be
+            // the case in most instances...
+            compressed: true
         });
     }
     login(username, password) {
