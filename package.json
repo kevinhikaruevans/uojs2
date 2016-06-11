@@ -24,6 +24,7 @@
   "homepage": "https://github.com/kevinhikaruevans/uojs2",
   "devDependencies": {
     "babel-core": "^6.3.26",
+    "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.0",
     "babel-plugin-transform-class-properties": "^6.9.1",
     "babel-plugin-transform-es2015-arrow-functions": "^6.8.0",
@@ -35,6 +36,8 @@
     "babel-register": "^6.3.13",
     "chai": "^3.4.1",
     "del": "^2.2.0",
+    "eslint": "^2.12.0",
+    "eslint-plugin-babel": "^3.2.0",
     "glob": "^7.0.3",
     "gulp": "^3.9.0",
     "gulp-eslint": "^2.0.0",

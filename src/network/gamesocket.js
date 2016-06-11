@@ -1,12 +1,15 @@
+import { HuffmanDecompression } from './huffman';
 import { Packet } from './packet';
 import { StringUtils } from '../utils';
 import { PacketRegistry } from './packetregistry';
 import { State } from '../state/state';
 
+console.log('decomp', HuffmanDecompression);
 export class GameSocket {
     constructor(packetRegistry) {
         this.registry = packetRegistry;
         this.connect();
+        this.decompression = new HuffmanDecompression(this.receivePacket);
     }
     state = new State({
         sentLogin: false,
@@ -50,22 +53,24 @@ export class GameSocket {
     receive = (message) => {
         console.log('message', message);
         if (this.state.get('compressed')) {
-            throw 'compression is not handled yet';
+            this.decompression.receive(message);
+            return;
+            //throw 'compression is not handled yet';
         }
         if (!this.registry) {
             throw 'no handlers available :(';
         }
 
         const packet = new Packet(new Uint8Array(message.data));
-
+        this.receivePacket(packet);
+    }
+    receivePacket = (packet) => {
         console.log('received packet:');
         console.log(packet.toPrettyString());
         console.log(packet.toASCIIString());
         console.log('---------------------------------------');
-
         this.registry.handle(packet);
     }
-
     open = () => {
         // this is shitty and NEEDS to be refactored.
         // maybe look at a flux implementation.
@@ -102,6 +107,7 @@ export class GameSocket {
             StringUtils.padRight(password, 30)
         );
         this.send(loginKeyPacket);
+
         this.state.update({
             sentRelogin: true,
             // I don't know if this is actually true or not, but it seems to be

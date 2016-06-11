@@ -18,4 +18,5 @@ globalState.login.addEventListener('login-failure', (state) => {
 
 globalState.login.addEventListener('login-success', (state) => {
     gameSocket.reconnect(state);
+    console.log('login success', state);
 });

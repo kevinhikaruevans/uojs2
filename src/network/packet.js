@@ -1,11 +1,27 @@
-import { PacketTypes } from './constants';
+import { PacketTypes, MaximumPacketSize } from './constants';
 
 export class Packet {
     constructor(data) {
         this.data = new Uint8Array(data);
         this.position = 0; //TODO seek
     }
+    resize(newSize) {
+        if (this.data.length <= newSize) {
+            return;
+        }
 
+        newSize = Math.min(newSize, MaximumPacketSize);
+        const newBuffer = new Uint8Array(newSize);
+
+        for(let i = 0; i < this.data.length; i++) {
+            newBuffer[i] = this.data[i];
+        }
+
+        // this probably doesn't do anything:
+        delete this.data;
+        this.data = newBuffer;
+        this.position = Math.min(newSize - 1, this.position);
+    }
     getId() {
         return ~~this.data[0];
     }
