@@ -44,18 +44,19 @@ export class HuffmanDecompression {
                     throw 'tried to access index greater than source length';
                 }
 
-                if (this.destination.index === 0) {
+                if (this.destination.position === 0) {
                     const packetType = PacketTypes[completedByte];
                     // completed the first byte
-                    if (type !== undefined) {
+                    if (packetType !== undefined) {
                         // it's a valid first packet (thank god)
                         this.estimatedLength = packetType[1];
 
-                        if (this.estimatedLength) {
+                        if (this.estimatedLength > 0) {
+                            console.info(`packet type: 0x${completedByte.toString(16)}, estimated length: ${this.estimatedLength}`);
                             // resize the array to the estimated length
                             this.destination.resize(this.estimatedLength);
                         } else {
-                            console.info('it is a valid packet, but the estimated length is infinite');
+                            console.info(`packet appears valid, but make sure it's a valid variable length packet: 0x${completedByte.toString(16)}`);
                         }
                     } else {
                         // AHHHHHHHHHHH
@@ -64,7 +65,9 @@ export class HuffmanDecompression {
                 }
 
                 if (this.estimatedLength === -1 && this.destination.position === 3) {
-                    this.estimatedLength = this.destination.getShort(1);
+                    const newSize = this.estimatedLength = this.destination.getShort(1);
+                    console.log('we now have enough data to resize the variable-length packet');
+                    console.info(`packet length *appears* to be ${newSize}`);
                     this.destination.resize(this.estimatedLength);
                 }
 
@@ -72,15 +75,22 @@ export class HuffmanDecompression {
                 this.position = 0;
             }
         }
+
+        console.log('got to the end', this.destination);
+
+        if (this.destination.position > 0) {
+            this.receivePacket(this.destination);
+        }
     }
 
     reset(fullReset = true) {
+        console.log(`reset huffman state, full reset: ${fullReset}`);
         this.bit = 0x08;
         this.position = 0;
         this.destination = new Packet(3);
         this.estimatedLength = -1;
 
-        if (this.fullReset) {
+        if (fullReset) {
             this.mask = 0x00;
             this.value = 0;
         }

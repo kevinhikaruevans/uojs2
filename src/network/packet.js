@@ -6,11 +6,13 @@ export class Packet {
         this.position = 0; //TODO seek
     }
     resize(newSize) {
-        if (this.data.length <= newSize) {
+        console.info(`packet.resize called, new size: ${newSize}, current size: ${this.data.length}`);
+        /*if (this.data.length <= newSize) {
             return;
-        }
+        }*/
 
         newSize = Math.min(newSize, MaximumPacketSize);
+
         const newBuffer = new Uint8Array(newSize);
 
         for(let i = 0; i < this.data.length; i++) {
@@ -18,8 +20,9 @@ export class Packet {
         }
 
         // this probably doesn't do anything:
-        delete this.data;
+        //delete this.data;
         this.data = newBuffer;
+        console.info(`this.data: ${this.data.length}, newBuffer: ${newBuffer.length}`);
         this.position = Math.min(newSize - 1, this.position);
     }
     getId() {

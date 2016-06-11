@@ -77,6 +77,9 @@ export const PacketTypes = {
   0xAF: ['Death Animation',           13],
   0xB0: ['Disp. Gump Fast',           -1],
   0xB7: ['Obj Help Response',         -1],
+  // this packet is extra confusing.
+  // it's a fixed-length packet that is either 3 or 5 bytes depending
+  // on the server version :/
   0xB9: ['Supported Features',         5],
   0xBA: ['Quest Arrow',                6],
   0xBC: ['Seasonal Change',            3],
