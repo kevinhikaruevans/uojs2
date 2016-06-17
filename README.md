@@ -12,6 +12,8 @@ An online client for the popular game Ultima Online. PLEASE submit a PR if you w
 
 It's going to be a working version of my original client, uojs. My goal is to have a cleaner and more modular codebase than my last project. 
 
+Ideally, it won't be dependent on the server and it should emulate the latest 2d client fully. Buuuut, I'm doing all my testing with [ServUO](https://github.com/ServUO/ServUO).
+
 ~~I'm looking into using Redux to manage the state.~~ unf, I'm using redux in the `redux` branch :+1:
 
 ## Current Status
