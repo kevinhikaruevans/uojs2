@@ -1,4 +1,4 @@
-import PacketRegistry from '../network/packetregistry';
+import {PacketRegistry} from '../network/packetregistry';
 
 export default class Handler
 {

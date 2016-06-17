@@ -4,7 +4,6 @@ import { StringUtils } from '../utils';
 import { PacketRegistry } from './packetregistry';
 import { State } from '../state/state';
 
-console.log('decomp', HuffmanDecompression);
 export class GameSocket {
     constructor(packetRegistry) {
         this.registry = packetRegistry;
@@ -69,7 +68,7 @@ export class GameSocket {
         console.log(packet.toPrettyString());
         console.log(packet.toASCIIString());
         console.log('---------------------------------------');
-        this.registry.handle(packet);
+        this.registry.handle(this, packet);
     }
     open = () => {
         // this is shitty and NEEDS to be refactored.

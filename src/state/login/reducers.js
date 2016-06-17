@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import { handleActions } from 'redux-actions';
-import { update } from 'immutability-helper';
+import update from 'immutability-helper';
 
 export default handleActions({
     [types.LOGIN_WAITING]: (state, action) => {

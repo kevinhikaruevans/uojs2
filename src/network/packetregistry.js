@@ -1,27 +1,22 @@
 import { Packet } from './packet';
-import { GlobalState } from '../state/globalstate';
+
 
 export class PacketRegistry {
-    constructor(globalState) {
+    constructor() {
         this.registry = {};
-
-        globalState.register(this);
     }
 
     registerPacket(packetId, handler) {
         this.registry[packetId] = handler;
-
-        console.log('registerPacket', packetId);
-        console.log(this.registry);
     }
     canHandle(packet) {
         return !!this.registry[packet.getId()];
     }
-    handle(packet) {
-        if (packet instanceof Packet) {
+    handle(socket, packet) {
+        if (socket && packet instanceof Packet) {
             const id = packet.getId();
-            if (this.registry[id]) {
-                this.registry[id](packet);
+            if (this.registry[id]) {//use canhandle?
+                this.registry[id](socket, packet);
             } else {
                 console.warn(`wuh-oh, we got an unregistered packet: 0x${id.toString(16)}`);
             }
