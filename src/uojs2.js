@@ -1,7 +1,11 @@
 import { GameSocket } from './network/gamesocket';
 import { GlobalState } from './state/globalstate';
 import { PacketRegistry } from './network/packetregistry';
+import reducers from './state/reducers';
 
+import { createStore } from 'redux';
+
+const store = createStore(reducers);
 const globalState = new GlobalState();
 const registry = new PacketRegistry(globalState);
 const gameSocket = new GameSocket(registry);

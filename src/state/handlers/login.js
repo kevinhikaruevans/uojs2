@@ -1,3 +1,5 @@
+import login from '../login/actions';
+
 export const register = (registry, state) => {
     registry.registerPacket(0xA8, (packet) => {
         const servers = new Array(packet.getShort(4)).fill({});
