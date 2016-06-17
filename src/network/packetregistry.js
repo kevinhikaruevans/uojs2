@@ -1,6 +1,5 @@
 import { Packet } from './packet';
 
-
 export class PacketRegistry {
     constructor() {
         this.registry = {};

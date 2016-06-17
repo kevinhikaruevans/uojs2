@@ -10,11 +10,12 @@ export class LoginHandler extends Handler {
         super.register(registry);
 
         registry.registerPacket(0xA8, (socket, packet) => {
-            console.log('got an A8');
-            
-            this.store.dispatch(
-                actions.beginLogin(socket, 'test', 'test')
-            );
+            this.store.dispatch(actions.receiveServerlist(socket, packet));
+            this.store.dispatch(actions.chooseShard(socket, 0));
         });
+
+        registry.registerPacket(0x8C, (socket, packet) => this.store.dispatch(actions.receiveServerRelay(socket, packet)));
+        registry.registerPacket(0x82, (socket, packet) => this.store.dispatch(actions.receiveLoginFailure(socket, packet)));
+
     }
 }

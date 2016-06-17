@@ -1,5 +1,4 @@
 import { GameSocket } from './network/gamesocket';
-import { GlobalState } from './state/globalstate';
 import { PacketRegistry } from './network/packetregistry';
 import reducers from './state/reducers';
 import ReduxThunk from 'redux-thunk';
