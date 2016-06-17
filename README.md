@@ -12,7 +12,7 @@ An online client for the popular game Ultima Online. PLEASE submit a PR if you w
 
 It's going to be a working version of my original client, uojs. My goal is to have a cleaner and more modular codebase than my last project. 
 
-I'm looking into using Redux to manage the state.
+~~I'm looking into using Redux to manage the state.~~ unf, I'm using redux in the `redux` branch :+1:
 
 ## Current Status
 
