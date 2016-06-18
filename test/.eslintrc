@@ -1,5 +1,14 @@
 {
-  "extends": "./setup/.globals.json",
+  "globals": {
+    "expect": true,
+    "mock": true,
+    "sandbox": true,
+    "spy": true,
+    "stub": true,
+    "useFakeServer": true,
+    "useFakeTimers": true,
+    "useFakeXMLHttpRequest": true
+  },
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module"
