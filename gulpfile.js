@@ -63,6 +63,12 @@ function build() {
       // }
       // would externalize the `jquery` module.
       externals: {},
+      resolve: {
+          root: path.resolve(__dirname),
+          alias: {
+            state: 'state'
+          }
+      },
       module: {
         loaders: [
           { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }

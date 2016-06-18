@@ -1,25 +1,21 @@
 import { HuffmanDecompression } from './huffman';
 import { Packet } from './packet';
 import { StringUtils } from '../utils';
-import { PacketRegistry } from './packetregistry';
-import { State } from '../state/state';
 
-console.log('decomp', HuffmanDecompression);
 export class GameSocket {
-    constructor(packetRegistry) {
+    constructor(store, packetRegistry) {
+        this.store = store;
         this.registry = packetRegistry;
         this.connect();
         this.decompression = new HuffmanDecompression(this.receivePacket);
+
+        this.sentLogin = false;
+        this.compressed = false;
+        this.connected = false;
     }
-    state = new State({
-        sentLogin: false,
-        compressed: false,
-        connected: false
-    });
 
     connect() {
         const socket = this.socket = new WebSocket('ws://167.88.112.167:2594', 'binary');
-        // tbh, the WebSocket constructor confuses me.
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.open;
         socket.onmessage = this.receive;
@@ -29,30 +25,19 @@ export class GameSocket {
     reconnect(server) {
         console.log('reconnect', server);
         console.warn(`this should connect to ${server.address}:${server.port}, but I can't. :( it's not a big deal, since we'll connect to the same server as the login server`);
-        this.state.update({
-            loginKey: server.key
-        });
+        this.loginKey = server.key;
         this.connect();
     }
 
-    pickShard(shard) {
-        console.log('pick shard', shard);
-        const packet = new Packet(3);
-        // shard.id is technically a short, but I'm saying it's a byte
-        // and padding the first with a zero.
-        packet.append(0xA0, 0, shard.id);
-        this.send(packet);
-    }
     close = (e) => {
-        this.state.update({
-            connected: false
-        });
-
-        console.log('closing socket');
+        if (e && e.type === 'error') {
+            console.error(e);
+        }
+        
+        this.connected = false;
     }
     receive = (message) => {
-        console.log('message', message);
-        if (this.state.get('compressed')) {
+        if (this.compressed) {
             this.decompression.receive(message);
             return;
             //throw 'compression is not handled yet';
@@ -69,29 +54,22 @@ export class GameSocket {
         console.log(packet.toPrettyString());
         console.log(packet.toASCIIString());
         console.log('---------------------------------------');
-        this.registry.handle(packet);
+        this.registry.handle(this, packet);
     }
     open = () => {
         // this is shitty and NEEDS to be refactored.
         // maybe look at a flux implementation.
-        if (this.state.get('sentLogin')) {
-            this.state.update({
-                connected: true
-            });
+        if (this.sentLogin) {
+            this.connected = true;
 
-            const loginKey = this.state.get('loginKey');
-            console.log('login key', loginKey);
-            //this.send(loginKey);
+            const loginKey = this.loginKey;
             this.relogin(loginKey, 'kevans', 'kevans');
         } else {
-            const seed = this.generateSeedPacket();
-            this.state.update({
-                connected: true,
-                seed
-            });
+            this.seed = this.generateSeedPacket();
+            this.connected = true;
 
-            this.send(seed);
-            this.login('kevans', 'kevans');
+            this.send(this.seed);
+            this.login('kevans', 'kevans2');
         }
     }
     relogin(loginKey, username, password) {
@@ -107,14 +85,10 @@ export class GameSocket {
             StringUtils.padRight(password, 30)
         );
         this.send(loginKeyPacket);
-
-        this.state.update({
-            sentRelogin: true,
-            // I don't know if this is actually true or not, but it seems to be
-            // the case in most instances...
-            compressed: true
-        });
+        this.sentRelogin = true;
+        this.compressed = true;
     }
+
     login(username, password) {
         const loginPacket = new Packet(62);
 
@@ -126,9 +100,7 @@ export class GameSocket {
         );
 
         this.send(loginPacket);
-        this.state.update({
-            sentLogin: true
-        });
+        this.sentLogin = true;
     }
 
     generateSeedPacket() {
@@ -148,7 +120,7 @@ export class GameSocket {
             console.log('---------------------------------------');
             this.socket.send(packet.toBuffer());
         } else if (packet instanceof Array) {
-            throw 'cannot send Arrays at this time';
+            throw 'cannot send Arrays at this time. wrap it in a packet.';
         } else {
             console.error('failed to send');
             throw 'attempted to send an incorrectly formatted packet';

@@ -22,8 +22,10 @@ export class Packet {
         // this probably doesn't do anything:
         //delete this.data;
         this.data = newBuffer;
-        console.info(`this.data: ${this.data.length}, newBuffer: ${newBuffer.length}`);
         this.position = Math.min(newSize - 1, this.position);
+    }
+    size() {
+        return this.data.length;
     }
     getId() {
         return ~~this.data[0];

@@ -1,6 +1,6 @@
-console.log('huffman loaded');
 import { HuffmanTable, HuffmanEOF, PacketTypes } from './constants';
 import { Packet } from './packet';
+
 export class HuffmanDecompression {
     constructor(receivePacket) {
         this.receivePacket = receivePacket;
