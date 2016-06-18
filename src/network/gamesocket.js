@@ -1,11 +1,10 @@
 import { HuffmanDecompression } from './huffman';
 import { Packet } from './packet';
 import { StringUtils } from '../utils';
-//import { PacketRegistry } from './packetregistry';
-
 
 export class GameSocket {
-    constructor(packetRegistry) {
+    constructor(store, packetRegistry) {
+        this.store = store;
         this.registry = packetRegistry;
         this.connect();
         this.decompression = new HuffmanDecompression(this.receivePacket);
@@ -17,7 +16,6 @@ export class GameSocket {
 
     connect() {
         const socket = this.socket = new WebSocket('ws://167.88.112.167:2594', 'binary');
-        // tbh, the WebSocket constructor confuses me.
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.open;
         socket.onmessage = this.receive;
@@ -32,8 +30,11 @@ export class GameSocket {
     }
 
     close = (e) => {
+        if (e && e.type === 'error') {
+            console.error(e);
+        }
+        
         this.connected = false;
-        console.log('closing socket', e);
     }
     receive = (message) => {
         if (this.compressed) {
@@ -68,7 +69,7 @@ export class GameSocket {
             this.connected = true;
 
             this.send(this.seed);
-            this.login('kevans', 'kevans');
+            this.login('kevans', 'kevans2');
         }
     }
     relogin(loginKey, username, password) {
@@ -87,6 +88,7 @@ export class GameSocket {
         this.sentRelogin = true;
         this.compressed = true;
     }
+
     login(username, password) {
         const loginPacket = new Packet(62);
 
@@ -118,7 +120,7 @@ export class GameSocket {
             console.log('---------------------------------------');
             this.socket.send(packet.toBuffer());
         } else if (packet instanceof Array) {
-            throw 'cannot send Arrays at this time';
+            throw 'cannot send Arrays at this time. wrap it in a packet.';
         } else {
             console.error('failed to send');
             throw 'attempted to send an incorrectly formatted packet';

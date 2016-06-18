@@ -92,6 +92,29 @@ export const receiveLoginFailure = (socket, packet) => (dispatch) => {
     });
 };
 
+export const receiveCharacterList = (socket, packet) => (dispatch) => {
+    console.log('character list');
+
+    const characterCount = packet.getByte(3);
+    const characters = [];
+    console.log(`there are ${characterCount} character slots to loop over`);
+
+    for(let i = 0; i < characterCount; i++) {
+        let position = 4;
+        characters.push({
+            name: packet.getString(position, 30)
+        });
+
+        position += 60;
+    }
+
+    console.log(characters);
+    dispatch({
+        type: types.LOGIN_RECV_CHAR_LIST,
+        payloiad: characters
+    });
+};
+
 export const chooseShard = (socket, shardId = 0) => (dispatch) => {
     const packet = new Packet(3);
     // shard.id is technically a short, but I'm saying it's a byte

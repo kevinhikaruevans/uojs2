@@ -1,7 +1,9 @@
 import Handler from '../handler';
 import * as actions from './actions';
 
-export class LoginHandler extends Handler {
+export class LoginHandler
+    extends Handler
+{
     constructor(store) {
         super(store);
     }
@@ -16,6 +18,6 @@ export class LoginHandler extends Handler {
 
         registry.registerPacket(0x8C, (socket, packet) => this.store.dispatch(actions.receiveServerRelay(socket, packet)));
         registry.registerPacket(0x82, (socket, packet) => this.store.dispatch(actions.receiveLoginFailure(socket, packet)));
-
+        registry.registerPacket(0xA9, (socket, packet) => this.store.dispatch(actions.receiveCharacterList(socket, packet)));
     }
 }

@@ -24,6 +24,9 @@ export class Packet {
         this.data = newBuffer;
         this.position = Math.min(newSize - 1, this.position);
     }
+    size() {
+        return this.data.length;
+    }
     getId() {
         return ~~this.data[0];
     }
