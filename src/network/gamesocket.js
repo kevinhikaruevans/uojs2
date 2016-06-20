@@ -33,7 +33,7 @@ export class GameSocket {
         if (e && e.type === 'error') {
             console.error(e);
         }
-        
+
         this.connected = false;
     }
     receive = (message) => {
@@ -69,7 +69,7 @@ export class GameSocket {
             this.connected = true;
 
             this.send(this.seed);
-            this.login('kevans', 'kevans2');
+            this.login('kevans', 'kevans');
         }
     }
     relogin(loginKey, username, password) {

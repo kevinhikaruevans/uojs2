@@ -1,4 +1,5 @@
 import { PacketTypes, MaximumPacketSize } from './constants';
+import { StringUtils } from '../utils';
 
 export class Packet {
     constructor(data) {
@@ -43,7 +44,7 @@ export class Packet {
         for(let i = 0; i < length; i++) {
             buffer += String.fromCharCode(this.data[offset + i]);
         }
-        return buffer.trim();
+        return StringUtils.trim(buffer);
     }
 
     getByte(offset) {

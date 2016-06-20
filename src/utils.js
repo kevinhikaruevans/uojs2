@@ -5,10 +5,6 @@ export class StringUtils {
         }
         return str + Array(length - str.length + 1).join(padChar);
     }
-}
 
-export class NetworkUtils {
-    static convertToNetworkEndian(o) {
-
-    }
+    static trim = (str) => (str || '').replace(/\0/g, '').trim()
 }

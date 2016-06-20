@@ -16,7 +16,8 @@ login.register(registry);
 const gameSocket = new GameSocket(store, registry);
 
 store.subscribe(() => {
-    console.log('thing is', store.getState());
+    console.log('store updated');
+    document.querySelector('#output').innerHTML = JSON.stringify(store.getState(), null, 2);
 });
 
 /*
