@@ -99,10 +99,15 @@ export const receiveCharacterList = (socket, packet) => (dispatch) => {
     const characters = [];
     console.log(`there are ${characterCount} character slots to loop over`);
 
+    if (characterCount < 5 || characterCount > 7) {
+        throw 'character count in 0xA9 is not valid. it should be in (5, 6, 7)';
+    }
+
+    let position = 4;
     for(let i = 0; i < characterCount; i++) {
-        let position = 4;
         characters.push({
-            name: packet.getString(position, 30)
+            name: packet.getString(position, 30),
+            password: packet.getString(position + 30, 30) // wut?
         });
 
         position += 60;
@@ -111,7 +116,16 @@ export const receiveCharacterList = (socket, packet) => (dispatch) => {
     console.log(characters);
     dispatch({
         type: types.LOGIN_RECV_CHAR_LIST,
-        payloiad: characters
+        payload: characters
+    });
+};
+
+export const receiveFeatures = (socket, packet) => (dispatch) => {
+    const flags = packet.getInt(1);
+
+    dispatch({
+        type: types.LOGIN_RECV_FEATURES,
+        payload: flags
     });
 };
 

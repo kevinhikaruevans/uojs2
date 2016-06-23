@@ -36,6 +36,16 @@ export default handleActions({
             user: {
                 characters: { $set: action.payload }
             }
+        }),
+
+    [types.LOGIN_RECV_FEATURES]: (state, action) =>
+        update(state, {
+            user: {
+                loggedIn: { $set: true }
+            },
+            currentServer: {
+                features: { $set: action.payload }
+            }
         })
 }, {
     user: {
@@ -48,5 +58,8 @@ export default handleActions({
     servers: {
         list: [],
         selected: -1
+    },
+    currentServer: {
+        features: 0
     }
 });

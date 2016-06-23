@@ -19,5 +19,6 @@ export class LoginHandler
         registry.registerPacket(0x8C, (socket, packet) => this.store.dispatch(actions.receiveServerRelay(socket, packet)));
         registry.registerPacket(0x82, (socket, packet) => this.store.dispatch(actions.receiveLoginFailure(socket, packet)));
         registry.registerPacket(0xA9, (socket, packet) => this.store.dispatch(actions.receiveCharacterList(socket, packet)));
+        registry.registerPacket(0xB9, (socket, packet) => this.store.dispatch(actions.receiveFeatures(socket, packet)));
     }
 }

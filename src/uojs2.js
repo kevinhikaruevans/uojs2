@@ -7,7 +7,6 @@ import ReduxThunk from 'redux-thunk';
 import { LoginHandler } from './state/login/login';
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
-//const globalState = new GlobalState();
 const registry = new PacketRegistry();
 
 var login = new LoginHandler(store);
@@ -16,22 +15,17 @@ login.register(registry);
 const gameSocket = new GameSocket(store, registry);
 
 store.subscribe(() => {
-    console.log('store updated');
+    const state = store.getState();
+
+    if (!state)
+        return;
     document.querySelector('#output').innerHTML = JSON.stringify(store.getState(), null, 2);
-});
 
-/*
-globalState.login.addEventListener('serverlist', (state) => {
-    const serverList = state.serverList;
-    const shard = serverList[0];
-    gameSocket.pickShard(shard);
-});
 
-globalState.login.addEventListener('login-failure', (state) => {
-    console.log('login failed', state);
+    // this is SO SHITTY!!!
+    if (!state.login.user.loggedIn && state.login.user.key) {
+        gameSocket.reconnect({
+            key: state.login.user.key
+        });
+    }
 });
-
-globalState.login.addEventListener('login-success', (state) => {
-    gameSocket.reconnect(state);
-    console.log('login success', state);
-});*/
