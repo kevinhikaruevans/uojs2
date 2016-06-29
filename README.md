@@ -2,6 +2,7 @@
 
 An online client for the popular game Ultima Online. PLEASE submit a PR if you would like to contribute!!! I could definitely use help maintaining a non-shitty codebase.
 
+[![Slack Status](http://kevinhikaruevans.com:3000/badge.svg)](http://kevinhikaruevans.com:3000/)
 [![Travis build status](http://img.shields.io/travis/kevinhikaruevans/uojs2.svg?style=flat)](https://travis-ci.org/kevinhikaruevans/uojs2)
 [![Code Climate](https://codeclimate.com/github/kevinhikaruevans/uojs2/badges/gpa.svg)](https://codeclimate.com/github/kevinhikaruevans/uojs2)
 [![Test Coverage](https://codeclimate.com/github/kevinhikaruevans/uojs2/badges/coverage.svg)](https://codeclimate.com/github/kevinhikaruevans/uojs2)
