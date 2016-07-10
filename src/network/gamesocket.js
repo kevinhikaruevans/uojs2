@@ -15,7 +15,7 @@ export class GameSocket {
     }
 
     connect() {
-        const socket = this.socket = new WebSocket('ws://167.88.112.167:2594', 'binary');
+        const socket = this.socket = new WebSocket('ws://kevinhikaruevans.com:2594', 'binary');
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.open;
         socket.onmessage = this.receive;

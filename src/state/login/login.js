@@ -21,4 +21,12 @@ export class LoginHandler
         registry.registerPacket(0xA9, (socket, packet) => this.store.dispatch(actions.receiveCharacterList(socket, packet)));
         registry.registerPacket(0xB9, (socket, packet) => this.store.dispatch(actions.receiveFeatures(socket, packet)));
     }
+
+    chooseCharacter = (socket, characterIndex) => {
+        //const state = this.store.getState();
+
+        // TODO check if the user has chosen a character yet, if so, throw an error or something...
+
+        this.store.dispatch(actions.chooseCharacter(socket, characterIndex));
+    }
 }

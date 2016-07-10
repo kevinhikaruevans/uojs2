@@ -46,14 +46,21 @@ export default handleActions({
             currentServer: {
                 features: { $set: action.payload }
             }
-        })
+        }),
+
+    [types.LOGIN_CHOOSE_CHAR]: (state) => update(state, {
+        user: {
+            hasChosenCharacter: { $set: true }
+        }
+    })
 }, {
     user: {
         loggedIn: false,
         error: null,
         username: null,
         key: null,
-        characters: null
+        characters: null,
+        hasChosenCharacter: false
     },
     servers: {
         list: [],

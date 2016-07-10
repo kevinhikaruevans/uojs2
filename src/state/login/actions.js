@@ -106,14 +106,13 @@ export const receiveCharacterList = (socket, packet) => (dispatch) => {
     let position = 4;
     for(let i = 0; i < characterCount; i++) {
         characters.push({
-            name: packet.getString(position, 30),
-            password: packet.getString(position + 30, 30) // wut?
+            name: packet.getString(4 + i * 60, 30),
+            password: packet.getString(34 + i * 60, 30) // wut?
         });
 
         position += 60;
     }
 
-    console.log(characters);
     dispatch({
         type: types.LOGIN_RECV_CHAR_LIST,
         payload: characters
@@ -139,5 +138,20 @@ export const chooseShard = (socket, shardId = 0) => (dispatch) => {
     dispatch({
         type: types.LOGIN_SELECT_SHARD,
         payload: shardId
+    });
+};
+
+export const chooseCharacter = (socket, characterIndex) => (dispatch, getState) => {
+    const state = getState();
+    const characters = state.login.user.characters;
+    //console.log('state', state, characters,);
+    //console.log('chosen character', chosenCharacter);
+    const chosenCharacter = characters[characterIndex];
+    const packet = new Packet(73);
+
+    packet.append(0x5D, 0xED, 0xED, 0xED, 0xED);
+    //TODO finish this
+    dispatch({
+        type: types.LOGIN_CHOOSE_CHAR
     });
 };
