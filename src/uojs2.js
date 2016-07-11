@@ -3,22 +3,26 @@ import { PacketRegistry } from './network/packetregistry';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './state/reducers';
 import ReduxThunk from 'redux-thunk';
+
 import { LoginHandler } from './state/login/login';
+import { WorldHandler } from './state/world/world';
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
 const registry = new PacketRegistry();
 
-var login = new LoginHandler(store);
+const login = new LoginHandler(store);
+const world = new WorldHandler(store);
 login.register(registry);
+world.register(registry);
 
 const gameSocket = new GameSocket(store, registry);
 
 store.subscribe(() => {
     const state = store.getState();
 
-    if (!state)
+    if (!state) {
         return;
-
+    }
     document.querySelector('#output').innerHTML = JSON.stringify(store.getState(), null, 2);
 
     /*

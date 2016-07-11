@@ -1,5 +1,5 @@
 import { Packet } from '../../network/packet';
-import { StringUtils } from 'utils';
+import { StringUtils } from '../../utils';
 import * as types from './actionTypes';
 
 export const receiveServerlist = (socket, packet) => (dispatch) => {
