@@ -151,7 +151,7 @@ export const chooseCharacter = (socket, characterIndex) => (dispatch, getState) 
     const packet = new Packet(73);
 
     packet.append(0x5D, 0xED, 0xED, 0xED, 0xED);
-    packet.append(StringUtils.padRight(chosenCharacter.name));
+    packet.append(StringUtils.padRight(chosenCharacter.name, 30));
     packet.append(Array(33));
     packet.append(characterIndex);
     packet.append(0x00, 0x00, 0x00, 0x00);

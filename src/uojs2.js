@@ -10,6 +10,7 @@ import { WorldHandler } from './state/world/world';
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
 const registry = new PacketRegistry();
 
+// should separate these into another file:
 const login = new LoginHandler(store);
 const world = new WorldHandler(store);
 login.register(registry);
@@ -26,7 +27,7 @@ store.subscribe(() => {
     document.querySelector('#output').innerHTML = JSON.stringify(store.getState(), null, 2);
 
     /*
-        the shit below is just trying to automate a user.
+        the shit below is just trying to "automate" a user.
 
         once we get a UI or something, then we can remove this, since the users will be invoking the actions.
         right now, it's just like checking where we are in the state, then run certain actions to emulate a user.
@@ -40,9 +41,6 @@ store.subscribe(() => {
     }
 
     if (state.login.user.characters && state.login.user.characters.length && !state.login.user.hasChosenCharacter) {
-        console.info('oh shit');
         login.chooseCharacter(gameSocket, 0);
     }
-
-
 });

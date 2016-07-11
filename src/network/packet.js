@@ -72,6 +72,10 @@ export class Packet {
                 for(let j = 0; j < arg.length; j++) {
                     this.data[this.position++] = arg.charCodeAt(j) & 0xFF;
                 }
+            } else if (arg instanceof Array) {
+                for(let j = 0; j < arg.length; j++) {
+                    this.data[this.position++] = arg[j] & 0xFF;
+                }
             } else {
                 // unknown type
                 throw `cannot append type ${t}`;

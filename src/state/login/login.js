@@ -13,7 +13,7 @@ export class LoginHandler
 
         registry.registerPacket(0xA8, (socket, packet) => {
             this.store.dispatch(actions.receiveServerlist(socket, packet));
-            this.store.dispatch(actions.chooseShard(socket, 0));
+            this.chooseShard(socket, 0);
         });
 
         registry.registerPacket(0x8C, (socket, packet) => this.store.dispatch(actions.receiveServerRelay(socket, packet)));
@@ -23,10 +23,10 @@ export class LoginHandler
     }
 
     chooseCharacter = (socket, characterIndex) => {
-        //const state = this.store.getState();
-
-        // TODO check if the user has chosen a character yet, if so, throw an error or something...
-
         this.store.dispatch(actions.chooseCharacter(socket, characterIndex));
+    }
+
+    chooseShard = (socket, shardId) => {
+        this.store.dispatch(actions.chooseShard(socket, ~~shardId));
     }
 }
