@@ -3,7 +3,6 @@ import { PacketRegistry } from './network/packetregistry';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './state/reducers';
 import ReduxThunk from 'redux-thunk';
-
 import { LoginHandler } from './state/login/login';
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
