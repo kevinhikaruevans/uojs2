@@ -48,9 +48,15 @@ export default handleActions({
             }
         }),
 
-    [types.LOGIN_CHOOSE_CHAR]: (state) => update(state, {
+    [types.LOGIN_CHOOSE_CHAR]: (state, action) => update(state, {
         user: {
-            hasChosenCharacter: { $set: true }
+            chosenCharacterIndex: { $set: action.payload }
+        }
+    }),
+
+    [types.LOGIN_SENT_VERSION]: (state, action) => update(state, {
+        currentServer: {
+            sentVersion: { $set: action.payload }
         }
     })
 }, {
@@ -60,13 +66,14 @@ export default handleActions({
         username: null,
         key: null,
         characters: null,
-        hasChosenCharacter: false
+        chosenCharacterIndex: null
     },
     servers: {
         list: [],
         selected: -1
     },
     currentServer: {
-        features: 0
+        features: 0,
+        sentVersion: null
     }
 });

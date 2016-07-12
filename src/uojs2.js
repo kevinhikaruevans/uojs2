@@ -39,8 +39,8 @@ store.subscribe(() => {
             key: state.login.user.key
         });
     }
-
+/*
     if (state.login.user.characters && state.login.user.characters.length && !state.login.user.hasChosenCharacter) {
         login.chooseCharacter(gameSocket, 0);
-    }
+    }*/
 });

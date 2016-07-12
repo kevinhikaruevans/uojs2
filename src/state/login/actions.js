@@ -1,6 +1,7 @@
 import { Packet } from '../../network/packet';
 import { StringUtils } from '../../utils';
 import * as types from './actionTypes';
+import { EmulationVersion } from '../../constants';
 
 export const receiveServerlist = (socket, packet) => (dispatch) => {
     const servers = new Array(packet.getShort(4)).fill({});
@@ -142,21 +143,40 @@ export const chooseShard = (socket, shardId = 0) => (dispatch) => {
     });
 };
 
-export const chooseCharacter = (socket, characterIndex) => (dispatch, getState) => {
+export const chooseCharacter = (socket, characterIndex = 0) => (dispatch, getState) => {
     const state = getState();
     const characters = state.login.user.characters;
     //console.log('state', state, characters,);
     //console.log('chosen character', chosenCharacter);
     const chosenCharacter = characters[characterIndex];
     const packet = new Packet(73);
-
+    console.info('choosing character', chosenCharacter);
     packet.append(0x5D, 0xED, 0xED, 0xED, 0xED);
+    //        login.append(0x5D, 0xED, 0xED, 0xED, 0xED, chars[UO.login.slot].pad(30, '\0', 1),
+
     packet.append(StringUtils.padRight(chosenCharacter.name, 30));
-    packet.append(Array(33));
+    packet.append(Array(5), 0x1F, Array(7), 0x16, Array(19));
     packet.append(characterIndex);
-    packet.append(0x00, 0x00, 0x00, 0x00);
-    //TODO finish this
+    packet.append(socket.loginKey);
+
+    socket.send(packet);
+
     dispatch({
-        type: types.LOGIN_CHOOSE_CHAR
+        type: types.LOGIN_CHOOSE_CHAR,
+        payload: characterIndex
+    });
+};
+
+export const sendVersionString = (socket) => (dispatch) => {
+    //const length = 4 + EmulationVersion.length;
+    //const versionPacket = new Packet(length);
+    //versionPacket.append(0xBD, 0x00, length, EmulationVersion, 0);
+    const v = [0xbd, 0x00, 0x0c, 0x36, 0x2e, 0x30, 0x2e, 0x31, 0x2e, 0x31, 0x30, 0x00];
+
+    socket.send(new Packet(v));
+
+    dispatch({
+        type: types.LOGIN_SENT_VERSION,
+        payload: EmulationVersion
     });
 };

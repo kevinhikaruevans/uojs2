@@ -15,11 +15,19 @@ export class LoginHandler
             this.store.dispatch(actions.receiveServerlist(socket, packet));
             this.chooseShard(socket, 0);
         });
+        registry.registerPacket(0xA9, (socket, packet) => {
+            this.store.dispatch(actions.receiveCharacterList(socket, packet))
+            this.chooseCharacter(socket, 0);
+        });
 
+        registry.registerPacket(0xBD, (socket) => {
+            this.sendVersionString(socket);
+        });
         registry.registerPacket(0x8C, (socket, packet) => this.store.dispatch(actions.receiveServerRelay(socket, packet)));
         registry.registerPacket(0x82, (socket, packet) => this.store.dispatch(actions.receiveLoginFailure(socket, packet)));
-        registry.registerPacket(0xA9, (socket, packet) => this.store.dispatch(actions.receiveCharacterList(socket, packet)));
         registry.registerPacket(0xB9, (socket, packet) => this.store.dispatch(actions.receiveFeatures(socket, packet)));
+
+
     }
 
     chooseCharacter = (socket, characterIndex) => {
@@ -28,5 +36,9 @@ export class LoginHandler
 
     chooseShard = (socket, shardId) => {
         this.store.dispatch(actions.chooseShard(socket, ~~shardId));
+    }
+
+    sendVersionString = (socket) => {
+        this.store.dispatch(actions.sendVersionString(socket));
     }
 }

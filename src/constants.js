@@ -1,1 +1,1 @@
-export const EMULATION_VERSION = '7.0.13.0';
+export const EmulationVersion = '7.0.13.0';
