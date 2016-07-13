@@ -10,5 +10,7 @@ export class UserHandler
 
     register(registry) {
         super.register(registry);
+
+        registry.registerPacket(0x72, (socket, packet) => this.store.dispatch(actions.receiveWarMode(socket, packet)));
     }
 }

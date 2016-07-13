@@ -50,10 +50,10 @@ export class GameSocket {
         this.receivePacket(packet);
     }
     receivePacket = (packet) => {
-        console.log('received packet:');
+        /*console.log('received packet:');
         console.log(packet.toPrettyString());
         console.log(packet.toASCIIString());
-        console.log('---------------------------------------');
+        console.log('---------------------------------------');*/
         this.registry.handle(this, packet);
     }
     open = () => {
@@ -114,10 +114,11 @@ export class GameSocket {
 
     send(packet) {
         if (packet && packet instanceof Packet) {
-            console.log('sending packet:');
+            //console.log('send: );
+            /*
             console.log(packet.toPrettyString());
             console.log(packet.toASCIIString());
-            console.log('---------------------------------------');
+            console.log('---------------------------------------');*/
             this.socket.send(packet.toBuffer());
         } else if (packet instanceof Array) {
             throw 'cannot send Arrays at this time. wrap it in a packet.';

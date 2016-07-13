@@ -13,6 +13,7 @@ const registry = new PacketRegistry();
 // should separate these into another file:
 const login = new LoginHandler(store);
 const world = new WorldHandler(store);
+
 login.register(registry);
 world.register(registry);
 

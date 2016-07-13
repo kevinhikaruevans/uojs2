@@ -52,7 +52,7 @@ export class HuffmanDecompression {
                         this.estimatedLength = packetType[1];
 
                         if (this.estimatedLength > 0) {
-                            console.info(`packet type: 0x${completedByte.toString(16)}, estimated length: ${this.estimatedLength}`);
+                            //console.info(`packet type: 0x${completedByte.toString(16)}, estimated length: ${this.estimatedLength}`);
                             // resize the array to the estimated length
                             this.destination.resize(this.estimatedLength);
                         } else {
@@ -60,14 +60,15 @@ export class HuffmanDecompression {
                         }
                     } else {
                         // AHHHHHHHHHHH
+                        // might get thrown if possibly the unicode data of 0xae causes a size issue when it reads the packet
                         throw 'you fucked up; packet is not valid bro';
                     }
                 }
 
                 if (this.estimatedLength === -1 && this.destination.position === 3) {
                     const newSize = this.estimatedLength = this.destination.getShort(1);
-                    console.log('we now have enough data to resize the variable-length packet');
-                    console.info(`packet length *appears* to be ${newSize}`);
+                    //console.log('we now have enough data to resize the variable-length packet');
+                    //console.info(`packet length *appears* to be ${newSize}`);
                     this.destination.resize(this.estimatedLength);
                 }
 
@@ -76,7 +77,7 @@ export class HuffmanDecompression {
             }
         }
 
-        console.log('got to the end', this.destination);
+        //console.log('got to the end', this.destination);
 
         if (this.destination.position > 0) {
             this.receivePacket(this.destination);
@@ -85,7 +86,7 @@ export class HuffmanDecompression {
     }
 
     reset(fullReset = true) {
-        console.log(`reset huffman state, full reset: ${fullReset}`);
+        //console.log(`reset huffman state, full reset: ${fullReset}`);
         this.bit = 0x08;
         this.position = 0;
         this.destination = new Packet(3);

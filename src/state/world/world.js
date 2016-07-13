@@ -11,6 +11,6 @@ export class WorldHandler
     register(registry) {
         super.register(registry);
 
-        //registry.registerPacket(0x8C, (socket, packet) => this.store.dispatch(actions.receiveServerRelay(socket, packet)));
+        registry.registerPacket(0x1C, (socket, packet) => this.store.dispatch(actions.receiveAsciiMessage(socket, packet)));
     }
 }

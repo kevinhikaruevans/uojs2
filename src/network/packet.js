@@ -7,7 +7,7 @@ export class Packet {
         this.position = 0; //TODO seek
     }
     resize(newSize) {
-        console.info(`packet.resize called, new size: ${newSize}, current size: ${this.data.length}`);
+        //console.info(`packet.resize called, new size: ${newSize}, current size: ${this.data.length}`);
         /*if (this.data.length <= newSize) {
             return;
         }*/
@@ -30,6 +30,25 @@ export class Packet {
     }
     getId() {
         return ~~this.data[0];
+    }
+
+    nextInt() {
+        const v = this.getInt(this.position);
+        this.position += 4;
+        return v;
+    }
+    nextShort() {
+        const value = this.getShort(this.position);
+        this.position += 2;
+        return value;
+    }
+    nextByte() {
+        return this.getByte(this.position++);
+    }
+    nextString(length) {
+        const str = this.getString(this.position, length);
+        this.position += length;
+        return str;
     }
     getNumber(offset, size) {
         let result = 0;
@@ -126,5 +145,22 @@ export class Packet {
             return `[Packet(${PacketTypes[initialByte][0]}): ${prettyString}]`;
         }
         return `[Packet: ${prettyString}]`;
+    }
+
+    get expectedSize() {
+        const initialByte = this.data[0];
+        return PacketTypes[initialByte][1];
+    }
+    get variableSize() {
+        return this.getShort(1);
+    }
+    /**
+     * Skips to the beginning of the data portion of the packet.
+     */
+    begin() {
+        if (this.expectedSize === -1) {
+            this.position = 3;
+        }
+        this.position = 1;
     }
 }

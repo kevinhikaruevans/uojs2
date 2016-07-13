@@ -7,9 +7,15 @@ export default handleActions({
         update(state, {
             health: { $set: action.payload.health },
             maxHealth: { $set: action.payload.maxHealth }
+        }),
+
+    [types.USER_UPDATE_WARMODE]: (state, action) =>
+        update(state, {
+            warMode: { $set: action.payload }
         })
 }, {
     health: 0,
     maxHealth: 0,
-    serial: 0
+    serial: 0,
+    warMode: false
 });
