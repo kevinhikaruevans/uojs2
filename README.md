@@ -21,7 +21,7 @@ Networking works and it updates the state. Currently I am trying to fully implem
 
 I also need to create a script to run the webserver to host (and because it'll be cool to just `npm start` to get it running or something). Right now, it's just using a static file.
 
-There also needs to be an art server and a way to quickly transfer art between the server and client. WebP + http2? maybe? 
+There also needs to be an art server and a way to quickly transfer art between the server and client. WebP + http2? maybe? no idea.
 
 ## Getting Started
 
@@ -32,3 +32,12 @@ There also needs to be an art server and a way to quickly transfer art between t
 4. Run index.html
 5. Eat sandwich
 
+## Contributing
+
+Here are some ways you can contribute to this project!
+
+* Implement more of the packets. Check out the `state` directory.
+* Create a UI. I'm thinking if the state has an 'invalidate' flag, so that when set to true, it'll call a redraw in the redux subscribe method, which just rerenders the viewport. Does that make sense? I have no idea.
+* If you're a hardcore javascripter (is that a word?), tell me what I'm doing wrong and how I can improve my style
+* Write tests (these are like the last thing on my todo list)
+* If you live in Seattle, buy me some more beer. pls
