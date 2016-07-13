@@ -80,6 +80,7 @@ export class HuffmanDecompression {
 
         if (this.destination.position > 0) {
             this.receivePacket(this.destination);
+            this.reset(true);
         }
     }
 
