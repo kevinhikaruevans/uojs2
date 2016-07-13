@@ -15,6 +15,8 @@ This project is aiming to emulate the game Ultima Online (ver 7.x.x.x) in a web 
 
 It will be using Canvas2D (and possibly webgl) to render the objects to a canvas element. 
 
+I'm mostly using this project to learn more about cool features in javascript. So please(!!!) let me know if there is a better way to do something.
+
 ## Current Status
 
 Networking works and it updates the state. Currently I am trying to fully implement the Ultima Online protocol and update the global state object, as it would in the original client. 
@@ -36,8 +38,9 @@ There also needs to be an art server and a way to quickly transfer art between t
 
 Here are some ways you can contribute to this project!
 
-* Implement more of the packets. Check out the `state` directory.
+* Implement more of the packets. Check out the `state` directory for examples. 
 * Create a UI. I'm thinking if the state has an 'invalidate' flag, so that when set to true, it'll call a redraw in the redux subscribe method, which just rerenders the viewport. Does that make sense? I have no idea.
-* If you're a hardcore javascripter (is that a word?), tell me what I'm doing wrong and how I can improve my style
+* Code review it! If you're a hardcore javascripter (is that a word?), I really want you to tell me what can be improved on here. 
+* Add in pages in the [Wiki](https://github.com/kevinhikaruevans/uojs2/wiki/A-general-overview-of-everything)
 * Write tests (these are like the last thing on my todo list)
-* If you live in Seattle, buy me some more beer. pls
+* If you live in Seattle, buy me some more beer. pls :beer:
