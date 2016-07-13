@@ -65,7 +65,6 @@
   },
   "dependencies": {
     "immutability-helper": "^2.0.0",
-    "react-addons-update": "^15.1.0",
     "redux": "^3.5.2",
     "redux-actions": "^0.10.0",
     "redux-thunk": "^2.1.0"

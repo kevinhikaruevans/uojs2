@@ -1,0 +1,1 @@
+export const USER_UPDATE_HEALTH = 'USER_UPDATE_HEALTH';
