@@ -38,6 +38,7 @@ export const PacketTypes = {
     0x2F: ['Swing',                     10],
     0x3A: ['Skills List',               -1],
     0x3C: ['Container Content',         -1],
+    0x33: ['Pause client?!?!!!!',        2],
     0x4E: ['Personal Light Level',       6],
     0x4F: ['Overall Light Level',        2],
     0x53: ['Popup Message',              2],

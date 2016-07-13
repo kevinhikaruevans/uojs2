@@ -61,7 +61,7 @@ export class HuffmanDecompression {
                     } else {
                         // AHHHHHHHHHHH
                         // might get thrown if possibly the unicode data of 0xae causes a size issue when it reads the packet
-                        throw 'you fucked up; packet is not valid bro';
+                        throw `invalid packet? 0x${completedByte.toString(16)}`;
                     }
                 }
 
@@ -81,7 +81,9 @@ export class HuffmanDecompression {
 
         if (this.destination.position > 0) {
             this.receivePacket(this.destination);
-            this.reset(true);
+            // should this be a full reset?
+            // do compressed UO packets get broken up over a stream?
+            this.reset(false);
         }
     }
 

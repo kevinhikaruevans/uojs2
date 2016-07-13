@@ -146,32 +146,16 @@ export const chooseShard = (socket, shardId = 0) => (dispatch) => {
 export const chooseCharacter = (socket, characterIndex = 0) => (dispatch, getState) => {
     const state = getState();
     const characters = state.login.user.characters;
-    //console.log('state', state, characters,);
-    //console.log('chosen character', chosenCharacter);
     const chosenCharacter = characters[characterIndex];
-    const packet = new Packet([
-        0x5d, 0xed, 0xed, 0xed, 0xed, 0x4b, 0x65, 0x76,
-0x69, 0x6e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x3f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0xa8, 0x01,
-0x8b
-    ]);
-    /*
     const packet = new Packet(73);
     console.info('choosing character', chosenCharacter);
     packet.append(0x5D, 0xED, 0xED, 0xED, 0xED);
-    //        login.append(0x5D, 0xED, 0xED, 0xED, 0xED, chars[UO.login.slot].pad(30, '\0', 1),
-
     packet.append(StringUtils.padRight(chosenCharacter.name, 30));
-    packet.append(Array(5), 0x1F, Array(7), 0x16, Array(19));
+    // I have _NO_ idea what his segment is for:
+    packet.append(Array(5), 0x3F, Array(7), 0x02, Array(19));
     packet.append(characterIndex);
-    packet.append(0xc0, 0xa8, 0x01, 0x8b);
-*/
+    // 127.0.0.1 :)
+    packet.append(0x7F, 0x00, 0x00, 0x01);
     socket.send(packet);
 
     dispatch({
@@ -181,13 +165,10 @@ export const chooseCharacter = (socket, characterIndex = 0) => (dispatch, getSta
 };
 
 export const sendVersionString = (socket) => (dispatch) => {
-    //const length = 4 + EmulationVersion.length;
-    //const versionPacket = new Packet(length);
-    //versionPacket.append(0xBD, 0x00, length, EmulationVersion, 0);
-    const v = [0xbd, 0x00, 0x0d, 0x37, 0x2e, 0x30, 0x2e, 0x34,
-0x39, 0x2e, 0x36, 0x39, 0x00];
-
-    socket.send(new Packet(v));
+    const length = 4 + EmulationVersion.length;
+    const versionPacket = new Packet(length);
+    versionPacket.append(0xBD, 0x00, length, EmulationVersion, 0);
+    socket.send(versionPacket);
 
     dispatch({
         type: types.LOGIN_SENT_VERSION,
