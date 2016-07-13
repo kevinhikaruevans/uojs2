@@ -1,6 +1,6 @@
 # uojs2
 
-An online client for the popular game Ultima Online. PLEASE submit a PR if you would like to contribute!!! I could definitely use help maintaining a non-shitty codebase.
+A web-based client for the game Ultima Online.
 
 [![Slack Status](http://kevinhikaruevans.com:3000/badge.svg)](http://kevinhikaruevans.com:3000/)
 [![Travis build status](http://img.shields.io/travis/kevinhikaruevans/uojs2.svg?style=flat)](https://travis-ci.org/kevinhikaruevans/uojs2)
@@ -9,14 +9,26 @@ An online client for the popular game Ultima Online. PLEASE submit a PR if you w
 [![Dependency Status](https://david-dm.org/kevinhikaruevans/uojs2.svg)](https://david-dm.org/kevinhikaruevans/uojs2)
 [![devDependency Status](https://david-dm.org/kevinhikaruevans/uojs2/dev-status.svg)](https://david-dm.org/kevinhikaruevans/uojs2#info=devDependencies)
 
-## What this is:
+## Overview
 
-It's going to be a working version of my original client, uojs. My goal is to have a cleaner and more modular codebase than my last project. 
+This project is aiming to emulate the game Ultima Online (ver 7.x.x.x) in a web enviroment. It uses websockets (with websockify) to connect to servers that utilize the Ultima Online protocol. It then uses Redux to manage the global state.
 
-Ideally, it won't be dependent on the server and it should emulate the latest 2d client fully. Buuuut, I'm doing all my testing with [ServUO](https://github.com/ServUO/ServUO).
-
-~~I'm looking into using Redux to manage the state.~~ unf, I'm using redux in the `redux` branch :+1:
+It will be using Canvas2D (and possibly webgl) to render the objects to a canvas element. 
 
 ## Current Status
 
-I barely have networking working (as of 2016-06-10). It uses websockify to proxy the websocket into a tcp socket. Once I get that working well, I'll start on adding an interface. :+1:
+Networking works and it updates the state. Currently I am trying to fully implement the Ultima Online protocol and update the global state object, as it would in the original client. 
+
+I also need to create a script to run the webserver to host (and because it'll be cool to just `npm start` to get it running or something). Right now, it's just using a static file.
+
+There also needs to be an art server and a way to quickly transfer art between the server and client. WebP + http2? maybe? 
+
+## Getting Started
+
+0. Install nodejs, gulp.
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Build the project: `gulp build` (or `gulp watch`)
+4. Run index.html
+5. Eat sandwich
+
