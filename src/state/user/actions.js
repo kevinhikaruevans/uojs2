@@ -1,6 +1,5 @@
 import { Packet } from '../../network/packet';
 import * as types from './actionTypes';
-
 import * as flags from './flags';
 
 export const receiveUpdateHealth = (socket, packet) => (dispatch) => {

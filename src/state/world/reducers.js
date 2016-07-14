@@ -16,7 +16,19 @@ export default handleActions({
                 //TODO:
                 $splice: [[state.messages.indexOf(action.payload), 1]]
             }
+        }),
+    [types.WORLD_UPDATE_WEATHER]: (state, action) =>
+        update(state, {
+            weather: {
+                $merge: action.payload
+            }
         })
 }, {
-    messages: []
+    messages: [],
+    weather: {
+        isRaining: false,
+        isSnowing: false,
+        temperature: -1,
+        particles: 0
+    }
 });

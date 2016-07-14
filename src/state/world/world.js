@@ -12,5 +12,6 @@ export class WorldHandler
         super.register(registry);
 
         registry.registerPacket(0x1C, (socket, packet) => this.store.dispatch(actions.receiveAsciiMessage(socket, packet)));
+        registry.registerPacket(0x65, (socket, packet) => this.store.dispatch(actions.receiveWeather(socket, packet)));
     }
 }

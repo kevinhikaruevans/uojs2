@@ -1,5 +1,6 @@
 import { Packet } from '../../network/packet';
 import * as types from './actionTypes';
+import * as flags from './flags';
 
 export const receiveObjectInfo = (socket, packet) => (dispatch) => {
     const id = packet.getInt(3);
@@ -41,4 +42,23 @@ export const receiveAsciiMessage = (socket, packet) => (dispatch) => {
             payload: asciiMessage
         })
     }, 10000);
+};
+
+export const receiveWeather = (socket, packet) => (dispatch) => {
+    packet.begin();
+    const type = packet.nextByte();
+    const particles = Math.max(Math.min(packet.nextByte(), 0), flags.WORLD_WEATHER_MAX_PARTICLES);
+    const particlesPercentage = particles / WORLD_WEATHER_MAX_PARTICLES;
+    const temperature = packet.nextByte();
+
+    dispatch({
+        type: types.WORLD_UPDATE_WEATHER,
+        payload: {
+            isSnowing: type === flags.WorldWeatherSnow,
+            isRaining: type === flags.WorldWeatherRain,
+            particles: particlesPercentage,
+            temperature
+        }
+    });
+
 };
