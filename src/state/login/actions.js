@@ -25,7 +25,7 @@ export const receiveServerlist = (socket, packet) => (dispatch) => {
     });
 
     dispatch({
-        type: types.LOGIN_SERVERLIST,
+        type: types.LOGIN_UPDATE_SERVERLIST,
         payload: serverList
     });
 };
@@ -116,7 +116,7 @@ export const receiveCharacterList = (socket, packet) => (dispatch) => {
     }
 
     dispatch({
-        type: types.LOGIN_RECV_CHAR_LIST,
+        type: types.LOGIN_UPDATE_CHAR_LIST,
         payload: characters
     });
 };
@@ -125,7 +125,7 @@ export const receiveFeatures = (socket, packet) => (dispatch) => {
     const flags = packet.getInt(1);
 
     dispatch({
-        type: types.LOGIN_RECV_FEATURES,
+        type: types.LOGIN_UPDATE_SERVER_FEATURES,
         payload: flags
     });
 };

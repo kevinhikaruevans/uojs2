@@ -3,7 +3,7 @@ import { handleActions } from 'redux-actions';
 import update from 'immutability-helper';
 
 export default handleActions({
-    [types.LOGIN_SERVERLIST]: (state, action) =>
+    [types.LOGIN_UPDATE_SERVERLIST]: (state, action) =>
         update(state, {
             servers: {
                 list: { $push: action.payload }
@@ -31,14 +31,14 @@ export default handleActions({
             }
         }),
 
-    [types.LOGIN_RECV_CHAR_LIST]: (state, action) =>
+    [types.LOGIN_UPDATE_CHAR_LIST]: (state, action) =>
         update(state, {
             user: {
                 characters: { $set: action.payload }
             }
         }),
 
-    [types.LOGIN_RECV_FEATURES]: (state, action) =>
+    [types.LOGIN_UPDATE_SERVER_FEATURES]: (state, action) =>
         update(state, {
             user: {
                 loggedIn: { $set: true }
