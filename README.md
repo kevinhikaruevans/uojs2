@@ -17,6 +17,8 @@ It will be using Canvas2D (and possibly webgl) to render the objects to a canvas
 
 I'm mostly using this project to learn more about cool features in javascript. So please(!!!) let me know if there is a better way to do something.
 
+Also! ***Please know that this is completely a work in progress*** and it doesn't do anything spectacular (yet). Please don't tell me that it doesn't work. I know it doesn't work. It will be finished one day, assuming that I don't (1) die in an accident, (2) become homeless, or (3) get burned out from programming.
+
 ## Current Status
 
 Networking works and it updates the state. Currently I am trying to fully implement the Ultima Online protocol and update the global state object, as it would in the original client. 
