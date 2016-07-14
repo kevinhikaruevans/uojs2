@@ -9,7 +9,7 @@ export class HuffmanDecompression {
     finish = () => {
         console.log('finish');
         console.log(this.destination);
-        console.log(`${this.position} ${this.estimatedLength}`);
+        console.log(`length: ${this.destination.position} est: ${this.estimatedLength}`);
 
         this.receivePacket(this.destination);
     }
@@ -43,7 +43,7 @@ export class HuffmanDecompression {
                     //this.receivePacket(this.destination);
                     console.info('fin^1');
                     this.finish();
-                    this.reset(false);
+                    this.reset(true);
                     continue;
                 }
 
@@ -84,24 +84,18 @@ export class HuffmanDecompression {
                 this.position = 0;
             }
         }
-
-        //console.log('got to the end', this.destination);
-
         if (this.destination.position > 0) {
-
-            //this.receivePacket(this.destination);
-            if ((this.destination.position + 1) === this.estimatedLength) {
-                this.finish();
+            if (this.destination.position + 1 === this.estimatedLength || this.destination.position === this.estimatedLength) {
+                this.finish();                
                 this.reset(true);
             } else {
                 console.info('did not decompress completely (aka got an incomplete packet)');
+                console.info(this.destination);
                 console.log('pos = ', this.destination.position);
                 console.log('est = ', this.estimatedLength);
                 this.position = 0;
                 this.bit = 0x08;
             }
-            // should this be a full reset?
-            // do compressed UO packets get broken up over a stream?
         }
     }
 
