@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: 0 */
 const gulp = require('gulp');
 const loadPlugins = require('gulp-load-plugins');
 const del = require('del');
@@ -6,7 +7,6 @@ const path = require('path');
 const isparta = require('isparta');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
-const source = require('vinyl-source-stream');
 
 const Instrumenter = isparta.Instrumenter;
 const mochaGlobals = require('./test/setup/.globals');
@@ -98,6 +98,7 @@ function _registerBabel() {
   require('babel-register');
 }
 
+
 function test() {
   _registerBabel();
   return _mocha();
@@ -160,7 +161,7 @@ function testBrowser() {
     }, null, function() {
       if (firstBuild) {
         $.livereload.listen({port: 35729, host: 'localhost', start: true});
-        var watcher = gulp.watch(watchFiles, ['lint']);
+        /*var watcher = */gulp.watch(watchFiles, ['lint']);
       } else {
         $.livereload.reload('./tmp/__spec-build.js');
       }

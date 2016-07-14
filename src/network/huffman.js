@@ -6,7 +6,13 @@ export class HuffmanDecompression {
         this.receivePacket = receivePacket;
         this.reset();
     }
+    finish = () => {
+        console.log('finish');
+        console.log(this.destination);
+        console.log(`${this.position} ${this.estimatedLength}`);
 
+        this.receivePacket(this.destination);
+    }
     receive = (message) => {
         const data = new Uint8Array(message.data);
         let i = 0;
@@ -34,7 +40,9 @@ export class HuffmanDecompression {
                 if (this.position === HuffmanEOF || this.estimatedLength === this.destination.position) {
                     //TODO check if packet.length >= estlength
                     // packet is full/completely decompressed
-                    this.receivePacket(this.destination);
+                    //this.receivePacket(this.destination);
+                    console.info('fin^1');
+                    this.finish();
                     this.reset(false);
                     continue;
                 }
@@ -80,10 +88,20 @@ export class HuffmanDecompression {
         //console.log('got to the end', this.destination);
 
         if (this.destination.position > 0) {
-            this.receivePacket(this.destination);
+
+            //this.receivePacket(this.destination);
+            if ((this.destination.position + 1) === this.estimatedLength) {
+                this.finish();
+                this.reset(true);
+            } else {
+                console.info('did not decompress completely (aka got an incomplete packet)');
+                console.log('pos = ', this.destination.position);
+                console.log('est = ', this.estimatedLength);
+                this.position = 0;
+                this.bit = 0x08;
+            }
             // should this be a full reset?
             // do compressed UO packets get broken up over a stream?
-            this.reset(false);
         }
     }
 
