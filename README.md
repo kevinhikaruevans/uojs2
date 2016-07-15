@@ -45,4 +45,5 @@ Here are some ways you can contribute to this project!
 * Code review it! If you're a hardcore javascripter (is that a word?), I really want you to tell me what can be improved on here. 
 * Add in pages in the [Wiki](https://github.com/kevinhikaruevans/uojs2/wiki/A-general-overview-of-everything)
 * Write tests (these are like the last thing on my todo list)
+* Migrate everything into web workers (particularly networking, redux stuff, and decompression). Then on the redux subscribe callback, transfer the data into the main UI thread?
 * If you live in Seattle, buy me some more beer. pls :beer:
