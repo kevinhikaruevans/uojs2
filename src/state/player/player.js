@@ -1,7 +1,7 @@
 import Handler from '../handler';
 import * as actions from './actions';
 
-export class UserHandler
+export class PlayerHandler
     extends Handler
 {
     constructor(store) {
@@ -13,5 +13,6 @@ export class UserHandler
 
         registry.registerPacket(0x72, (socket, packet) => this.store.dispatch(actions.receiveWarMode(socket, packet)));
         registry.registerPacket(0x1B, (socket, packet) => this.store.dispatch(actions.receiveCharacter(socket, packet)));
+        registry.registerPacket(0x20, (socket, packet) => this.store.dispatch(actions.receiveGamePlayer(socket, packet)));
     }
 }

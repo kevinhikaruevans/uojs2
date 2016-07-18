@@ -12,17 +12,24 @@ export class HuffmanDecompression {
         console.log(`length: ${this.destination.position} est: ${this.estimatedLength}`);
 
         this.receivePacket(this.destination);
+        delete this.destination;
     }
     receive = (message) => {
         const data = new Uint8Array(message.data);
         let i = 0;
+        let preventInitialReset = this.destination && this.destination.position > 0;
+        console.log('need to decompress a message, current packet: ', this.destination);
+        console.log(`length: ${this.destination.position} est: ${this.estimatedLength}`);
+
         while (i < data.length) {
             if (this.bit >= 0x08) {
+                // should this get reset for each message?
                 this.value = data[i++];
                 this.bit = 0;
                 this.mask = 0x80;
+                console.log('preventInitialReset = ' + preventInitialReset);
             }
-
+            preventInitialReset = false;
             // trying to look up a position in the tree that isn't defined
             if (HuffmanTable[this.position] === undefined) {
                 throw 'undefined tree position... fuck.';
@@ -37,11 +44,14 @@ export class HuffmanDecompression {
 
             if (this.position <= 0) {
                 const completedByte = -this.position;
-                if (this.position === HuffmanEOF || this.estimatedLength === this.destination.position) {
+                if (this.position === HuffmanEOF /*|| this.estimatedLength === this.destination.position*/) {
                     //TODO check if packet.length >= estlength
                     // packet is full/completely decompressed
                     //this.receivePacket(this.destination);
                     console.info('fin^1');
+                    console.log('index', i, data.length);
+                    console.log('pos', this.destination.position);
+                    console.log('est len', this.estimatedLength);
                     this.finish();
                     this.reset(true);
                     continue;
@@ -74,7 +84,7 @@ export class HuffmanDecompression {
                 }
 
                 if (this.estimatedLength === -1 && this.destination.position === 3) {
-                    const newSize = this.estimatedLength = this.destination.getShort(1);
+                    this.estimatedLength = this.destination.getShort(1);
                     //console.log('we now have enough data to resize the variable-length packet');
                     //console.info(`packet length *appears* to be ${newSize}`);
                     this.destination.resize(this.estimatedLength);
@@ -86,15 +96,15 @@ export class HuffmanDecompression {
         }
         if (this.destination.position > 0) {
             if (this.destination.position + 1 === this.estimatedLength || this.destination.position === this.estimatedLength) {
-                this.finish();                
+                this.finish();
                 this.reset(true);
             } else {
                 console.info('did not decompress completely (aka got an incomplete packet)');
                 console.info(this.destination);
                 console.log('pos = ', this.destination.position);
                 console.log('est = ', this.estimatedLength);
-                this.position = 0;
-                this.bit = 0x08;
+                //this.position = 0;
+                //this.bit = 0x08;
             }
         }
     }

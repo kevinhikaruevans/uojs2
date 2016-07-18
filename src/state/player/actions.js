@@ -11,6 +11,38 @@ export const receiveUpdateHealth = (socket, packet) => (dispatch) => {
     // is this for self or for all mobiles?
 };
 
+export const receiveGamePlayer = (socket, packet) => (dispatch) => {
+    packet.begin();
+
+    const serial = packet.nextInt();
+    const body = packet.nextShort();
+    packet.nextByte(); // skip
+    const hue = packet.nextShort();
+    const flag = packet.nextByte();
+    const x = packet.nextShort();
+    const y = packet.nextShort();
+    packet.nextShort(); // skip?
+    const direction = packet.nextByte();
+    const z = packet.nextByte();
+
+    dispatch({
+        type: types.PLAYER_UPDATE_SELF,
+        payload: {
+            serial,
+            location: {
+                x,
+                y,
+                z,
+                direction
+            },
+            body: {
+                id: body,
+                hue
+            }
+        }
+    })
+};
+
 export const receiveCharacter = (socket, packet) => (dispatch) => {
     packet.begin();
     const serial = packet.nextInt();
@@ -40,7 +72,7 @@ export const receiveWarMode = (socket, packet) => (dispatch) => {
     const warMode = packet.getByte(1) === flags.WarModeFighting;
 
     dispatch({
-        type: types.USER_UPDATE_WARMODE,
+        type: types.PLAYER_UPDATE_WARMODE,
         payload: warMode
     });
 };

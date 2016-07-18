@@ -50,6 +50,17 @@ export class Packet {
         this.position += length;
         return str;
     }
+    nextUnicodeString(length) {
+        return String.fromCharCode.apply(null, this.nextArray(length));
+    }
+    nextArray(length) {
+        const arr = this.getArray(this.position, length);
+        this.position += length;
+        return arr;
+    }
+    getArray(offset, size) {
+        return this.data.subarray(offset, offset + size);
+    }
     getNumber(offset, size) {
         let result = 0;
         for(let i = 0; i < size; i++) {
