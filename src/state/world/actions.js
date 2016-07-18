@@ -114,3 +114,13 @@ export const receiveWeather = (socket, packet) => (dispatch) => {
         }
     });
 };
+
+export const receiveWorldLightLevel = (socket, packet) => (dispatch) => {
+    packet.begin();
+    const lightLevel = packet.nextByte();
+
+    dispatch({
+        type: types.WORLD_UPDATE_LIGHT,
+        payload: lightLevel
+    });
+};

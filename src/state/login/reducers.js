@@ -58,6 +58,20 @@ export default handleActions({
         currentServer: {
             sentVersion: { $set: action.payload }
         }
+    }),
+
+    [types.LOGIN_COMPLETED]: (state) => update(state, {
+        currentServer: {
+            loginCompleted: { $set: true }
+        }
+    }),
+
+    [types.LOGIN_UPDATE_TIME]: (state, action) => update(state, {
+        currentServer: {
+            time: {
+                $merge: action.payload
+            }
+        }
     })
 }, {
     user: {
@@ -74,6 +88,11 @@ export default handleActions({
     },
     currentServer: {
         features: 0,
-        sentVersion: null
+        sentVersion: null,
+        loginCompleted: false,
+        time: {
+            offset: 0,
+            loginTime: '00:00:00'
+        }
     }
 });

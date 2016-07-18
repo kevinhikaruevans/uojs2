@@ -26,6 +26,8 @@ export class LoginHandler
         registry.registerPacket(0x8C, (socket, packet) => this.store.dispatch(actions.receiveServerRelay(socket, packet)));
         registry.registerPacket(0x82, (socket, packet) => this.store.dispatch(actions.receiveLoginFailure(socket, packet)));
         registry.registerPacket(0xB9, (socket, packet) => this.store.dispatch(actions.receiveFeatures(socket, packet)));
+        registry.registerPacket(0x55, (socket, packet) => this.store.dispatch(actions.receiveLoginCompleted(socket, packet)));
+        registry.registerPacket(0x5B, (socket, packet) => this.store.dispatch(actions.receiveTime(socket, packet)));
     }
 
     chooseCharacter = (socket, characterIndex) => {
