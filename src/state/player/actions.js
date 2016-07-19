@@ -1,6 +1,7 @@
 import { Packet } from '../../network/packet';
 import * as types from './actionTypes';
 import * as flags from './flags';
+import * as worldTypes from '../world/actionTypes';
 
 export const receiveUpdateHealth = (socket, packet) => (dispatch) => {
     const serial = packet.getInt(1);
@@ -11,6 +12,7 @@ export const receiveUpdateHealth = (socket, packet) => (dispatch) => {
     // is this for self or for all mobiles?
 };
 
+// draw game player
 export const receiveGamePlayer = (socket, packet) => (dispatch) => {
     packet.begin();
 
@@ -43,7 +45,8 @@ export const receiveGamePlayer = (socket, packet) => (dispatch) => {
     })
 };
 
-export const receiveCharacter = (socket, packet) => (dispatch) => {
+// char location & body type
+export const receiveLocationWithBody = (socket, packet) => (dispatch) => {
     packet.begin();
     const serial = packet.nextInt();
     packet.nextInt();
@@ -67,7 +70,18 @@ export const receiveCharacter = (socket, packet) => (dispatch) => {
     console.log('bounds', serverBoundX, serverBoundY);
     console.log('bounds', serverBoundWidth, serverBoundHeight);
 
+
+    dispatch({
+        type: worldTypes.WORLD_UPDATE_MAP,
+        payload: {
+            width: serverBoundWidth,
+            height: serverBoundHeight,
+            x: serverBoundX,
+            y: serverBoundY
+        }
+    });
 };
+
 export const receiveWarMode = (socket, packet) => (dispatch) => {
     const warMode = packet.getByte(1) === flags.WarModeFighting;
 

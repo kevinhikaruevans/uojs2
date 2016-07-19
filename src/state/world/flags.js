@@ -11,3 +11,7 @@ export const WorldSeasonSummer = 0x01;
 export const WorldSeasonFall = 0x02;
 export const WorldSeasonWinter = 0x03;
 export const WorldSeasonDesolation = 0x04;
+
+export const WorldMapFelucca = 0x00;
+export const WorldMapTrammel = 0x01;
+export const WorldMapIlshenar = 0x02;

@@ -124,3 +124,49 @@ export const receiveWorldLightLevel = (socket, packet) => (dispatch) => {
         payload: lightLevel
     });
 };
+
+export const receiveGeneralInformation = (socket, packet) => (dispatch) => {
+    packet.begin();
+    const subcommand = packet.nextShort();
+
+    console.info('general info packet, subcommand: ', subcommand);
+
+    switch(subcommand) {
+        default:
+            {
+                console.warn('unknown subcommand', subcommand);
+            }
+            break;
+        case 0x01:
+            {
+                console.info('initialize fast walk... no idea how this works really');
+            }
+            break;
+
+        case 0x04:
+            {
+                console.log('force close gump');
+            }
+            break;
+
+        case 0x05:
+            {
+                packet.nextShort();
+                const width = packet.nextShort();
+                const height = packet.nextShort();
+                console.log('screen size: ', width, height);
+            }
+            break;
+
+        case 0x08:
+            {
+                const mapType = packet.nextByte();
+                dispatch({
+                    type: types.WORLD_UPDATE_MAP,
+                    payload: {
+                        id: mapType
+                    }
+                })
+            }
+    }
+};

@@ -17,6 +17,13 @@ export default handleActions({
     [types.PLAYER_UPDATE_SELF]: (state, action) =>
         update(state, {
             $merge: action.payload
+        }),
+
+    [types.PLAYER_UPDATE_STATS]: (state, action) =>
+        update(state, {
+            stats: {
+                $merge: action.payload
+            }
         })
 }, {
     health: 0,

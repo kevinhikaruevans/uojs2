@@ -40,12 +40,26 @@ export default handleActions({
                     $set: action.payload
                 }
             }
+        }),
+
+    [types.WORLD_UPDATE_MAP]: (state, action) =>
+        update(state, {
+            map: {
+                $merge: action.payload
+            }
         })
 }, {
     messages: [],
     // still deciding if these should be handled here or in a different subobject:
     items: [],
     mobiles: [],
+    map: {
+        id: 0,
+        width: 0,
+        height: 0,
+        x: 0,
+        y: 0
+    },
     weather: {
         isRaining: false,
         isSnowing: false,
