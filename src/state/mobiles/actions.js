@@ -10,8 +10,15 @@ export const receiveUpdateHealth = (socket, packet) => (dispatch) => {
     // ?
     // is this for self or for all mobiles?
 };
+export const receiveMobileIncomming = (socket, packet) => (dispatch) => {
+    console.log(packet.toPrettyString());
+    console.log(packet.toASCIIString());
+};
 
-export const receiveMobileStats = (socket, packet) => (dispatch) => {
+// is this synonymous to Draw Object 0x78?
+export const receiveMobileStatus = (socket, packet) => (dispatch) => {
+    console.log(packet.toPrettyString());
+    console.log(packet.toASCIIString());
     packet.begin();
 
     const stats = {};
@@ -21,7 +28,7 @@ export const receiveMobileStats = (socket, packet) => (dispatch) => {
     stats.health = packet.nextShort();
     stats.maxHealth = packet.nextShort();
     stats.canChangeName = !packet.nextByte();
-    stats.flag = packet.nextShort();
+    const flag = packet.nextShort();
 
     stats.sex = packet.nextByte();
 
@@ -39,14 +46,17 @@ export const receiveMobileStats = (socket, packet) => (dispatch) => {
 
     stats.armorClass = packet.nextShort();
     stats.weight = packet.nextShort();
-
-    if (flag === 0x03 || flag === 0x04) {
+    if (flag >= 0x05) {
+        stats.maxWeight = packet.nextShort();
+        stats.race = packet.nextByte();
+    }
+    if (flag >= 0x03) {
         stats.statCap = packet.nextShort();
         stats.pets = packet.nextByte();
         stats.petsMax = packet.nextByte();
     }
 
-    if (flag === 0x04) {
+    if (flag >= 0x04) {
         stats.resist = {};
         stats.resist.fire = packet.nextShort();
         stats.resist.cold = packet.nextShort();
@@ -56,5 +66,9 @@ export const receiveMobileStats = (socket, packet) => (dispatch) => {
         stats.luck = packet.nextShort();
         stats.damangeMin = packet.nextShort();
         stats.damangeMax = packet.nextShort();
+    }
+
+    if (flag >= 0x06) {
+        //TODO http://docs.polserver.com/packets/index.php?Packet=0x11
     }
 }

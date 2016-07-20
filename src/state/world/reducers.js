@@ -51,8 +51,9 @@ export default handleActions({
 }, {
     messages: [],
     // still deciding if these should be handled here or in a different subobject:
-    items: [],
-    mobiles: [],
+    //items: [],
+    //mobiles: [],
+    objects: [],
     map: {
         id: 0,
         width: 0,

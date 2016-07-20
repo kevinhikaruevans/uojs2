@@ -98,5 +98,6 @@ export const PacketTypes = {
     0xD6: ['Mega Cliloc',               -1],
     0xD8: ['Send Custom House',         -1],
     0xDC: ['SE Introduced Rev',          9],
-    0xDD: ['Compressed Gump',           -1]
+    0xDD: ['Compressed Gump',           -1],
+    0xF3: ['Object Information',        24]
 };

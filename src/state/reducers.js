@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import login from './login/reducers';
 import world from './world/reducers';
 import player from './player/reducers';
+import mobile from './mobiles/reducers';
 
 /*
     I wonder if there is a way to automate this, like read the "directory" and just
@@ -10,5 +11,6 @@ import player from './player/reducers';
 export default combineReducers({
     login,
     world,
-    player
+    player,
+    mobile
 });

@@ -6,20 +6,91 @@ export class HuffmanDecompression {
         this.receivePacket = receivePacket;
         this.reset();
     }
-    finish = () => {
-        console.log('finish');
-        console.log(this.destination);
-        console.log(`length: ${this.destination.position} est: ${this.estimatedLength}`);
 
-        this.receivePacket(this.destination);
-        delete this.destination;
+    static getBit(buf, bit) {
+        return (buf >> (bit - 1)) & 1;
     }
+
     receive = (message) => {
+        // This was adapted from UltimaXNA:
+        // https://github.com/ZaneDubya/UltimaXNA/blob/master/dev/Core/Network/Compression/HuffmanDecompression.cs
+        const data = new Uint8Array(message.data);
+        let node = 0;
+        let bit = 0x08;
+        let i = 0;
+
+        if (!this.destination) {
+            this.destination = new Packet(3);
+        }
+        while (i < data.length) {
+            const leaf = HuffmanDecompression.getBit(data[i], bit);
+            let leafValue = HuffmanTable[node][leaf];
+
+            if (leafValue === HuffmanEOF) {
+                i++;
+                this.finish();
+                node = 0;
+                bit = 0x08;
+                continue;
+            }
+
+            if (leafValue < 1) {
+                const value = ~~(-leafValue);
+                this.destination.append(value);
+
+                if (this.destination.position === 1 || this.destination.position === 3) {
+                    const packetType = PacketTypes[this.destination.data[0]];
+
+                    // completed the first byte
+                    if (packetType !== undefined) {
+                        // it's a valid first packet
+                        const estimatedLength = packetType[1];
+
+                        if (estimatedLength === -1 && this.destination.position === 3) {
+                            this.destination.resize(this.destination.getShort(1));
+                        } else if (estimatedLength > 0 && this.destination.position === 1) {
+                            this.destination.resize(estimatedLength);
+                        }
+
+                    } else {
+                        console.error('unknown packet');
+                        console.error(this.destination.clone());
+                    }
+                }
+                leafValue = 0;
+            }
+            bit--;
+            node = leafValue;
+
+            if (bit < 1) {
+                bit = 0x08;
+                i++;
+            }
+        }
+
+        if (this.destination.data[0]) {
+            console.info(`decompressed an incomplete packet: ${this.destination.data[0]}`);
+        }
+    }
+
+
+    finish = () => {
+        const dest = this.destination.clone();
+        console.log(`receive > 0x${dest.getByte(0).toString(16)}`);
+        this.receivePacket(dest);
+
+        this.destination = new Packet(3);
+    }
+    // shitty version:
+    receive_old = (message) => {
         const data = new Uint8Array(message.data);
         let i = 0;
         let preventInitialReset = this.destination && this.destination.position > 0;
-        console.log('need to decompress a message, current packet: ', this.destination);
-        console.log(`length: ${this.destination.position} est: ${this.estimatedLength}`);
+
+        console.log(`decompress > 0x${this.destination.getByte(0).toString(16)}`);
+        //console.log('need to decompress a message, current packet: ', this.destination.data[0].toString(16), this.destination);
+
+        //console.log(`length: ${this.destination.position} est: ${this.estimatedLength}`);
 
         while (i < data.length) {
             if (this.bit >= 0x08) {
@@ -27,7 +98,7 @@ export class HuffmanDecompression {
                 this.value = data[i++];
                 this.bit = 0;
                 this.mask = 0x80;
-                console.log('preventInitialReset = ' + preventInitialReset);
+                //console.log('preventInitialReset = ' + preventInitialReset);
             }
             preventInitialReset = false;
             // trying to look up a position in the tree that isn't defined
@@ -48,10 +119,10 @@ export class HuffmanDecompression {
                     //TODO check if packet.length >= estlength
                     // packet is full/completely decompressed
                     //this.receivePacket(this.destination);
-                    console.info('fin^1');
-                    console.log('index', i, data.length);
-                    console.log('pos', this.destination.position);
-                    console.log('est len', this.estimatedLength);
+                    //console.info('fin^1');
+                    //console.log('index', i, data.length);
+                    //console.log('pos', this.destination.position);
+                    //console.log('est len', this.estimatedLength);
                     this.finish();
                     this.reset(true);
                     continue;
@@ -74,7 +145,7 @@ export class HuffmanDecompression {
                             // resize the array to the estimated length
                             this.destination.resize(this.estimatedLength);
                         } else {
-                            console.info(`packet appears valid, but make sure it's a valid variable length packet: 0x${completedByte.toString(16)}`);
+                            //console.info(`packet appears valid, but make sure it's a valid variable length packet: 0x${completedByte.toString(16)}`);
                         }
                     } else {
                         // AHHHHHHHHHHH
@@ -95,6 +166,7 @@ export class HuffmanDecompression {
             }
         }
         if (this.destination.position > 0) {
+            //console.log('packet');
             if (this.destination.position + 1 === this.estimatedLength || this.destination.position === this.estimatedLength) {
                 this.finish();
                 this.reset(true);

@@ -64,11 +64,7 @@ export const receiveLocationWithBody = (socket, packet) => (dispatch) => {
     const serverBoundWidth = packet.nextShort();
     const serverBoundHeight = packet.nextShort();
 
-    console.log('serial', serial);
-    console.log('body', body);
-    console.log('location', x, y, z, direction);
-    console.log('bounds', serverBoundX, serverBoundY);
-    console.log('bounds', serverBoundWidth, serverBoundHeight);
+    //console.log('serial', serial);
 
 
     dispatch({

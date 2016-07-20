@@ -7,6 +7,7 @@ import ReduxThunk from 'redux-thunk';
 import { LoginHandler } from './state/login/login';
 import { WorldHandler } from './state/world/world';
 import { PlayerHandler } from './state/player/player';
+import { MobilesHandler } from './state/mobiles/mobiles';
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
 const registry = new PacketRegistry();
@@ -15,11 +16,12 @@ const registry = new PacketRegistry();
 const login = new LoginHandler(store);
 const world = new WorldHandler(store);
 const player = new PlayerHandler(store);
+const mobile = new MobilesHandler(store);
 
 login.register(registry);
 world.register(registry);
 player.register(registry);
-
+mobile.register(registry);
 const gameSocket = new GameSocket(store, registry);
 
 store.subscribe(() => {

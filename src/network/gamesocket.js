@@ -15,7 +15,7 @@ export class GameSocket {
     }
 
     connect() {
-        const socket = this.socket = new WebSocket('ws://kevinhikaruevans.com:2594', 'binary');
+        const socket = this.socket = new WebSocket('ws://127.0.0.1:2594', 'binary');
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.open;
         socket.onmessage = this.receive;
@@ -63,13 +63,13 @@ export class GameSocket {
             this.connected = true;
 
             const loginKey = this.loginKey;
-            this.relogin(loginKey, 'kevans', 'kevans');
+            this.relogin(loginKey, 'testuser', 'testpassword');
         } else {
             this.seed = this.generateSeedPacket();
             this.connected = true;
 
             this.send(this.seed);
-            this.login('kevans', 'kevans');
+            this.login('testuser', 'testpassword');
         }
     }
     relogin(loginKey, username, password) {

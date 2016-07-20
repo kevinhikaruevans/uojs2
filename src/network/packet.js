@@ -25,6 +25,9 @@ export class Packet {
         this.data = newBuffer;
         this.position = Math.min(newSize - 1, this.position);
     }
+    clone() {
+        return new Packet(this.data);
+    }
     size() {
         return this.data.length;
     }
