@@ -47,6 +47,19 @@ export default handleActions({
             map: {
                 $merge: action.payload
             }
+        }),
+
+    [types.WORLD_ADD_OBJECT]: (state, action) =>
+        update(state, {
+            objects: {
+                $push: [action.payload]
+            }
+        }),
+    [types.WORLD_DELETE_OBJECT]: (state, action) =>
+        update(state, {
+            objects: {
+                $splice: [[state.objects.findIndex(x => x.serial == action.serial), 1]]
+            }
         })
 }, {
     messages: [],

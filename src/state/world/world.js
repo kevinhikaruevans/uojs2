@@ -16,5 +16,8 @@ export class WorldHandler
         registry.registerPacket(0x65, (socket, packet) => this.store.dispatch(actions.receiveWeather(socket, packet)));
         registry.registerPacket(0xBC, (socket, packet) => this.store.dispatch(actions.receiveSeason(socket, packet)));
         registry.registerPacket(0x4F, (socket, packet) => this.store.dispatch(actions.receiveWorldLightLevel(socket, packet)));
+
+        registry.registerPacket(0x78, (socket, packet) => this.store.dispatch(actions.receiveNewObject(socket, packet)));
+        registry.registerPacket(0x1D, (socket, packet) => this.store.dispatch(actions.receiveDeleteObject(socket, packet)));
     }
 }

@@ -170,3 +170,58 @@ export const receiveGeneralInformation = (socket, packet) => (dispatch) => {
             }
     }
 };
+
+// 0x78 "mobile incoming"
+export const receiveNewObject = (socket, packet) => (dispatch) => {
+    packet.begin();
+
+    const newObject = {
+        serial: packet.nextInt()
+    };
+
+    newObject.model = packet.nextShort();
+    //if (newObject.serial & 0x80000000) {
+    //    newObject.amount = packet.nextShort(); // hmmm...
+    //}
+    newObject.x = packet.nextShort();
+    newObject.y = packet.nextShort();
+    if (newObject.x & 0x8000) {
+        // wtf is this...
+        newObject.direction2 = packet.nextByte();
+    }
+    newObject.z = packet.nextByte();
+    newObject.direction = packet.nextByte();
+    newObject.hue = packet.nextShort();
+    newObject.flag = packet.nextByte();
+    newObject.notoriety = packet.nextByte();
+
+    let wearableSerial = packet.nextInt();
+    console.log('wearable serial', wearableSerial);
+    if (wearableSerial) {
+        newObject.layers = [];
+        while (wearableSerial) {
+            const layer = { serial: wearableSerial };
+            layer.model = packet.nextShort();
+            layer.layer = packet.nextByte();
+            if (layer.model & 0x8000) {
+                layer.hue = packet.nextShort();
+            }
+            newObject.layers.push(layer);
+            wearableSerial = packet.nextInt();
+        }
+    }
+
+    dispatch({
+        type: types.WORLD_ADD_OBJECT,
+        payload: newObject
+    });
+};
+
+export const receiveDeleteObject = (socket, packet) => (dispatch) => {
+    packet.begin();
+    const serial = packet.nextInt();
+    dispatch({
+        type: types.WORLD_DELETE_OBJECT,
+        payload: serial
+    });
+};

@@ -11,6 +11,7 @@ export const receiveUpdateHealth = (socket, packet) => (dispatch) => {
     // is this for self or for all mobiles?
 };
 export const receiveMobileIncomming = (socket, packet) => (dispatch) => {
+    
     console.log(packet.toPrettyString());
     console.log(packet.toASCIIString());
 };
