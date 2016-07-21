@@ -72,6 +72,26 @@ export default handleActions({
                 $merge: action.payload
             }
         }
+    }),
+
+    [types.LOGIN_SEND_PING]: (state, action) => update(state, {
+        currentServer: {
+            ping: {
+                lastSentTime: {
+                    $set: action.payload
+                }
+            }
+        }
+    }),
+
+    [types.LOGIN_UPDATE_LATENCY]: (state, action) => update(state, {
+        currentServer: {
+            ping: {
+                latency: {
+                    $set: action.payload
+                }
+            }
+        }
     })
 }, {
     user: {
@@ -93,6 +113,10 @@ export default handleActions({
         time: {
             offset: 0,
             loginTime: '00:00:00'
+        },
+        ping: {
+            latency: 0,
+            lastSentTime: 0
         }
     }
 });

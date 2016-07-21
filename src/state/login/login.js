@@ -26,8 +26,12 @@ export class LoginHandler
         registry.registerPacket(0x8C, (socket, packet) => this.store.dispatch(actions.receiveServerRelay(socket, packet)));
         registry.registerPacket(0x82, (socket, packet) => this.store.dispatch(actions.receiveLoginFailure(socket, packet)));
         registry.registerPacket(0xB9, (socket, packet) => this.store.dispatch(actions.receiveFeatures(socket, packet)));
-        registry.registerPacket(0x55, (socket, packet) => this.store.dispatch(actions.receiveLoginCompleted(socket, packet)));
+        registry.registerPacket(0x55, (socket, packet) => {
+            this.store.dispatch(actions.receiveLoginCompleted(socket, packet))
+            this.sendPing(socket);
+        });
         registry.registerPacket(0x5B, (socket, packet) => this.store.dispatch(actions.receiveTime(socket, packet)));
+        registry.registerPacket(0x73, (socket, packet) => this.store.dispatch(actions.receivePing(socket, packet)));
     }
 
     chooseCharacter = (socket, characterIndex) => {
@@ -40,5 +44,9 @@ export class LoginHandler
 
     sendVersionString = (socket) => {
         this.store.dispatch(actions.sendVersionString(socket));
+    }
+
+    sendPing = (socket) => {
+        this.store.dispatch(actions.sendPing(socket));
     }
 }
