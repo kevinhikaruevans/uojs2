@@ -63,7 +63,7 @@ export class GameSocket {
             this.relogin(loginKey, 'testuser', 'testpassword');
         } else {
             const seed = this.generateSeedPacket();
-            this.store.dispatch(networkActions.setSeed(seed));
+            this.store.dispatch(networkActions.setSeed(seed.toArray()));
             this.send(seed);
             this.login('testuser', 'testpassword');
         }

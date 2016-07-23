@@ -115,7 +115,9 @@ export class Packet {
             }
         }
     }
-
+    toArray() {
+        return Array.prototype.slice.call(this.data);
+    }
     toBuffer() {
         return this.data.buffer;
     }

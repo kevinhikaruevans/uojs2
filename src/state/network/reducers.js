@@ -20,7 +20,8 @@ export default handleActions({
     }),
 
     [types.NETWORK_UPDATE_SENT_RELOGIN]: (state, action) => update(state, {
-        sentRelogin: { $set: action.payload }
+        sentRelogin: { $set: action.payload },
+        reconnecting: { $set: action.payload ? false : state.reconnecting }
     }),
 
     [types.NETWORK_UPDATE_SET_RECONNECTING]: (state, action) => update(state, {
