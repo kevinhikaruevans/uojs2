@@ -86,3 +86,14 @@ export const receiveWarMode = (socket, packet) => (dispatch) => {
         payload: warMode
     });
 };
+
+export const sendMessage = (socket, message) => (dispatch) => {
+    const size = 9 + message.length;
+    const packet = new Packet(size);
+    packet.append(0x03);
+    packet.appendShort(size);
+    packet.append(0);
+    packet.appendShort(10);
+    packet.appendShort(0);
+    packet.append(message);
+};

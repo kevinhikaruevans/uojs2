@@ -115,6 +115,9 @@ export class Packet {
             }
         }
     }
+    appendShort(value) {
+        this.append((value >> 8) & 0xFF, (value) & 0xFF);
+    }
     toArray() {
         return Array.prototype.slice.call(this.data);
     }

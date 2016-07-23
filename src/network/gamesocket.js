@@ -70,7 +70,7 @@ export class GameSocket {
     }
 
     receivePacket = (packet) => {
-        this.registry.handle(this, packet);
+        this.registry.handle(packet);
     }
 
     relogin(loginKey, username, password) {

@@ -11,18 +11,17 @@ import { MobilesHandler } from './state/mobiles/mobiles';
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
 const registry = new PacketRegistry();
-
+const socket = new GameSocket(store, registry);
 // should separate these into another file:
-const login = new LoginHandler(store);
-const world = new WorldHandler(store);
-const player = new PlayerHandler(store);
-const mobile = new MobilesHandler(store);
+const login = new LoginHandler(store, socket);
+const world = new WorldHandler(store, socket);
+const player = new PlayerHandler(store, socket);
+const mobile = new MobilesHandler(store, socket);
 
 login.register(registry);
 world.register(registry);
 player.register(registry);
 mobile.register(registry);
-const gameSocket = new GameSocket(store, registry);
 
 store.subscribe(() => {
     const state = store.getState();
@@ -41,7 +40,7 @@ store.subscribe(() => {
         no idea if that makes any sense...
     */
     if (!state.login.user.loggedIn && state.login.user.key && state.network.sentLogin && !state.network.sentRelogin && state.network.connected && !state.network.reconnecting) {
-        gameSocket.reconnect({
+        socket.reconnect({
             key: state.login.user.key
         });
     }

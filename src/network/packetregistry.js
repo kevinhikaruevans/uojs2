@@ -11,11 +11,11 @@ export class PacketRegistry {
     canHandle(packet) {
         return !!this.registry[packet.getId()];
     }
-    handle(socket, packet) {
-        if (socket && packet instanceof Packet) {
+    handle(packet) {
+        if (packet instanceof Packet) {
             const id = packet.getId();
             if (this.registry[id]) {//use canhandle?
-                this.registry[id](socket, packet);
+                this.registry[id](packet);
             } else {
                 console.warn(`wuh-oh, we got an unregistered packet: 0x${id.toString(16)}`);
             }

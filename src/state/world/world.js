@@ -4,20 +4,20 @@ import * as actions from './actions';
 export class WorldHandler
     extends Handler
 {
-    constructor(store) {
-        super(store);
+    constructor(store, socket) {
+        super(store, socket);
     }
 
     register(registry) {
         super.register(registry);
 
-        registry.registerPacket(0x1C, (socket, packet) => this.store.dispatch(actions.receiveAsciiMessage(socket, packet)));
-        registry.registerPacket(0xAE, (socket, packet) => this.store.dispatch(actions.receiveUnicodeMessage(socket, packet)));
-        registry.registerPacket(0x65, (socket, packet) => this.store.dispatch(actions.receiveWeather(socket, packet)));
-        registry.registerPacket(0xBC, (socket, packet) => this.store.dispatch(actions.receiveSeason(socket, packet)));
-        registry.registerPacket(0x4F, (socket, packet) => this.store.dispatch(actions.receiveWorldLightLevel(socket, packet)));
+        registry.registerPacket(0x1C, (packet) => this.store.dispatch(actions.receiveAsciiMessage(this.socket, packet)));
+        registry.registerPacket(0xAE, (packet) => this.store.dispatch(actions.receiveUnicodeMessage(this.socket, packet)));
+        registry.registerPacket(0x65, (packet) => this.store.dispatch(actions.receiveWeather(this.socket, packet)));
+        registry.registerPacket(0xBC, (packet) => this.store.dispatch(actions.receiveSeason(this.socket, packet)));
+        registry.registerPacket(0x4F, (packet) => this.store.dispatch(actions.receiveWorldLightLevel(this.socket, packet)));
 
-        registry.registerPacket(0x78, (socket, packet) => this.store.dispatch(actions.receiveNewObject(socket, packet)));
-        registry.registerPacket(0x1D, (socket, packet) => this.store.dispatch(actions.receiveDeleteObject(socket, packet)));
+        registry.registerPacket(0x78, (packet) => this.store.dispatch(actions.receiveNewObject(this.socket, packet)));
+        registry.registerPacket(0x1D, (packet) => this.store.dispatch(actions.receiveDeleteObject(this.socket, packet)));
     }
 }
