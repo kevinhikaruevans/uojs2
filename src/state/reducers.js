@@ -3,6 +3,7 @@ import login from './login/reducers';
 import world from './world/reducers';
 import player from './player/reducers';
 import mobile from './mobiles/reducers';
+import network from './network/reducers';
 
 /*
     I wonder if there is a way to automate this, like read the "directory" and just
@@ -12,5 +13,6 @@ export default combineReducers({
     login,
     world,
     player,
-    mobile
+    mobile,
+    network
 });

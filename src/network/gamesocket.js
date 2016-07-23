@@ -1,46 +1,51 @@
 import { HuffmanDecompression } from './huffman';
 import { Packet } from './packet';
 import { StringUtils } from '../utils';
+import * as networkActions from '../state/network/actions';
 
 export class GameSocket {
     constructor(store, packetRegistry) {
         this.store = store;
         this.registry = packetRegistry;
-        this.connect();
         this.decompression = new HuffmanDecompression(this.receivePacket);
+        this.connect();
+    }
 
-        this.sentLogin = false;
-        this.compressed = false;
-        this.connected = false;
+    get state() {
+        return this.store.getState().network;
     }
 
     connect() {
+        this.store.dispatch(networkActions.setConnected(false));
         const socket = this.socket = new WebSocket('ws://127.0.0.1:2594', 'binary');
+
         socket.binaryType = 'arraybuffer';
-        socket.onopen = this.open;
-        socket.onmessage = this.receive;
-        socket.onclose = socket.onerror = this.close;
+        socket.onopen = this.handleOpen;
+        socket.onmessage = this.handleMessage;
+        socket.onclose = this.handleClose;
+        socket.onerror = this.handleError;
     }
 
     reconnect(server) {
-        console.log('reconnect', server);
-        console.warn(`this should connect to ${server.address}:${server.port}, but I can't. :( it's not a big deal, since we'll connect to the same server as the login server`);
+        this.store.dispatch(networkActions.setReconnecting(true));
         this.loginKey = server.key;
         this.connect();
     }
 
-    close = (e) => {
-        if (e && e.type === 'error') {
-            console.error(e);
-        }
-
-        this.connected = false;
+    handleError = (error) => {
+        console.error(error);
+        this.handleClose();
     }
-    receive = (message) => {
-        if (this.compressed) {
+
+    handleClose = () => {
+        console.info('socket closed');
+        this.store.dispatch(networkActions.setConnected(false));
+    }
+
+    handleMessage = (message) => {
+        if (this.state.compressed) {
             this.decompression.receive(message);
             return;
-            //throw 'compression is not handled yet';
         }
         if (!this.registry) {
             throw 'no handlers available :(';
@@ -49,31 +54,28 @@ export class GameSocket {
         const packet = new Packet(new Uint8Array(message.data));
         this.receivePacket(packet);
     }
-    receivePacket = (packet) => {
-        /*console.log('received packet:');
-        console.log(packet.toPrettyString());
-        console.log(packet.toASCIIString());
-        console.log('---------------------------------------');*/
-        this.registry.handle(this, packet);
-    }
-    open = () => {
-        // this is shitty and NEEDS to be refactored.
-        // maybe look at a flux implementation.
-        if (this.sentLogin) {
-            this.connected = true;
 
+    handleOpen = () => {
+        this.store.dispatch(networkActions.setConnected(true));
+
+        if (this.state.sentLogin) {
             const loginKey = this.loginKey;
             this.relogin(loginKey, 'testuser', 'testpassword');
         } else {
-            this.seed = this.generateSeedPacket();
-            this.connected = true;
-
-            this.send(this.seed);
+            const seed = this.generateSeedPacket();
+            this.store.dispatch(networkActions.setSeed(seed));
+            this.send(seed);
             this.login('testuser', 'testpassword');
         }
     }
+
+    receivePacket = (packet) => {
+        this.registry.handle(this, packet);
+    }
+
     relogin(loginKey, username, password) {
         this.send(new Packet(loginKey));
+
         const loginKeyPacket = new Packet(65);
         loginKeyPacket.append(
             0x91,
@@ -85,8 +87,9 @@ export class GameSocket {
             StringUtils.padRight(password, 30)
         );
         this.send(loginKeyPacket);
-        this.sentRelogin = true;
-        this.compressed = true;
+
+        this.store.dispatch(networkActions.setSentRelogin(true));
+        this.store.dispatch(networkActions.setCompression(true));
     }
 
     login(username, password) {
@@ -100,7 +103,7 @@ export class GameSocket {
         );
 
         this.send(loginPacket);
-        this.sentLogin = true;
+        this.store.dispatch(networkActions.setSentLogin(true));
     }
 
     generateSeedPacket() {
@@ -113,12 +116,12 @@ export class GameSocket {
     }
 
     send(packet) {
+        /*if (!this.state.connected) {
+            throw Error('socket is not connected (yet?)');
+        }*/
+
         if (packet && packet instanceof Packet) {
-            //console.log('send: );
-            /*
-            console.log(packet.toPrettyString());
-            console.log(packet.toASCIIString());
-            console.log('---------------------------------------');*/
+            console.log('send > ' + packet.toString());
             this.socket.send(packet.toBuffer());
         } else if (packet instanceof Array) {
             throw 'cannot send Arrays at this time. wrap it in a packet.';

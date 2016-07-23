@@ -40,7 +40,7 @@ store.subscribe(() => {
 
         no idea if that makes any sense...
     */
-    if (!state.login.user.loggedIn && state.login.user.key) {
+    if (!state.login.user.loggedIn && state.login.user.key && state.network.sentLogin && !state.network.sentRelogin && state.network.connected && !state.network.reconnecting) {
         gameSocket.reconnect({
             key: state.login.user.key
         });
