@@ -171,24 +171,15 @@ export const receiveGeneralInformation = (socket, packet) => (dispatch) => {
     }
 };
 
-// 0x78 "mobile incoming"
+// 0x78 "draw object"
 export const receiveNewObject = (socket, packet) => (dispatch) => {
     packet.begin();
 
-    const newObject = {
-        serial: packet.nextInt()
-    };
-
+    const newObject = {};
+    newObject.serial = packet.nextInt();
     newObject.model = packet.nextShort();
-    //if (newObject.serial & 0x80000000) {
-    //    newObject.amount = packet.nextShort(); // hmmm...
-    //}
     newObject.x = packet.nextShort();
     newObject.y = packet.nextShort();
-    if (newObject.x & 0x8000) {
-        // wtf is this...
-        newObject.direction2 = packet.nextByte();
-    }
     newObject.z = packet.nextByte();
     newObject.direction = packet.nextByte();
     newObject.hue = packet.nextShort();

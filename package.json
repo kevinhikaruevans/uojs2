@@ -9,7 +9,8 @@
     "test-browser": "gulp test-browser",
     "watch": "gulp watch",
     "build": "gulp build",
-    "coverage": "gulp coverage"
+    "coverage": "gulp coverage",
+    "start": "node dist/server/server.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "eslint-plugin-babel": "^3.2.0",
     "glob": "^7.0.3",
     "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.2",
     "gulp-eslint": "^2.0.0",
     "gulp-filter": "^4.0.0",
     "gulp-istanbul": "^0.10.3",
@@ -57,7 +59,8 @@
     "sinon-chai": "^2.8.0",
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^1.12.9",
-    "webpack-stream": "^3.1.0"
+    "webpack-stream": "^3.1.0",
+    "websockify": "^0.7.1"
   },
   "babelBoilerplateOptions": {
     "entryFileName": "uojs2.js",
@@ -67,6 +70,7 @@
     "immutability-helper": "^2.0.0",
     "redux": "^3.5.2",
     "redux-actions": "^0.10.0",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "websockify": "^0.7.1"
   }
 }

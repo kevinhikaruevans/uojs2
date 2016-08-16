@@ -7,7 +7,7 @@ const path = require('path');
 const isparta = require('isparta');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
-
+const babel = require('gulp-babel');
 const Instrumenter = isparta.Instrumenter;
 const mochaGlobals = require('./test/setup/.globals');
 const manifest = require('./package.json');
@@ -49,11 +49,16 @@ function lintGulpfile() {
   return lint('gulpfile.js');
 }
 
-function build() {
-  return gulp.src(path.join('src', config.entryFileName))
+function buildServer() {
+    return gulp.src(path.join('src', 'server', '**/*.js'))
+      .pipe(babel())
+      .pipe(gulp.dest(path.join(destinationFolder, 'server')));
+}
+function buildClient() {
+  return gulp.src(path.join('src', 'client', config.entryFileName))
     .pipe(webpackStream({
       output: {
-        filename: exportFileName + '.js',
+        filename: 'server.js',
         libraryTarget: 'umd',
         library: config.mainVarName
       },
@@ -120,7 +125,7 @@ const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.j
 
 // Run the headless unit tests as you make changes.
 function watch() {
-  gulp.watch(watchFiles, ['build']);
+  gulp.watch(watchFiles, ['build-all']);
 }
 
 function testBrowser() {
@@ -188,8 +193,18 @@ gulp.task('lint-gulpfile', lintGulpfile);
 // Lint everything
 gulp.task('lint', ['lint-src', 'lint-test', 'lint-gulpfile']);
 
-// Build two versions of the library
-gulp.task('build', [/*'lint',*/ 'clean'], build);
+// Build both the server & client
+gulp.task('build', [/* lint? */'clean'], function() {
+    gulp.start('build-all');
+});
+
+gulp.task('build-all', ['build-server', 'build-client']);
+
+// Build the client
+gulp.task('build-client', buildClient);
+
+// Build the server side stuff
+gulp.task('build-server', buildServer);
 
 // Lint and run our tests
 gulp.task('test', ['lint'], test);
