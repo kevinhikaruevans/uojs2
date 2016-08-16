@@ -46,3 +46,5 @@ Here are some ways you can contribute to this project!
 * Write tests (these are like the last thing on my todo list)
 * Migrate everything into web workers (particularly networking, redux stuff, and decompression). Then on the redux subscribe callback, transfer the data into the main UI thread?
 * If you live in Seattle, buy me some more beer. pls :beer:
+
+![ga](https://ga-beacon.appspot.com/UA-38326743-3/welcome-page?pixel)
