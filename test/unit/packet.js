@@ -1,4 +1,4 @@
-import { Packet } from '../../src/network/packet';
+import { Packet } from '../../src/client/network/packet';
 
 describe('Packet', () => {
     const p = new Packet(3);

@@ -1,4 +1,4 @@
-import { StringUtils } from '../../src/utils';
+import { StringUtils } from '../../src/client/utils';
 
 describe('StringUtils', () => {
     describe('padRight', () => {
