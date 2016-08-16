@@ -31,8 +31,9 @@ There also needs to be an art server and a way to quickly transfer art between t
 1. Clone the repository
 2. Install dependencies: `npm install`
 3. Build the project: `gulp build` (or `gulp watch`)
-4. Run index.html
-5. Eat sandwich
+4. Start websockify: `npm start` (this might not work)
+5. Run index.html
+6. Eat sandwich
 
 ## Contributing
 
