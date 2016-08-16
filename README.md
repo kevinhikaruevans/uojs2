@@ -27,7 +27,7 @@ There also needs to be an art server and a way to quickly transfer art between t
 
 ## Getting Started
 
-0. Install nodejs, gulp.
+0. Install nodejs, gulp. Start your ServUO server. Edit `src/server/config.js` if needed.
 1. Clone the repository
 2. Install dependencies: `npm install`
 3. Build the project: `gulp build` (or `gulp watch`)
