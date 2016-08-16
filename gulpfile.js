@@ -58,7 +58,7 @@ function buildClient() {
   return gulp.src(path.join('src', 'client', config.entryFileName))
     .pipe(webpackStream({
       output: {
-        filename: 'server.js',
+        filename: `${exportFileName}.js`,
         libraryTarget: 'umd',
         library: config.mainVarName
       },
@@ -195,7 +195,7 @@ gulp.task('lint', ['lint-src', 'lint-test', 'lint-gulpfile']);
 
 // Build both the server & client
 gulp.task('build', [/* lint? */'clean'], function() {
-    gulp.start('build-all');
+    return gulp.start('build-all');
 });
 
 gulp.task('build-all', ['build-server', 'build-client']);
