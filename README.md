@@ -11,19 +11,17 @@ A web-based client for the game Ultima Online.
 
 This project is aiming to emulate the game Ultima Online (ver 7.x.x.x) in a web enviroment. It uses websockets (with websockify) to connect to servers that utilize the Ultima Online protocol. It then uses Redux to manage the global state.
 
-It will be using Canvas2D (and possibly webgl) to render the objects to a canvas element. 
+~~It will be using Canvas2D (and possibly webgl) to render the objects to a canvas element.~~ Going to try to use THREE.js. This might fail spectacularly.
 
-I'm mostly using this project to learn more about cool features in javascript. So please(!!!) let me know if there is a better way to do something.
+I'm mostly using this project to learn more about cool features in javascript. So please let me know if there is a better way to do something.
 
-Also! ***Please know that this is completely a work in progress*** and it doesn't do anything spectacular (yet). Please don't tell me that it doesn't work. I know it doesn't work. It will be finished one day, assuming that I don't (1) die in an accident, (2) become homeless, or (3) get burned out from programming.
+Also! Please know that this is completely a work in progress and it doesn't do anything spectacular (yet). Please don't tell me that it doesn't work. I know it doesn't work. It will be finished one day, assuming that I don't (1) die in an accident, (2) become homeless, or (3) get burned out from programming.
 
 ## Current Status
 
 Networking works and it updates the state. Currently I am trying to fully implement the Ultima Online protocol and update the global state object, as it would in the original client. 
 
-I also need to create a script to run the webserver to host (and because it'll be cool to just `npm start` to get it running or something). Right now, it's just using a static file.
-
-There also needs to be an art server and a way to quickly transfer art between the server and client. WebP + http2? maybe? no idea.
+There also needs to be an art server and a way to quickly transfer art between the server and client. WebP + http2? maybe? no idea. Will research ideal image formats: gif is small, has a single alpha channel, and has limited colors... so this might be ideal.
 
 ## Getting Started
 
@@ -32,7 +30,7 @@ There also needs to be an art server and a way to quickly transfer art between t
 2. Install dependencies: `npm install`
 3. Build the project: `gulp build` (or `gulp watch`)
 4. Start websockify: `npm start` (this might not work)
-5. Run index.html
+5. Open index.html
 6. Eat sandwich
 
 ## Contributing
