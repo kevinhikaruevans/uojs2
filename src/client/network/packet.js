@@ -7,30 +7,25 @@ export class Packet {
         this.position = 0; //TODO seek
     }
     resize(newSize) {
-        //console.info(`packet.resize called, new size: ${newSize}, current size: ${this.data.length}`);
-        /*if (this.data.length <= newSize) {
-            return;
-        }*/
-
         newSize = Math.min(newSize, MaximumPacketSize);
-
         const newBuffer = new Uint8Array(newSize);
 
-        for(let i = 0; i < this.data.length; i++) {
+        for(let i = 0; i < newSize /*this.data.length*/; i++) {
             newBuffer[i] = this.data[i];
         }
 
-        // this probably doesn't do anything:
-        //delete this.data;
         this.data = newBuffer;
         this.position = Math.min(newSize - 1, this.position);
     }
+
     clone() {
         return new Packet(this.data);
     }
+
     size() {
         return this.data.length;
     }
+
     getId() {
         return ~~this.data[0];
     }
@@ -171,6 +166,7 @@ export class Packet {
         return PacketTypes[initialByte][1];
     }
     get variableSize() {
+        //TODO check position > 3?
         return this.getShort(1);
     }
     /**

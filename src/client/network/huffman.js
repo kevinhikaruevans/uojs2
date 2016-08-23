@@ -6,12 +6,12 @@ export class HuffmanDecompression {
         this.receivePacket = receivePacket;
     }
 
-    static getBit(buf, bit) {
-        return (buf >> (bit - 1)) & 1;
+    static getBit(buffer, bit) {
+        return (buffer >> (bit - 1)) & 1;
     }
 
     receive = (message) => {
-        // This was adapted from UltimaXNA:
+        // This was adapted from UltimaXNA's huffman decompression:
         // https://github.com/ZaneDubya/UltimaXNA/blob/master/dev/Core/Network/Compression/HuffmanDecompression.cs
         const data = new Uint8Array(message.data);
         let node = 0;

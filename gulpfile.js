@@ -219,4 +219,8 @@ gulp.task('test-browser', ['lint', 'clean-tmp'], testBrowser);
 gulp.task('watch', watch);
 
 // An alias of test
-gulp.task('default', ['test']);
+gulp.task('default', function() {
+    console.log('cool tasks:')
+    console.log('* gulp build - runs build-client and build-server');
+    console.log('* gulp watch - watches for changes and reruns the build when needed');
+});

@@ -16,7 +16,7 @@
     "type": "git",
     "url": "https://github.com/kevinhikaruevans/uojs2.git"
   },
-  "keywords": [],
+  "keywords": ["ultima", "online", "uojs", "uo", "game", "mmorpg"],
   "author": "Kevin Evans <evans.kevinh@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -40,7 +40,7 @@
     "eslint": "^2.12.0",
     "eslint-plugin-babel": "^3.2.0",
     "glob": "^7.0.3",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-eslint": "^2.0.0",
     "gulp-filter": "^4.0.0",
@@ -69,7 +69,7 @@
   "dependencies": {
     "immutability-helper": "^2.0.0",
     "redux": "^3.5.2",
-    "redux-actions": "^0.10.0",
+    "redux-actions": "^0.11.0",
     "redux-thunk": "^2.1.0",
     "websockify": "^0.7.1"
   }

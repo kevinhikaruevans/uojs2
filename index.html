@@ -1,4 +1,36 @@
-<pre id="output"></pre>
-
-
-<script src="dist/uojs2.js"></script>
+<!doctype html>
+<html>
+    <head>
+        <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #display {
+            position: absolute;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+            background-color: #eee;
+        }
+        #output {
+            position: absolute;
+            z-index: 50;
+            color: white;
+            font-size: 8pt;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        </style>
+    </head>
+    <body>
+        <div id="display"></div>
+        <pre id="output"></pre>
+        <script src="dist/uojs2.js"></script>
+    </body>
+</html>

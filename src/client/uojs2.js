@@ -9,14 +9,19 @@ import { WorldHandler } from './state/world/world';
 import { PlayerHandler } from './state/player/player';
 import { MobilesHandler } from './state/mobiles/mobiles';
 
+import { Renderer } from './ui/renderer';
+
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
 const registry = new PacketRegistry();
 const socket = new GameSocket(store, registry);
+const renderer = new Renderer(document.querySelector('#display'), store);
+
 // should separate these into another file:
 const login = new LoginHandler(store, socket);
 const world = new WorldHandler(store, socket);
 const player = new PlayerHandler(store, socket);
 const mobile = new MobilesHandler(store, socket);
+
 
 login.register(registry);
 world.register(registry);
