@@ -20,11 +20,17 @@
             background-color: #eee;
         }
         #output {
+            transition: opacity 0.3s;
             position: absolute;
             z-index: 50;
             color: white;
             font-size: 8pt;
             background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0.10;
+        }
+
+        #output:hover {
+            opacity: 1.0;
         }
         </style>
     </head>
