@@ -33,6 +33,10 @@ export class LoginHandler
         registry.registerPacket(0x5B, (packet) => this.store.dispatch(actions.receiveTime(this.socket, packet)));
         registry.registerPacket(0x73, (packet) => this.store.dispatch(actions.receivePing(this.socket, packet)));
     }
+    loginWithCredentials = (username, password) => {
+        this.socket.setCredentials(username, password);
+        this.socket.connect();
+    }
 
     chooseCharacter = (characterIndex) => {
         this.store.dispatch(actions.chooseCharacter(this.socket, characterIndex));

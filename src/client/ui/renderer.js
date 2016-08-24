@@ -1,19 +1,32 @@
 import { requestAnimationFrame, cancelAnimationFrame } from './animationHelper';
 import * as THREE from 'three';
+import { KeyboardHandler } from './keyboard';
+import * as login from './login';
 
 export class Renderer {
-    constructor(target, store) {
+    constructor(target, handlers, store) {
         this.target = target;
         this.store = store;
+        this.handlers = handlers;
         this.lastAnimationFrame = -1;
 
         this.initialize();
     }
 
     initialize = () => {
-        this.initializeTHREE();
+        login.showLoginForm();
+        login.bind((username, password) => {
+            login.hideLoginForm();
+            this.handlers.login.loginWithCredentials(username, password);
+            this.initializeTHREE();
+        })
+        this.initializeKeyboard();
         // draw whenever the store updates
         this.store.subscribe(this.requestDraw);
+    }
+
+    initializeKeyboard = () => {
+        this.keyboardHandler = new KeyboardHandler();
     }
 
     initializeTHREE = () => {
@@ -29,6 +42,7 @@ export class Renderer {
             -500,
             1000
         );
+
         this.scene.add(this.camera);
         this.camera.position.x = 200;
         this.camera.position.y = 100;
@@ -73,10 +87,14 @@ export class Renderer {
     }
 
     requestDraw = () => {
+        if (!this.renderer) {
+            return;
+        }
         const state = this.store.getState();
-
-        cancelAnimationFrame(this.lastAnimationFrame);
-        requestAnimationFrame(this.draw(state));
+        if (state && state.login.user.loggedIn) {
+            cancelAnimationFrame(this.lastAnimationFrame);
+            requestAnimationFrame(this.draw(state));
+        }
     }
 
     draw = (state) => () => {
@@ -85,5 +103,9 @@ export class Renderer {
         this.renderer.render(this.scene, this.camera);
         console.log('draw()');
         console.log(state);
+    }
+
+    drawMap = (state) => {
+
     }
 }

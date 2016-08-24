@@ -8,7 +8,7 @@ export class GameSocket {
         this.store = store;
         this.registry = packetRegistry;
         this.decompression = new HuffmanDecompression(this.receivePacket);
-        this.connect();
+        //this.connect();
     }
 
     get state() {
@@ -16,6 +16,14 @@ export class GameSocket {
     }
 
     connect() {
+        if (this.socket) {
+            try {
+                this.socket.close();
+            }
+            catch(e) {
+                console.error(e);
+            }
+        }
         this.store.dispatch(networkActions.setConnected(false));
         const socket = this.socket = new WebSocket('ws://127.0.0.1:2594', 'binary');
 
@@ -60,20 +68,23 @@ export class GameSocket {
 
         if (this.state.sentLogin) {
             const loginKey = this.loginKey;
-            this.relogin(loginKey, 'testuser', 'testpassword');
+            this.relogin(loginKey);
         } else {
             const seed = this.generateSeedPacket();
             this.store.dispatch(networkActions.setSeed(seed.toArray()));
             this.send(seed);
-            this.login('testuser', 'testpassword');
+            this.login();
         }
     }
 
     receivePacket = (packet) => {
         this.registry.handle(packet);
     }
-
-    relogin(loginKey, username, password) {
+    setCredentials = (username, password) => {
+        this.username = username;
+        this.password = password;
+    }
+    relogin = (loginKey) => {
         this.send(new Packet(loginKey));
 
         const loginKeyPacket = new Packet(65);
@@ -83,22 +94,25 @@ export class GameSocket {
             loginKey[1],
             loginKey[2],
             loginKey[3],
-            StringUtils.padRight(username, 30),
-            StringUtils.padRight(password, 30)
+            StringUtils.padRight(this.username, 30),
+            StringUtils.padRight(this.password, 30)
         );
         this.send(loginKeyPacket);
 
         this.store.dispatch(networkActions.setSentRelogin(true));
         this.store.dispatch(networkActions.setCompression(true));
+
+        delete this.username;
+        delete this.password;
     }
 
-    login(username, password) {
+    login() {
         const loginPacket = new Packet(62);
 
         loginPacket.append(
             0x80,
-            StringUtils.padRight(username, 30),
-            StringUtils.padRight(password, 30),
+            StringUtils.padRight(this.username, 30),
+            StringUtils.padRight(this.password, 30),
             0x5D
         );
 

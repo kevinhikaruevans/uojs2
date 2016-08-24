@@ -14,19 +14,19 @@ import { Renderer } from './ui/renderer';
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
 const registry = new PacketRegistry();
 const socket = new GameSocket(store, registry);
-const renderer = new Renderer(document.querySelector('#display'), store);
 
-// should separate these into another file:
-const login = new LoginHandler(store, socket);
-const world = new WorldHandler(store, socket);
-const player = new PlayerHandler(store, socket);
-const mobile = new MobilesHandler(store, socket);
+const handlers = {
+    login: new LoginHandler(store, socket),
+    world: new WorldHandler(store, socket),
+    player: new PlayerHandler(store, socket),
+    mobile: new MobilesHandler(store, socket)
+};
 
+Object
+    .keys(handlers)
+    .forEach(handler => handlers[handler].register(registry));
 
-login.register(registry);
-world.register(registry);
-player.register(registry);
-mobile.register(registry);
+const renderer = new Renderer(document.querySelector('#display'), handlers, store);
 
 store.subscribe(() => {
     const state = store.getState();
