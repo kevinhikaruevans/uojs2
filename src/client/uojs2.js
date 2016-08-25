@@ -9,7 +9,8 @@ import { WorldHandler } from './state/world/world';
 import { PlayerHandler } from './state/player/player';
 import { MobilesHandler } from './state/mobiles/mobiles';
 
-import { Renderer } from './ui/renderer';
+//import { Renderer } from './ui/renderer';
+import * as ui from './ui/ui';
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
 const registry = new PacketRegistry();
@@ -26,7 +27,8 @@ Object
     .keys(handlers)
     .forEach(handler => handlers[handler].register(registry));
 
-const renderer = new Renderer(document.querySelector('#display'), handlers, store);
+//const renderer = new Renderer(document.querySelector('#display'), handlers, store);
+ui.bind(store, handlers);
 
 store.subscribe(() => {
     const state = store.getState();

@@ -38,11 +38,11 @@ function lint(files) {
 }
 
 function lintSrc() {
-  return lint('src/**/*.js');
+  return lint('src/**/*');
 }
 
 function lintTest() {
-  return lint('test/**/*.js');
+  return lint('test/**/*');
 }
 
 function lintGulpfile() {
@@ -72,11 +72,12 @@ function buildClient() {
           root: path.resolve(__dirname),
           alias: {
             state: 'state'
-          }
+          },
+          extensions: ['', '.js', '.jsx']
       },
       module: {
         loaders: [
-          { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
+          { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' }
         ]
       },
       devtool: 'source-map'
@@ -111,7 +112,7 @@ function test() {
 
 function coverage(done) {
   _registerBabel();
-  gulp.src(['src/**/*.js'])
+  gulp.src(['src/**/*'])
     .pipe($.istanbul({ instrumenter: Instrumenter }))
     .pipe($.istanbul.hookRequire())
     .on('finish', () => {
