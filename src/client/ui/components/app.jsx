@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default class AppComponent
     extends Component
