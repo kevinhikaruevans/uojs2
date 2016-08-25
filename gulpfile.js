@@ -42,7 +42,7 @@ function lintSrc() {
 }
 
 function lintTest() {
-  return lint('test/**/*');
+  return lint('test/**/*.js');
 }
 
 function lintGulpfile() {

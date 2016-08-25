@@ -2,7 +2,10 @@
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaVersion": 6,
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+          "jsx": true
+        }
     },
     "rules": {
         "strict": 1,
@@ -19,5 +22,8 @@
     "env": {
         "browser": true,
         "node": true
-    }
+    },
+    "plugins": [
+        "react"
+    ]
 }
