@@ -1,5 +1,7 @@
 # uojs2
 
+[![Join the chat at https://gitter.im/uojs2/Lobby](https://badges.gitter.im/uojs2/Lobby.svg)](https://gitter.im/uojs2/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A web-based client for the game Ultima Online.
 
 [![Slack Status](http://kevinhikaruevans.com:3000/badge.svg)](http://kevinhikaruevans.com:3000/)
