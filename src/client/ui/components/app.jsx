@@ -9,7 +9,7 @@ export class AppComponent
     extends Component
 {
     static propTypes = {
-
+        handlers: PropTypes.object.isRequired
     }
 
     constructor(props) {
@@ -17,7 +17,7 @@ export class AppComponent
     }
     render() {
         if (!this.props.login.user.loggedIn) {
-            return <LoginComponent />;
+            return <LoginComponent {...this.props}/>;
         }
         return <div>App schtuff</div>
     }

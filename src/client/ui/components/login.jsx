@@ -4,7 +4,7 @@ export default class LoginComponent
     extends Component
 {
     static propTypes = {
-
+        handlers: PropTypes.object.isRequired
     }
     state = {
         username: '',
@@ -24,7 +24,7 @@ export default class LoginComponent
         });
     }
     handleLoginClick = () => {
-        console.log('login', this.state);;
+        this.props.handlers.login.loginWithCredentials(this.state.username, this.state.password);
     }
     render() {
         return (
