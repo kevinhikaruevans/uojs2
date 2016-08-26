@@ -7,8 +7,8 @@ export default class LoginComponent
         handlers: PropTypes.object.isRequired
     }
     state = {
-        username: '',
-        password: ''
+        username: 'testuser',
+        password: 'testpassword'
     }
     constructor(props) {
         super(props);
@@ -27,6 +27,7 @@ export default class LoginComponent
         this.props.handlers.login.loginWithCredentials(this.state.username, this.state.password);
     }
     render() {
+        console.log('Login render');
         return (
             <div>
                 <input

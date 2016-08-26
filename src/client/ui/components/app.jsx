@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import LoginComponent from './login';
+import PostLoginComponent from './postlogin';
+import WorldComponent from './world';
 
 import * as loginActionCreators from '../../state/login/actions';
 
@@ -16,10 +18,14 @@ export class AppComponent
         super(props);
     }
     render() {
-        if (!this.props.login.user.loggedIn) {
+        console.log('App render called');
+        if (this.props.login.user.loggedIn === false) {
             return <LoginComponent {...this.props}/>;
         }
-        return <div>App schtuff</div>
+        if (this.props.login.user.chosenCharacterIndex === null) {
+            return <PostLoginComponent {...this.props}/>;
+        }
+        return <WorldComponent {...this.props}/>;
     }
 }
 

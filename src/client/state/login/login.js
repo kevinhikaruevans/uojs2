@@ -17,7 +17,7 @@ export class LoginHandler
         });
         registry.registerPacket(0xA9, (packet) => {
             this.store.dispatch(actions.receiveCharacterList(this.socket, packet))
-            this.chooseCharacter(0);
+            //this.chooseCharacter(0);
         });
 
         registry.registerPacket(0xBD, () => {
