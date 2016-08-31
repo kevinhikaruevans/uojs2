@@ -3,11 +3,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import LoginComponent from './login';
 import PostLoginComponent from './postlogin';
-import WorldComponent from './world';
+import World from './world';
 
 import * as loginActionCreators from '../../state/login/actions';
 
-export class AppComponent
+class AppComponent
     extends Component
 {
     static propTypes = {
@@ -25,11 +25,11 @@ export class AppComponent
         if (this.props.login.user.chosenCharacterIndex === null) {
             return <PostLoginComponent {...this.props}/>;
         }
-        return <WorldComponent {...this.props}/>;
+        return <World handlers={this.props.handlers}/>;
     }
 }
 
 export default connect(
-    store => ({login: store.login}),
-    dispatch => ({actions: bindActionCreators(loginActionCreators, dispatch)})
+    store => ({login: store.login})
+    //dispatch => ({actions: bindActionCreators(loginActionCreators, dispatch)})
 )(AppComponent);
