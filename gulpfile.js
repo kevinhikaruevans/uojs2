@@ -38,7 +38,7 @@ function lint(files) {
 }
 
 function lintSrc() {
-  return lint('src/**/*.js');
+  return lint('src/**/*');
 }
 
 function lintTest() {
@@ -72,11 +72,12 @@ function buildClient() {
           root: path.resolve(__dirname),
           alias: {
             state: 'state'
-          }
+          },
+          extensions: ['', '.js', '.jsx']
       },
       module: {
         loaders: [
-          { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
+          { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' }
         ]
       },
       devtool: 'source-map'
@@ -91,7 +92,7 @@ function buildClient() {
 }
 
 function _mocha() {
-  return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'], {read: false})
+  return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'])
     .pipe($.mocha({
       reporter: 'dot',
       globals: Object.keys(mochaGlobals.globals),
@@ -111,7 +112,7 @@ function test() {
 
 function coverage(done) {
   _registerBabel();
-  gulp.src(['src/**/*.js'])
+  gulp.src(['src/**/*'])
     .pipe($.istanbul({ instrumenter: Instrumenter }))
     .pipe($.istanbul.hookRequire())
     .on('finish', () => {

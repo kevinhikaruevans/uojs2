@@ -20,27 +20,25 @@
             background-color: #eee;
         }
         #output {
-            transition: opacity 0.3s;
+            transition: background-color 0.3s;
             position: absolute;
             z-index: 50;
             color: white;
             font-size: 8pt;
-            background-color: rgba(0, 0, 0, 0.5);
-            opacity: 0.10;
+            background-color: rgba(0, 0, 0, 0.8);
+            right: 0;
+            top: 0;
+            margin: 0;
+            padding: 1rem;
         }
 
         #output:hover {
-            opacity: 1.0;
+            background-color: rgb(0, 0, 0);
         }
         </style>
     </head>
     <body>
-        <div id="login">
-            <input class="text-input" name="username" value="testuser"/>
-            <input class="text-input" name="password" value="testpassword"/>
-            <button>login</button>
-        </div>
-        <div id="display"></div>
+        <div id="app-container"></div>
         <pre id="output"></pre>
         <script src="dist/uojs2.js"></script>
     </body>
