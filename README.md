@@ -10,9 +10,8 @@ A web-based client for the game Ultima Online.
 
 ## Overview
 
-This project is aiming to emulate the game Ultima Online (ver 7.x.x.x) in a web enviroment. It uses websockets (with websockify) to connect to servers that utilize the Ultima Online protocol. It then uses Redux to manage the global state.
+This project is aiming to emulate the game Ultima Online (ver 7.x.x.x) in a web enviroment. It uses websockets (with websockify) to connect to servers that utilize the Ultima Online protocol. It then uses Redux to manage the global state and uses React coupled with three.js for the interface.
 
-~~It will be using Canvas2D (and possibly webgl) to render the objects to a canvas element.~~ Going to try to use THREE.js. This might fail spectacularly.
 
 I'm mostly using this project to learn more about cool features in javascript. So please let me know if there is a better way to do something.
 
@@ -20,7 +19,7 @@ Also! Please know that this is completely a work in progress and it doesn't do a
 
 ## Current Status
 
-Networking works and it updates the state. Currently I am trying to fully implement the Ultima Online protocol and update the global state object, as it would in the original client. 
+Networking, decompression, global state, React (sorta) works. Three.js still needs to be integrated within the React component.
 
 There also needs to be an art server and a way to quickly transfer art between the server and client. WebP + http2? maybe? no idea. Will research ideal image formats: gif is small, has a single alpha channel, and has limited colors... so this might be ideal.
 
