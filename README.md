@@ -23,9 +23,23 @@ Networking, decompression, global state, React (sorta) works. Three.js still nee
 
 There also needs to be an art server and a way to quickly transfer art between the server and client. WebP + http2? maybe? no idea. Will research ideal image formats: gif is small, has a single alpha channel, and has limited colors... so this might be ideal.
 
+## Requirements
+
+### Browser requirements
+
+* Modern browser
+* WebGL support
+* Websocket support
+
+### Development & hosting requirements
+
+* Node.js, version 6+
+* ServUO (or possibly an alternative)
+
+
 ## Getting Started
 
-0. Install nodejs, gulp. Start your ServUO server. Edit `src/server/config.js` if needed.
+0. Start your ServUO server. Edit `src/server/config.js` if needed.
 1. Clone the repository
 2. Install dependencies: `npm install`
 3. Build the project: `gulp build` (or `gulp watch`)
