@@ -19,6 +19,7 @@ export class HuffmanDecompression {
         let i = 0;
 
         if (!this.destination) {
+            this.destination = new Packet(0x800);
         }
         while (i < data.length) {
             const leaf = HuffmanDecompression.getBit(data[i], bit);
