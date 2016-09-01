@@ -1,3 +1,6 @@
+import { Packet } from '../../network/packet';
+import * as types from './actionTypes';
+
 export const sendPing = (socket) => (dispatch) => {
     const packet = new Packet(2);
     packet.append(0x73, 0x00);
@@ -12,7 +15,7 @@ export const sendPing = (socket) => (dispatch) => {
 
 export const receivePing = (socket) => (dispatch, getState) => {
     const state = getState();
-    const diff = Date.now() - state.login.currentServer.ping.lastSentTime;
+    const diff = Date.now() - state.ping.lastSentTime;
 
     dispatch({
         type: types.PING_UPDATE_LATENCY,

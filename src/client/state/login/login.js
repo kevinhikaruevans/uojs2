@@ -32,7 +32,8 @@ export class LoginHandler
             this.store.dispatch(pingActions.sendPing(this.socket));
         });
         registry.registerPacket(0x5B, (packet) => this.store.dispatch(actions.receiveTime(this.socket, packet)));
-        registry.registerPacket(0x73, (packet) => this.store.dispatch(actions.receivePing(this.socket, packet)));
+
+        registry.registerPacket(0x73, (packet) => this.store.dispatch(pingActions.receivePing(this.socket, packet)));
     }
     loginWithCredentials = (username, password) => {
         this.socket.setCredentials(username, password);

@@ -19,7 +19,6 @@ export class HuffmanDecompression {
         let i = 0;
 
         if (!this.destination) {
-            this.destination = new Packet(3);
         }
         while (i < data.length) {
             const leaf = HuffmanDecompression.getBit(data[i], bit);
@@ -53,10 +52,11 @@ export class HuffmanDecompression {
 
                     } else {
                         console.error('unknown packet');
+                        /*console.error('unknown packet');
                         console.error(this.destination.clone());
                         if (this.destination.position === 3) {
                             this.destination.resize(this.destination.getShort(1));
-                        }
+                        }*/
                     }
                 }
                 leafValue = 0;
