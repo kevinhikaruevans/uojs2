@@ -18,6 +18,7 @@ export class WorldHandler
         registry.registerPacket(0x4F, (packet) => this.store.dispatch(actions.receiveWorldLightLevel(this.socket, packet)));
 
         registry.registerPacket(0x78, (packet) => this.store.dispatch(actions.receiveNewObject(this.socket, packet)));
+        registry.registerPacket(0xF3, (packet) => this.store.dispatch(actions.receiveNewObjectSA(this.socket, packet)));
         registry.registerPacket(0x1D, (packet) => this.store.dispatch(actions.receiveDeleteObject(this.socket, packet)));
     }
 }

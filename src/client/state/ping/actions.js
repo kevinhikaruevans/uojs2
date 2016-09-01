@@ -24,5 +24,5 @@ export const receivePing = (socket) => (dispatch, getState) => {
 
     setTimeout(() => {
         dispatch(sendPing(socket));
-    }, 1000);
+    }, 30000);
 };
