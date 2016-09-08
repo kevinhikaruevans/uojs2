@@ -175,7 +175,8 @@ export class Packet {
     begin() {
         if (this.expectedSize === -1) {
             this.position = 3;
+        } else {
+            this.position = 1;
         }
-        this.position = 1;
     }
 }

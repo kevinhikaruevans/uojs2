@@ -171,12 +171,20 @@ export const receiveGeneralInformation = (socket, packet) => (dispatch) => {
     }
 };
 
+export const receiveMobileStatus = (socket, packet) => (dispatch) => {
+    console.log('');
+};
 // 0x78 "draw object"
 export const receiveNewObject = (socket, packet) => (dispatch) => {
+    console.log('receiveNewObject', packet.toPrettyString());
+
     packet.begin();
 
     const newObject = {};
     newObject.serial = packet.nextInt();
+    debugger;
+
+    console.log('newObject.serial', newObject.serial.toString(16));
     newObject.model = packet.nextShort();
     newObject.x = packet.nextShort();
     newObject.y = packet.nextShort();

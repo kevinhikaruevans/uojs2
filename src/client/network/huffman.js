@@ -79,7 +79,8 @@ export class HuffmanDecompression {
 
     finish = () => {
         const dest = this.destination.clone();
-        console.log(`receive > 0x${dest.getByte(0).toString(16)}`);
+        const type = PacketTypes[dest.getByte(0)] || [];
+        console.log(`receive > 0x${dest.getByte(0).toString(16)} > ${type[0]}`);
         this.receivePacket(dest);
 
         this.destination = new Packet(3);
