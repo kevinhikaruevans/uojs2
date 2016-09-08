@@ -172,7 +172,64 @@ export const receiveGeneralInformation = (socket, packet) => (dispatch) => {
 };
 
 export const receiveMobileStatus = (socket, packet) => (dispatch) => {
-    console.log('');
+    packet.begin();
+
+    const stats = {};
+    stats.serial = packet.nextInt();
+
+    stats.playerName = packet.nextString(30);
+    stats.health = packet.nextShort();
+    stats.maxHealth = packet.nextShort();
+    stats.canChangeName = !packet.nextByte();
+    const flag = packet.nextShort();
+
+    stats.sex = packet.nextByte();
+
+    stats.str = packet.nextShort();
+    stats.dex = packet.nextShort();
+    stats.int = packet.nextShort(); // how is this not a protected keyword?
+
+    stats.stam = packet.nextShort();
+    stats.maxStam = packet.nextShort();
+
+    stats.mana = packet.nextShort();
+    stats.maxMana = packet.nextShort();
+
+    stats.gold = packet.nextInt();
+
+    stats.armorClass = packet.nextShort();
+    stats.weight = packet.nextShort();
+    if (flag >= 0x05) {
+        stats.maxWeight = packet.nextShort();
+        stats.race = packet.nextByte();
+    }
+    if (flag >= 0x03) {
+        stats.statCap = packet.nextShort();
+        stats.pets = packet.nextByte();
+        stats.petsMax = packet.nextByte();
+    }
+
+    if (flag >= 0x04) {
+        stats.resist = {};
+        stats.resist.fire = packet.nextShort();
+        stats.resist.cold = packet.nextShort();
+        stats.resist.poison = packet.nextShort();
+        stats.resist.energy = packet.nextShort();
+
+        stats.luck = packet.nextShort();
+        stats.damangeMin = packet.nextShort();
+        stats.damangeMax = packet.nextShort();
+    }
+
+    if (flag >= 0x06) {
+        //TODO http://docs.polserver.com/packets/index.php?Packet=0x11
+    }
+
+    //debugger;
+    dispatch({
+        type: types.WORLD_ADD_OBJECT,
+        payload: stats
+    });
 };
 // 0x78 "draw object"
 export const receiveNewObject = (socket, packet) => (dispatch) => {
@@ -182,9 +239,6 @@ export const receiveNewObject = (socket, packet) => (dispatch) => {
 
     const newObject = {};
     newObject.serial = packet.nextInt();
-    debugger;
-
-    console.log('newObject.serial', newObject.serial.toString(16));
     newObject.model = packet.nextShort();
     newObject.x = packet.nextShort();
     newObject.y = packet.nextShort();
@@ -195,7 +249,7 @@ export const receiveNewObject = (socket, packet) => (dispatch) => {
     newObject.notoriety = packet.nextByte();
 
     let wearableSerial = packet.nextInt();
-    console.log('wearable serial', wearableSerial);
+
     if (wearableSerial) {
         newObject.layers = [];
         while (wearableSerial) {
@@ -210,10 +264,10 @@ export const receiveNewObject = (socket, packet) => (dispatch) => {
         }
     }
 
-    /*dispatch({
+    dispatch({
         type: types.WORLD_ADD_OBJECT,
         payload: newObject
-    });*/
+    });
 };
 export const receiveNewObjectSA = (socket, packet) => (dispatch) => {
     packet.begin();

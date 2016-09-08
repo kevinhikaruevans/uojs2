@@ -49,16 +49,30 @@ export default handleActions({
             }
         }),
 
-    [types.WORLD_ADD_OBJECT]: (state, action) =>
-        update(state, {
-            objects: {
-                $push: [action.payload]
-            }
-        }),
+    [types.WORLD_ADD_OBJECT]: (state, action) => {
+        const payload = action.payload;
+        const index = state.objects.findIndex(x => x.serial === payload.serial);
+        // upsert the objects.
+        if (index === -1) {
+            return update(state, {
+                objects: {
+                    $push: [action.payload]
+                }
+            });
+        } else {
+            return update(state, {
+                objects: {
+                    [index]: {
+                        $merge: payload
+                    }
+                }
+            });
+        }
+    },
     [types.WORLD_DELETE_OBJECT]: (state, action) =>
         update(state, {
             objects: {
-                $splice: [[state.objects.findIndex(x => x.serial == action.serial), 1]]
+                $splice: [[state.objects.findIndex(x => x.serial == action.payload.serial), 1]]
             }
         })
 }, {

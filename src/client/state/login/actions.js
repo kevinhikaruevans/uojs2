@@ -64,6 +64,9 @@ export const receiveServerRelay /* aka login success!*/ = (socket, packet) => (d
     console.warn(`received a server relay, but I can't connect to ${address}:${port} because I'm not able to yet...`);
     console.warn(`we'll just connect to the same address/port again`);
 
+    socket.reconnect({
+        key
+    });
     dispatch({
         type: types.LOGIN_SERVER_RELAY,
         payload: key

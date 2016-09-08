@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import login from './login/reducers';
 import world from './world/reducers';
 import player from './player/reducers';
-import mobile from './mobiles/reducers';
 import network from './network/reducers';
 import ping from './ping/reducers';
 
@@ -14,7 +13,6 @@ export default combineReducers({
     login,
     world,
     player,
-    mobile,
     network,
     ping
 });
