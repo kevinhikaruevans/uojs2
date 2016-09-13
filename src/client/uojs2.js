@@ -8,7 +8,6 @@ import { LoginHandler } from './state/login/login';
 import { WorldHandler } from './state/world/world';
 import { PlayerHandler } from './state/player/player';
 
-//import { Renderer } from './ui/renderer';
 import * as ui from './ui/ui';
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
