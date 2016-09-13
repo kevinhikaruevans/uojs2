@@ -14,31 +14,51 @@ export default class PostLoginComponent
     handleCharacterClick = (index) => () => {
         this.props.handlers.login.chooseCharacter(index);
     }
-    render() {
+
+    renderCharacters = () => {
         if (!this.props.login.user.characters) {
             return (
-                <div>
-                    connecting? :l
-                </div>
+                <div>No characters available.</div>
             );
         }
-        const characters = this.props.login.user.characters.map((character, index) => {
+
+        return this.props.login.user.characters.map((character, index) => {
             if (!character.name) {
-                return null;
+                return (
+                    <div
+                        key={index}
+                    >
+                        <button
+                            className="btn btn-default btn-block"
+                            disabled
+                        >
+                            <em>unused slot</em>
+                        </button>
+                    </div>
+                );
             }
             return (
-                <div key={index}>
-                    <button onClick={this.handleCharacterClick(index)}>
-                        {index + 1}.{' '}
+                <div
+                    key={index}
+                >
+                    <button
+                        className="btn btn-primary btn-block"
+                        onClick={this.handleCharacterClick(index)}
+                    >
+                        {`${index + 1}. `}
                         {character.name}
                     </button>
                 </div>
-            );
+            )
         });
+    }
+    render() {
         return (
-            <div>
-                <h3>choose dat char</h3>
-                {characters}
+            <div
+                className="col-sm-4 offset-sm-4"
+            >
+                <h3>Choose your character</h3>
+                {this.renderCharacters()}
             </div>
         );
     }

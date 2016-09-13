@@ -27,22 +27,34 @@ export default class LoginComponent
         this.props.handlers.login.loginWithCredentials(this.state.username, this.state.password);
     }
     render() {
-        console.log('Login render');
         return (
-            <div>
-                <input
-                    type="text"
-                    value={this.state.username}
-                    onChange={this.handleUsernameChange}
-                    placeholder="Username"
-                />
-                <input
-                    type="password"
-                    value={this.state.password}
-                    onChange={this.handlePasswordChange}
-                    placeholder="Password"
-                />
-                <button onClick={this.handleLoginClick}>login</button>
+            <div className="col-sm-4 offset-sm-4">
+                <div className="form-group">
+                    <label className="col-sm-2 col-form-label">Username</label>
+                    <input
+                        className="form-control"
+                        type="text"
+                        value={this.state.username}
+                        onChange={this.handleUsernameChange}
+                        placeholder="Username"
+                    />
+                </div>
+                <div className="form-group">
+                    <label className="col-sm-2 col-form-label">Password</label>
+                    <input
+                        className="form-control"
+                        type="password"
+                        value={this.state.password}
+                        onChange={this.handlePasswordChange}
+                        placeholder="Password"
+                    />
+                </div>
+                <button
+                    className="btn btn-primary btn-block"
+                    onClick={this.handleLoginClick}
+                >
+                    Login
+                </button>
             </div>
         );
     }
