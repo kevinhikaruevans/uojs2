@@ -297,6 +297,25 @@ export const receiveNewObjectSA = (socket, packet) => (dispatch) => {
         payload: newObject
     });
 };
+
+export const receiveMobileUpdate = (socket, packet) => (dispatch) => {
+    packet.begin();
+    const mobile = {};
+    mobile.serial = packet.nextInt();
+    mobile.model = packet.nextShort();
+    mobile.x = packet.nextShort();
+    mobile.y = packet.nextShort();
+    mobile.z = packet.nextByte();
+    mobile.direction = packet.nextByte();
+    mobile.hue = packet.nextShort();
+    mobile.status = packet.nextByte();
+    mobile.highlight = packet.nextByte();
+
+    dispatch({
+        type: types.WORLD_ADD_OBJECT,
+        payload: mobile
+    });
+};
 export const receiveDeleteObject = (socket, packet) => (dispatch) => {
     packet.begin();
     const serial = packet.nextInt();

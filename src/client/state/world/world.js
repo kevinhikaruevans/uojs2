@@ -21,5 +21,6 @@ export class WorldHandler
         registry.registerPacket(0xF3, (packet) => this.store.dispatch(actions.receiveNewObjectSA(this.socket, packet)));
         registry.registerPacket(0x1D, (packet) => this.store.dispatch(actions.receiveDeleteObject(this.socket, packet)));
         registry.registerPacket(0x11, (packet) => this.store.dispatch(actions.receiveMobileStatus(this.socket, packet)));
+        registry.registerPacket(0x77, (packet) => this.store.dispatch(actions.receiveMobileUpdate(this.socket, packet)));
     }
 }
