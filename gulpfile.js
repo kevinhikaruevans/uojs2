@@ -11,6 +11,8 @@ const babel = require('gulp-babel');
 const Instrumenter = isparta.Instrumenter;
 const mochaGlobals = require('./test/setup/.globals');
 const manifest = require('./package.json');
+const WebpackDevServer = require('webpack-dev-server');
+const rename = require('gulp-rename');
 
 // Load all of our Gulp plugins
 const $ = loadPlugins();
@@ -20,6 +22,8 @@ const config = manifest.babelBoilerplateOptions;
 const mainFile = manifest.main;
 const destinationFolder = path.dirname(mainFile);
 const exportFileName = path.basename(mainFile, path.extname(mainFile));
+const webpackConfig = require('./webpack.config');
+
 
 function cleanDist(done) {
   del([destinationFolder]).then(() => done());
@@ -56,32 +60,7 @@ function buildServer() {
 }
 function buildClient() {
   return gulp.src(path.join('src', 'client', config.entryFileName))
-    .pipe(webpackStream({
-      output: {
-        filename: `${exportFileName}.js`,
-        libraryTarget: 'umd',
-        library: config.mainVarName
-      },
-      // Add your own externals here. For instance,
-      // {
-      //   jquery: true
-      // }
-      // would externalize the `jquery` module.
-      externals: {},
-      resolve: {
-          root: path.resolve(__dirname),
-          alias: {
-            state: 'state'
-          },
-          extensions: ['', '.js', '.jsx']
-      },
-      module: {
-        loaders: [
-          { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' }
-        ]
-      },
-      devtool: 'source-map'
-    }))
+    .pipe(webpackStream(webpackConfig))
     .pipe(gulp.dest(destinationFolder))
     .pipe($.filter(['**', '!**/*.js.map']))
     .pipe($.rename(exportFileName + '.min.js'))
@@ -218,6 +197,25 @@ gulp.task('test-browser', ['lint', 'clean-tmp'], testBrowser);
 
 // Run the headless unit tests as you make changes.
 gulp.task('watch', watch);
+
+gulp.task('dev:copy-index', function() {
+    return gulp.src('index.html')
+        .pipe(gulp.dest('dist'));
+});
+gulp.task('dev:bootstrap', function() {
+    return gulp.src('src/misc/bootstrap.js')
+        .pipe(rename('uojs2.js'))
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('dev:init', ['clean'], function() {
+    return gulp.start(['dev:copy-index', 'dev:bootstrap']);
+})
+gulp.task('dev', ['dev:init'], function() {
+    var compiler = webpack(webpackConfig);
+    var server = new WebpackDevServer(compiler, webpackConfig.devServer);
+    server.listen(webpackConfig.devServer.port);
+});
 
 // An alias of test
 gulp.task('default', function() {

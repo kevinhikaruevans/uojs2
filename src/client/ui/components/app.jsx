@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import LoginComponent from './login';
 import PostLoginComponent from './postlogin';
 import World from './world';
+import MainScene from './scene';
 
 import * as loginActionCreators from '../../state/login/actions';
 
@@ -18,6 +19,7 @@ class AppComponent
         super(props);
     }
     render() {
+        return <MainScene />;
         console.log('App render called');
         if (this.props.login.user.loggedIn === false) {
             return <LoginComponent {...this.props}/>;

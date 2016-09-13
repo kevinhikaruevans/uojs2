@@ -33,15 +33,6 @@ export default class MainScene
         const width = window.innerWidth;
         const height = window.innerHeight;
 
-/*
-this.camera = new THREE.OrthographicCamera(
-    width / -2, //left
-    width / 2, right
-    height / 2,top
-    height / -2,bottom
-    -500,near
-    1000f
-*/
         return (
             <React3
                 mainCamera="camera"
@@ -52,23 +43,22 @@ this.camera = new THREE.OrthographicCamera(
                 <scene>
                     <orthographicCamera
                         name="camera"
-                        left={width / -2}
-                        right={width / 2}
+                        left={width / -2 - 10}
+                        right={width / 2 - 10}
                         top={height / 2}
                         bottom={height / -2}
                         near={-500}
                         far={1000}
                     >
                         <mesh
-                          rotation={this.state.cubeRotation}
                         >
                           <boxGeometry
-                            width={1}
-                            height={1}
+                            width={100}
+                            height={100}
                             depth={1}
                           />
                           <meshBasicMaterial
-                            color={0x00ff00}
+                            color={0xff0000}
                           />
                         </mesh>
                     </orthographicCamera>
