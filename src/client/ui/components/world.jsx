@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as worldActionCreators from '../../state/world/actions';
+import MainScene from './scene';
 
 class WorldComponent
     extends Component
@@ -35,7 +36,9 @@ class WorldComponent
                 <div className="world-overlay">
                     {this.renderMessages()}
                 </div>
-                <div className="world-view"></div>
+                <div className="world-view">
+                    <MainScene />
+                </div>
             </div>
         );
     }
