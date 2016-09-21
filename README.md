@@ -1,7 +1,7 @@
 # uojs2
 
 
-A web-based client for the game Ultima Online.
+An unfinished web-based client for the game Ultima Online.
 
 [![Join the chat at https://gitter.im/uojs2/Lobby](https://badges.gitter.im/uojs2/Lobby.svg)](https://gitter.im/uojs2/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Travis build status](http://img.shields.io/travis/kevinhikaruevans/uojs2.svg?style=flat)](https://travis-ci.org/kevinhikaruevans/uojs2)
@@ -9,6 +9,8 @@ A web-based client for the game Ultima Online.
 [![devDependency Status](https://david-dm.org/kevinhikaruevans/uojs2/dev-status.svg)](https://david-dm.org/kevinhikaruevans/uojs2#info=devDependencies)
 
 ## Overview
+
+:point_right: Taking a short break from this project to review 3D concepts & Three.js. :point_left:
 
 This project is aiming to emulate the game Ultima Online (ver 7.x.x.x) in a web enviroment. It uses websockets (with websockify) to connect to servers that utilize the Ultima Online protocol. It then uses Redux to manage the global state and uses React coupled with three.js for the interface.
 
