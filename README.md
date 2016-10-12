@@ -41,12 +41,12 @@ There also needs to be an art server and a way to quickly transfer art between t
 
 ## Getting Started
 
-0. Start your ServUO server. Edit `src/server/config.js` if needed.
-1. Clone the repository
+0. Start your ServUO server.
+1. Clone the repository. Edit `src/server/config.js` if needed.
 2. Install dependencies: `npm install`
-3. Build the project: `gulp build` (or `gulp watch`)
-4. Start websockify: `npm start` (this might not work)
-5. Open index.html
+3. In a terminal window, Build the project: `gulp build-server && gulp dev`
+4. In a different terminal window, start websockify: `npm start` (this might not work)
+5. Open http://localhost:4000/
 6. Eat sandwich
 
 ## Contributing
