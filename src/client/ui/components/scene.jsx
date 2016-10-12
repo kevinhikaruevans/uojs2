@@ -9,56 +9,64 @@ export default class MainScene
     constructor(props, context) {
         super(props, context);
 
-        this.cameraPosition = new THREE.Vector3(200, 100, 200);
+        //this.cameraPosition = new THREE.Vector3(200, 100, 200);
+        //this.cameraRotation = new THREE.Euler(10, 0.5, 0.5);
         this.state = {
-          cubeRotation: new THREE.Euler(),
+          cameraPosition: new THREE.Vector3(0, 0, 0),
+          meshPosition: new THREE.Vector3(10, 10, 10)
         };
 
-        this._onAnimate = () => {
-          // we will get this callback every frame
+        this.onAnimate = () => {
+            //console.log(this.refs);
+            var timer = Date.now() * 0.0001;
 
-          // pretend cubeRotation is immutable.
-          // this helps with updates and pure rendering.
-          // React will be sure that the rotation has now updated.
-          this.setState({
-            cubeRotation: new THREE.Euler(
-              this.state.cubeRotation.x + 0.1,
-              this.state.cubeRotation.y + 0.1,
-              0
-            ),
-          });
+            this.state.cameraPosition.x = Math.cos(timer) * 200;
+            this.state.cameraPosition.y = Math.sin(timer) * 200;
+            this.setState({
+                cameraPosition: this.state.cameraPosition,
+                meshPosition: new THREE.Vector3(
+                    this.state.meshPosition.x,
+                    this.state.meshPosition.y,
+                    this.state.meshPosition.z
+                )
+            });
         };
     }
     render() {
         const width = window.innerWidth;
         const height = window.innerHeight;
-
+        const cameraPosition = this.refs.scene ? this.state.meshPosition : new THREE.Vector3();
+        //console.log(this.refs.camera.position)
         return (
             <React3
                 mainCamera="camera"
-                onAnimate={this._onAnimate}
+                onAnimate={this.onAnimate}
                 width={width}
                 height={height}
             >
-                <scene>
+                <scene ref="scene">
                     <orthographicCamera
                         name="camera"
-                        left={width / -2 - 10}
-                        right={width / 2 - 10}
+                        ref="camera"
+                        left={width / -2}
+                        right={width / 2}
                         top={height / 2}
                         bottom={height / -2}
-                        near={-500}
-                        far={1000}
+                        near={-100}
+                        far={100}
+                        position={this.state.cameraPosition}
+                        lookAt={this.state.meshPosition}
                     >
                         <mesh
+                            position={this.state.meshPosition}
                         >
                           <boxGeometry
                             width={100}
                             height={100}
-                            depth={1}
+                            depth={100}
                           />
                           <meshBasicMaterial
-                            color={0xff0000}
+                            color={0xfff000}
                           />
                         </mesh>
                     </orthographicCamera>

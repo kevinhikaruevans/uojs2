@@ -19,8 +19,6 @@ class AppComponent
         super(props);
     }
     render() {
-        return <MainScene />;
-        console.log('App render called');
         if (this.props.login.user.loggedIn === false) {
             return <LoginComponent {...this.props}/>;
         }
