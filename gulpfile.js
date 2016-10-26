@@ -209,7 +209,7 @@ gulp.task('dev:bootstrap', function() {
 });
 
 gulp.task('dev:init', ['clean'], function() {
-    return gulp.start(['dev:copy-index', 'dev:bootstrap']);
+    return gulp.start(['build-server', 'dev:copy-index', 'dev:bootstrap']);
 })
 gulp.task('dev', ['dev:init'], function() {
     var compiler = webpack(webpackConfig);
@@ -221,5 +221,5 @@ gulp.task('dev', ['dev:init'], function() {
 gulp.task('default', function() {
     console.log('cool tasks:')
     console.log('* gulp build - runs build-client and build-server');
-    console.log('* gulp watch - watches for changes and reruns the build when needed');
+    console.log('* gulp dev - watches for changes and reruns the build when needed');
 });
