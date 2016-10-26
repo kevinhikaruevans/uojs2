@@ -10,7 +10,8 @@
     "watch": "gulp watch",
     "build": "gulp build",
     "coverage": "gulp coverage",
-    "start": "node dist/server/server.js"
+    "start": "node dist/server/server.js",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
