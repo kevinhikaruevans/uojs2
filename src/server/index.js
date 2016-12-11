@@ -1,4 +1,4 @@
-const config = require('./config.json');
+const config = require('./../../configs/development.json');
 const { connect } = require('net');
 const { Server } = require('ws');
 const debug = require('debug');
@@ -6,12 +6,18 @@ const debug = require('debug');
 const debugWS = debug('proxy:ws');
 const debugNET = debug('proxy:net');
 
-const wss = new Server(config.ws);
+const wss = new Server({
+    host : config['ws.host'],
+    port : config['ws.port']
+});
 
 wss.on('connection', ws => {
   debugWS('connect protocol %s/%s', ws.protocolVersion, ws.protocol);
 
-  const proxy = connect(config.net, () => debugNET('connect %s:%s', config.net.host, config.net.port));
+  const proxy = connect({
+      host : config['net.host'],
+      port : config['net.port']
+  }, () => debugNET('connect %s:%s', config['net.host'], config['net.port']));
 
     proxy.on('data', buffer => {
         debugNET('data length %s', buffer.length);

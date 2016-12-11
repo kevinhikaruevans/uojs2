@@ -38,6 +38,10 @@ export const PacketTypes = {
     0x2F: ['Swing',                     10],
     0x3A: ['Skills List',               -1],
     0x3C: ['Container Content',         -1],
+
+    //
+    0x3E: ['Versions',                  37],
+
     0x33: ['Pause client?!?!!!!',        2],
     0x4E: ['Personal Light Level',       6],
     0x4F: ['Overall Light Level',        2],
@@ -68,6 +72,7 @@ export const PacketTypes = {
     0x98: ['Request Name Response',     -1],
     0x99: ['Target Cursor Mul Obj',     26],
     0x9E: ['Vendor Sell List',          -1],
+    0xA0: ['Server Select',              3], // Client
     0xA1: ['Update Current Health',      9],
     0xA2: ['Update Current Mana',        9],
     0xA3: ['Update Current Stam',        9],
@@ -99,5 +104,6 @@ export const PacketTypes = {
     0xD8: ['Send Custom House',         -1],
     0xDC: ['SE Introduced Rev',          9],
     0xDD: ['Compressed Gump',           -1],
+    0xC8: ['Change Update Range',        2],
     0xF3: ['Object Information',        24]
 };
