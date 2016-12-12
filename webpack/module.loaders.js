@@ -2,7 +2,7 @@ const { resolve } = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const common = [{
-    test    : /\.webm$/,
+    test    : /\.(webm|cur)$/,
     loader  : 'file',
     query   : {
         name : global.webpack.production ? '[hash].[ext]' : '[name].[ext]'
