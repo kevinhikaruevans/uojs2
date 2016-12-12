@@ -10,9 +10,7 @@ export default class LoginComponent
         username: 'testuser',
         password: 'testpassword'
     }
-    constructor(props) {
-        super(props);
-    }
+
     handleUsernameChange = (event) => {
         this.setState({
             username: event.target.value

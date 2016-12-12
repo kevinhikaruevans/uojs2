@@ -1,0 +1,13 @@
+{
+    "dev-server.host"   : "0.0.0.0",
+    "dev-server.port"   : 8080,
+    "dev-server.proxy"  : [],
+
+    "server.host" : "192.168.1.124",
+
+    "ws.host": "192.168.1.124",
+    "ws.port": 2594,
+
+    "net.host": "192.168.1.139",
+    "net.port": 2593
+}

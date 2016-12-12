@@ -8,6 +8,8 @@ import MainScene from './scene';
 
 import * as loginActionCreators from '../../state/login/actions';
 
+import Intro from 'component/intro'
+
 class AppComponent
     extends Component
 {
@@ -19,6 +21,8 @@ class AppComponent
         super(props);
     }
     render() {
+        return <Intro />;
+
         if (this.props.login.user.loggedIn === false) {
             return <LoginComponent {...this.props}/>;
         }

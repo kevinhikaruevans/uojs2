@@ -53,11 +53,7 @@ function lintGulpfile() {
   return lint('gulpfile.js');
 }
 
-function buildServer() {
-    return gulp.src(path.join('src', 'server', '**/*.js'))
-      .pipe(babel())
-      .pipe(gulp.dest(path.join(destinationFolder, 'server')));
-}
+
 function buildClient() {
   return gulp.src(path.join('src', 'client', config.entryFileName))
     .pipe(webpackStream(webpackConfig))
@@ -105,7 +101,7 @@ const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.j
 
 // Run the headless unit tests as you make changes.
 function watch() {
-  gulp.watch(watchFiles, ['build-all']);
+  gulp.watch(watchFiles, ['build-client']);
 }
 
 function testBrowser() {
@@ -175,16 +171,11 @@ gulp.task('lint', ['lint-src', 'lint-test', 'lint-gulpfile']);
 
 // Build both the server & client
 gulp.task('build', [/* lint? */'clean'], function() {
-    return gulp.start('build-all');
+    return gulp.start('build-client');
 });
-
-gulp.task('build-all', ['build-server', 'build-client']);
 
 // Build the client
 gulp.task('build-client', buildClient);
-
-// Build the server side stuff
-gulp.task('build-server', buildServer);
 
 // Lint and run our tests
 gulp.task('test', ['lint'], test);
@@ -209,7 +200,7 @@ gulp.task('dev:bootstrap', function() {
 });
 
 gulp.task('dev:init', ['clean'], function() {
-    return gulp.start(['build-server', 'dev:copy-index', 'dev:bootstrap']);
+    return gulp.start(['dev:copy-index', 'dev:bootstrap']);
 })
 gulp.task('dev', ['dev:init'], function() {
     var compiler = webpack(webpackConfig);

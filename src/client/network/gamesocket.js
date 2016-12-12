@@ -25,7 +25,7 @@ export class GameSocket {
             }
         }
         this.store.dispatch(networkActions.setConnected(false));
-        const socket = this.socket = new WebSocket('ws://127.0.0.1:2594', 'binary');
+        const socket = this.socket = new WebSocket('ws://192.168.1.124:2594', 'binary');
 
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.handleOpen;
@@ -60,7 +60,9 @@ export class GameSocket {
         }
 
         const packet = new Packet(new Uint8Array(message.data));
-        this.receivePacket(packet);
+
+      console.log('aaaaaaaaaaaa', new Uint8Array(message.data), message, packet);
+      this.receivePacket(packet);
     }
 
     handleOpen = () => {
