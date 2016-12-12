@@ -33,4 +33,4 @@ class Intro extends Component {
 
 }
 
-export { Intro as default }
+export { Intro as default, style }
