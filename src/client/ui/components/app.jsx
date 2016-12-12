@@ -17,19 +17,45 @@ class AppComponent
         handlers: PropTypes.object.isRequired
     }
 
+    state = {
+        intro : !!localStorage.getItem('intro')
+    };
+
     constructor(props) {
         super(props);
     }
-    render() {
-        return <Intro />;
 
-        if (this.props.login.user.loggedIn === false) {
+    get elIntro() {
+        if(!this.state.intro) {
+            const props = {
+                onExit : e => {
+                    this.setState({
+                        intro : true
+                    });
+
+                    localStorage.setItem('intro', true);
+                }
+            };
+
+            return <Intro {...props} />
+        }
+    }
+
+    render() {
+        /*if (this.props.login.user.loggedIn === false) {
             return <LoginComponent {...this.props}/>;
         }
         if (this.props.login.user.chosenCharacterIndex === null) {
             return <PostLoginComponent {...this.props}/>;
         }
         return <World handlers={this.props.handlers}/>;
+        */
+
+        return(
+            <div>
+                {this.elIntro}
+            </div>
+        )
     }
 }
 
