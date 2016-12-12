@@ -15,15 +15,11 @@ class AppComponent
 {
     static propTypes = {
         handlers: PropTypes.object.isRequired
-    }
+    };
 
     state = {
         intro : !!localStorage.getItem('intro')
     };
-
-    constructor(props) {
-        super(props);
-    }
 
     get elIntro() {
         if(!this.state.intro) {
@@ -41,19 +37,21 @@ class AppComponent
         }
     }
 
-    render() {
-        /*if (this.props.login.user.loggedIn === false) {
+    get content() {
+        if (this.props.login.user.loggedIn === false) {
             return <LoginComponent {...this.props}/>;
         }
         if (this.props.login.user.chosenCharacterIndex === null) {
             return <PostLoginComponent {...this.props}/>;
         }
         return <World handlers={this.props.handlers}/>;
-        */
+    }
 
+    render() {
         return(
             <div>
                 {this.elIntro}
+                {this.content}
             </div>
         )
     }
