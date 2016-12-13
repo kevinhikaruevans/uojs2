@@ -45,9 +45,3 @@ export const setReconnecting = (value) => (dispatch) => {
         payload: value
     });
 };
-
-export const dismissError = () => (dispatch) => {
-    dispatch({
-        type: types.NETWORK_DISMISS_ERROR
-    });
-};
