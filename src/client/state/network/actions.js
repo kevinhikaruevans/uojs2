@@ -1,9 +1,13 @@
 import * as types from './actionTypes';
 
-export const setConnected = (value) => (dispatch) => {
+export const setConnected = (isConnected, isConnecting, error) => (dispatch) => {
     dispatch({
         type: types.NETWORK_UPDATE_CONNECTION_STATUS,
-        payload: value
+        payload: {
+            connected: isConnected,
+            connecting: isConnecting,
+            error
+        }
     })
 };
 
@@ -39,5 +43,11 @@ export const setReconnecting = (value) => (dispatch) => {
     dispatch({
         type: types.NETWORK_UPDATE_SET_RECONNECTING,
         payload: value
+    });
+};
+
+export const dismissError = () => (dispatch) => {
+    dispatch({
+        type: types.NETWORK_DISMISS_ERROR
     });
 };

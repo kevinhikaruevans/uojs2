@@ -7,6 +7,7 @@ import World from './world';
 import MainScene from './scene';
 
 import * as loginActionCreators from '../../state/login/actions';
+import * as networkActionCreators from '../../state/network/actions';
 
 import Intro from 'component/intro'
 
@@ -58,6 +59,9 @@ class AppComponent
 }
 
 export default connect(
-    store => ({login: store.login})
-    //dispatch => ({actions: bindActionCreators(loginActionCreators, dispatch)})
+    store => ({login: store.login, network: store.network}),
+    dispatch => ({
+        loginActions: bindActionCreators(loginActionCreators, dispatch),
+        networkActions: bindActionCreators(networkActionCreators, dispatch)
+    })
 )(AppComponent);
