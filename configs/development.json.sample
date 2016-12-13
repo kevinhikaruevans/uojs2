@@ -1,0 +1,18 @@
+// Sample development config
+{
+    // Webpack Dev Server config
+    "dev-server.host"   : "0.0.0.0",
+    "dev-server.port"   : 8080,
+    "dev-server.proxy"  : [],
+
+    // Output publicPath development mode
+    "server.host"       : "0.0.0.0",
+
+    // WebSocket config (used client & server)
+    "ws.host"           : "0.0.0.0",
+    "ws.port"           : 2594,
+
+    // TCP Socket config
+    "net.host"          : "0.0.0.0",
+    "net.port"          : 2593
+}

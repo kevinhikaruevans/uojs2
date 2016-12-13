@@ -8,9 +8,6 @@ const common = [/*, {
         progressive         : true,
         optimizationLevel   : 5
     }
-}, {
-    test    : /\.json/,
-    loader  : 'json'
 }*/];
 
 const config = {

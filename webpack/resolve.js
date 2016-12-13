@@ -6,7 +6,8 @@ module.exports = {
         'node_modules'
     ],
     alias : {
-        component : resolve(global.webpack.context, 'src', 'client', 'components')
+        component   : resolve(global.webpack.context, 'src', 'client', 'components'),
+        config      : resolve(global.webpack.context, 'configs')
     },
     enforceExtension : false,
     extensions : [

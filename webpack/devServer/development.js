@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const config = require('./../../configs/development.json');
+const config = require('./../../configs');
 
 module.exports = {
     host        : config['dev-server.host'] || '0.0.0.0',
