@@ -1,20 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import LoginComponent from './../../ui/components/login';
 import PostLoginComponent from './../../ui/components/postlogin';
 import World from './../../ui/components/world';
 // import MainScene from './scene';
 
-// import * as loginActionCreators from '../../state/login/actions';
+import * as loginActionCreators from '../../state/login/actions';
+import * as networkActionCreators from '../../state/network/actions';
 
 import Intro from 'component/intro'
 
 import style from './style'
 
-class AppComponent
-    extends Component
-{
+class Application extends Component {
+
     static propTypes = {
         handlers: PropTypes.object.isRequired
     };
@@ -60,6 +60,9 @@ class AppComponent
 }
 
 export default connect(
-    store => ({login: store.login})
-    //dispatch => ({actions: bindActionCreators(loginActionCreators, dispatch)})
-)(AppComponent);
+        store => ({login: store.login, network: store.network}),
+        dispatch => ({
+            loginActions: bindActionCreators(loginActionCreators, dispatch),
+            networkActions: bindActionCreators(networkActionCreators, dispatch)
+        })
+)(Application);
