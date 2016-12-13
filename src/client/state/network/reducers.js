@@ -31,10 +31,6 @@ export default handleActions({
     [types.NETWORK_UPDATE_SET_RECONNECTING]: (state, action) => update(state, {
         reconnecting: { $set: action.payload },
         error: { $set: null }
-    }),
-
-    [types.NETWORK_DISMISS_ERROR]: (state) => update(state, {
-        error: { $set: null }
     })
 }, {
     compressed: false,

@@ -11,13 +11,12 @@ export default class LoginComponent
         username: 'testuser',
         password: 'testpassword'
     }
-
-    handleUsernameChange = (event) => {
+    handleUsernameChange(event) {
         this.setState({
             username: event.target.value
         });
     }
-    handlePasswordChange = (event) => {
+    handlePasswordChange(event) {
         this.setState({
             password: event.target.value
         });
@@ -25,30 +24,19 @@ export default class LoginComponent
     handleLoginClick = () => {
         this.props.handlers.login.loginWithCredentials(this.state.username, this.state.password);
     }
-    handleErrorDismiss = () => {
-        this.props.networkActions.dismissError();
-    }
-    renderModal = () => {
-        return (
-            <AlertComponent title="Network Error" onDismiss={this.handleErrorDismiss}>
-                {this.props.network.error}
-            </AlertComponent>
-        );
-    }
     render() {
-        console.log(this.props);
         const isConnecting = this.props.network.connecting;
-        const modal = this.props.network.error ? this.renderModal() : null;
+
         return (
-            <div className="col-sm-4 offset-sm-4">
-                {modal}
+            <form className="col-sm-4 offset-sm-4">
+                {this.props.network.error && <AlertComponent title="Network Error" message={this.props.network.error} />}
                 <div className="form-group">
                     <label className="col-sm-2 col-form-label">Username</label>
                     <input
                         className="form-control"
                         type="text"
                         value={this.state.username}
-                        onChange={this.handleUsernameChange}
+                        onChange={(event) => this.handleUsernameChange(event)}
                         placeholder="Username"
                     />
                 </div>
@@ -58,7 +46,7 @@ export default class LoginComponent
                         className="form-control"
                         type="password"
                         value={this.state.password}
-                        onChange={this.handlePasswordChange}
+                        onChange={(event) => this.handlePasswordChange(event)}
                         placeholder="Password"
                     />
                 </div>
@@ -69,7 +57,7 @@ export default class LoginComponent
                 >
                     {isConnecting ? 'Connecting...' : 'Login'}
                 </button>
-            </div>
+            </form>
         );
     }
 }

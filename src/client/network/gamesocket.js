@@ -2,6 +2,8 @@ import { HuffmanDecompression } from './huffman';
 import { Packet } from './packet';
 import { StringUtils } from '../utils';
 import * as networkActions from '../state/network/actions';
+import * as config from '../../../configs/development';
+console.log(config);
 
 import config from 'config';
 
