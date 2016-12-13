@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux';
 
-import AppComponent from './ui/components/app';
+import Application from 'component/application';
 
 import { GameSocket } from './network/gamesocket';
 import { PacketRegistry } from './network/packetregistry';
@@ -46,7 +46,7 @@ Object
 
 render(
     <Provider store={store}>
-        <AppComponent handlers={handlers}/>
+        <Application handlers={handlers}/>
     </Provider>,
     document.getElementById('app')
 );

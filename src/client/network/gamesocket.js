@@ -5,6 +5,8 @@ import * as networkActions from '../state/network/actions';
 import * as config from '../../../configs/development';
 console.log(config);
 
+import config from 'config';
+
 export class GameSocket {
     constructor(store, packetRegistry) {
         this.store = store;

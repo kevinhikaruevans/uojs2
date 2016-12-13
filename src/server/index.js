@@ -1,4 +1,4 @@
-const config = require('./../../configs/development.json');
+const config = require('./../../configs');
 const { connect } = require('net');
 const { Server } = require('ws');
 const debug = require('debug');
