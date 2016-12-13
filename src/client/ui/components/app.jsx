@@ -7,6 +7,7 @@ import World from './world';
 import MainScene from './scene';
 
 import * as loginActionCreators from '../../state/login/actions';
+import * as networkActionCreators from '../../state/network/actions';
 
 import Intro from 'component/intro'
 
@@ -17,11 +18,9 @@ class AppComponent
         handlers: PropTypes.object.isRequired
     }
 
-    constructor(props) {
-        super(props);
-    }
+    shouldComponentUpdate = () => true
     render() {
-        return <Intro />;
+        //return <Intro />;
 
         if (this.props.login.user.loggedIn === false) {
             return <LoginComponent {...this.props}/>;
@@ -34,6 +33,13 @@ class AppComponent
 }
 
 export default connect(
-    store => ({login: store.login})
-    //dispatch => ({actions: bindActionCreators(loginActionCreators, dispatch)})
+    store => ({login: store.login, network: store.network}),
+    dispatch => ({
+        loginActions: bindActionCreators(loginActionCreators, dispatch),
+        networkActions: bindActionCreators(networkActionCreators, dispatch)
+    }),
+    null,
+    {
+        pure: false
+    }
 )(AppComponent);

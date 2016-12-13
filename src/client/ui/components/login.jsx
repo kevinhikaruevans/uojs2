@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import AlertComponent from './alert';
 
 export default class LoginComponent
     extends Component
@@ -24,9 +25,23 @@ export default class LoginComponent
     handleLoginClick = () => {
         this.props.handlers.login.loginWithCredentials(this.state.username, this.state.password);
     }
+    handleErrorDismiss = () => {
+        this.props.networkActions.dismissError();
+    }
+    renderModal = () => {
+        return (
+            <AlertComponent title="Network Error" onDismiss={this.handleErrorDismiss}>
+                {this.props.network.error}
+            </AlertComponent>
+        );
+    }
     render() {
+        console.log(this.props);
+        const isConnecting = this.props.network.connecting;
+        const modal = this.props.network.error ? this.renderModal() : null;
         return (
             <div className="col-sm-4 offset-sm-4">
+                {modal}
                 <div className="form-group">
                     <label className="col-sm-2 col-form-label">Username</label>
                     <input
@@ -49,9 +64,10 @@ export default class LoginComponent
                 </div>
                 <button
                     className="btn btn-primary btn-block"
+                    disabled={isConnecting}
                     onClick={this.handleLoginClick}
                 >
-                    Login
+                    {isConnecting ? 'Connecting...' : 'Login'}
                 </button>
             </div>
         );

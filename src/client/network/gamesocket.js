@@ -24,8 +24,8 @@ export class GameSocket {
                 console.error(e);
             }
         }
-        this.store.dispatch(networkActions.setConnected(false));
-        const socket = this.socket = new WebSocket('ws://192.168.1.124:2594', 'binary');
+        this.store.dispatch(networkActions.setConnected(false, true, null));
+        const socket = this.socket = new WebSocket('ws://127.0.0.1:2594', 'binary');
 
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.handleOpen;
@@ -40,14 +40,12 @@ export class GameSocket {
         this.connect();
     }
 
-    handleError = (error) => {
-        console.error(error);
+    handleError = () => {
         this.handleClose();
     }
 
     handleClose = () => {
-        console.info('socket closed');
-        this.store.dispatch(networkActions.setConnected(false));
+        this.store.dispatch(networkActions.setConnected(false, false, 'socket closed'));
     }
 
     handleMessage = (message) => {
@@ -60,13 +58,11 @@ export class GameSocket {
         }
 
         const packet = new Packet(new Uint8Array(message.data));
-
-      console.log('aaaaaaaaaaaa', new Uint8Array(message.data), message, packet);
       this.receivePacket(packet);
     }
 
     handleOpen = () => {
-        this.store.dispatch(networkActions.setConnected(true));
+        this.store.dispatch(networkActions.setConnected(true, false, null));
 
         if (this.state.sentLogin) {
             const loginKey = this.loginKey;

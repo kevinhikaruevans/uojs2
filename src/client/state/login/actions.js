@@ -98,24 +98,18 @@ export const receiveLoginFailure = (socket, packet) => (dispatch) => {
 };
 
 export const receiveCharacterList = (socket, packet) => (dispatch) => {
-    console.log('character list');
-
     const characterCount = packet.getByte(3);
     const characters = [];
-    console.log(`there are ${characterCount} character slots to loop over`);
 
     if (characterCount < 5 || characterCount > 7) {
         throw 'character count in 0xA9 is not valid. it should be in (5, 6, 7)';
     }
 
-    let position = 4;
     for(let i = 0; i < characterCount; i++) {
         characters.push({
             name: packet.getString(4 + i * 60, 30),
-            password: packet.getString(34 + i * 60, 30) // wut?
+            password: packet.getString(34 + i * 60, 30)
         });
-
-        position += 60;
     }
 
     dispatch({
