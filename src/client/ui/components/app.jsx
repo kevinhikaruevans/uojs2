@@ -18,7 +18,6 @@ class AppComponent
         handlers: PropTypes.object.isRequired
     }
 
-    shouldComponentUpdate = () => true
     render() {
         //return <Intro />;
 
@@ -37,9 +36,5 @@ export default connect(
     dispatch => ({
         loginActions: bindActionCreators(loginActionCreators, dispatch),
         networkActions: bindActionCreators(networkActionCreators, dispatch)
-    }),
-    null,
-    {
-        pure: false
-    }
+    })
 )(AppComponent);

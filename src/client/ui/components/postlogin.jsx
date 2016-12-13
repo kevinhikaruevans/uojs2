@@ -9,12 +9,6 @@ export default class PostLoginComponent
             characters: PropTypes.array
         }).isRequired
     }
-    state = {
-    }
-    shouldComponentUpdate(nextProps) {
-        console.log('nextProps', nextProps);
-        return true;
-    }
     handleCharacterClick = (index) => () => {
         this.props.handlers.login.chooseCharacter(index);
     }
