@@ -2,6 +2,8 @@ import { HuffmanDecompression } from './huffman';
 import { Packet } from './packet';
 import { StringUtils } from '../utils';
 import * as networkActions from '../state/network/actions';
+import * as config from '../../../configs/development';
+console.log(config);
 
 export class GameSocket {
     constructor(store, packetRegistry) {
@@ -25,7 +27,7 @@ export class GameSocket {
             }
         }
         this.store.dispatch(networkActions.setConnected(false, true, null));
-        const socket = this.socket = new WebSocket('ws://127.0.0.1:2594', 'binary');
+        const socket = this.socket = new WebSocket(`ws://${config['ws.host']}:${config['ws.port']}`, 'binary');
 
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.handleOpen;
