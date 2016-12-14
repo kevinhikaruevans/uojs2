@@ -25,6 +25,7 @@ module.exports = env => {
         resolve         : require('./resolve'),
         resolveLoader   : require('./resolveLoader'),
         plugins         : require('./plugins'),
+        performance     : require('./performance'),
         devServer       : require(`./devServer/${global.webpack.env}`)
     };
 };
