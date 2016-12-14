@@ -4,7 +4,7 @@
   "description": "An online client for the popular game Ultima Online",
   "main": "dist/uojs2.js",
   "scripts": {
-    "proxy:debug": "DEBUG=* node src/server",
+    "proxy:debug": "node src/server -d=*",
     "development:client": "webpack-dev-server --config webpack --hot --inline"
   },
   "repository": {
@@ -52,6 +52,7 @@
   "dependencies": {
     "debug": "2.3.3",
     "immutability-helper": "^2.0.0",
+    "minimist": "1.2.0",
     "react": "15.4.1",
     "react-dom": "15.4.1",
     "react-redux": "4.4.6",
