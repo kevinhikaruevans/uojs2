@@ -9,7 +9,9 @@ import World from './../../ui/components/world';
 import * as loginActionCreators from '../../state/login/actions';
 import * as networkActionCreators from '../../state/network/actions';
 
+import config from 'config'
 import Intro from 'component/intro'
+import SignIn from 'component/sign-in'
 
 import style from './style'
 
@@ -22,6 +24,27 @@ class Application extends Component {
     state = {
         intro : !!localStorage.getItem('intro')
     };
+
+    constructor() {
+        super(...arguments);
+
+        const socket = this.socket = new WebSocket(`ws://${config['ws.host']}:${config['ws.port']}`, 'binary');
+/*
+
+        socket.onopen = () => {
+            socket.send(seed);
+        };
+*/
+
+        /*
+
+        socket.binaryType = 'arraybuffer';
+        socket.onmessage = this.handleMessage;
+        socket.onclose = this.handleClose;
+        socket.onerror = this.handleError;
+*/
+
+    }
 
     get elIntro() {
         if(!this.state.intro) {
@@ -41,7 +64,7 @@ class Application extends Component {
 
     get content() {
         if (this.props.login.user.loggedIn === false) {
-            return <LoginComponent {...this.props}/>;
+            return <LoginComponent {...this.props} />;
         }
         if (this.props.login.user.chosenCharacterIndex === null) {
             return <PostLoginComponent {...this.props}/>;

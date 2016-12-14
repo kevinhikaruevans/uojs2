@@ -79,6 +79,7 @@ export class GameSocket {
     receivePacket = (packet) => {
         this.registry.handle(packet);
     }
+
     setCredentials = (username, password) => {
         this.username = username;
         this.password = password;
