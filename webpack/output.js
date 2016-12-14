@@ -12,8 +12,7 @@ const result = {
     },
     production  : {
         path            : resolve(global.webpack.context, 'public'),
-        // chunkFilename   : '[chunkhash].js',
-        // filename        : '[chunkhash].js',
+        filename        : '[chunkhash].js',
         publicPath      : '/'
     }
 };

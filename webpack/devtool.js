@@ -1,6 +1,6 @@
 const config = {
     development : 'inline-source-map',
-    production  : null
+    production  : false
 };
 
 module.exports = config[global.webpack.env];
