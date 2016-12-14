@@ -21,14 +21,14 @@ export default class LoginComponent
             password: event.target.value
         });
     }
-    handleLoginClick = () => {
+    handleLoginClick() {
         this.props.handlers.login.loginWithCredentials(this.state.username, this.state.password);
     }
     render() {
         const isConnecting = this.props.network.connecting;
 
         return (
-            <form className="col-sm-4 offset-sm-4">
+            <form className="col-sm-4 offset-sm-4" onSubmit={() => this.handleLoginClick()}>
                 {this.props.network.error && <AlertComponent title="Network Error" message={this.props.network.error} />}
                 <div className="form-group">
                     <label className="col-sm-2 col-form-label">Username</label>
@@ -53,7 +53,8 @@ export default class LoginComponent
                 <button
                     className="btn btn-primary btn-block"
                     disabled={isConnecting}
-                    onClick={this.handleLoginClick}
+                    onClick={() => this.handleLoginClick()}
+                    type="submit"
                 >
                     {isConnecting ? 'Connecting...' : 'Login'}
                 </button>
