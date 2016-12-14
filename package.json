@@ -5,7 +5,8 @@
   "main": "dist/uojs2.js",
   "scripts": {
     "proxy:debug": "node src/server -d=*",
-    "development:client": "webpack-dev-server --config webpack --hot --inline"
+    "development:client": "webpack-dev-server --config webpack --hot --inline",
+    "development": "yarn run proxy:debug & yarn run development:client & wait"
   },
   "repository": {
     "type": "git",
