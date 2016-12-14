@@ -3,7 +3,7 @@ let config = {};
 
 if(env) {
     try {
-        config = require('./' + env + '.json');
+        config = require(`./${env}.json`);
     } catch(error) {
         console.error(`Do you have ${env} config?`, error);
     }

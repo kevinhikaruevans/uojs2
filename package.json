@@ -4,8 +4,11 @@
   "description": "An online client for the popular game Ultima Online",
   "main": "dist/uojs2.js",
   "scripts": {
-    "proxy:debug": "DEBUG=* node src/server",
-    "development:client": "webpack-dev-server --config webpack --hot --inline"
+    "proxy:debug": "node src/server -d=*",
+    "build:client:dev": "webpack --config=webpack",
+    "build:client:prod": "webpack --env.production --config=webpack",
+    "development:client": "webpack-dev-server --config webpack --hot --inline",
+    "development": "yarn run proxy:debug & yarn run development:client & wait"
   },
   "repository": {
     "type": "git",
@@ -38,7 +41,7 @@
     "extract-text-webpack-plugin": "2.0.0-beta.4",
     "file-loader": "0.9.0",
     "json-loader": "0.5.4",
-    "postcss-loader": "1.2.0",
+    "postcss-loader": "1.2.1",
     "postcss-nested": "1.0.0",
     "react-transform-catch-errors": "1.0.2",
     "react-transform-hmr": "1.0.4",
@@ -46,20 +49,21 @@
     "redux-logger": "2.7.4",
     "style-loader": "0.13.1",
     "stylelint": "7.6.0",
-    "webpack": "2.1.0-beta.27",
+    "webpack": "2.1.0-beta.28",
     "webpack-dev-server": "2.1.0-beta.12"
   },
   "dependencies": {
-    "debug": "2.3.3",
+    "debug": "2.4.1",
     "immutability-helper": "^2.0.0",
+    "minimist": "1.2.0",
     "react": "15.4.1",
     "react-dom": "15.4.1",
-    "react-redux": "4.4.6",
-    "react-three-renderer": "^3.0.0",
+    "react-redux": "5.0.0",
+    "react-three-renderer": "3.0.0",
     "redux": "3.6.0",
-    "redux-actions": "^0.11.0",
-    "redux-thunk": "^2.1.0",
-    "three": "0.79.0",
+    "redux-actions": "1.2.0",
+    "redux-thunk": "2.1.0",
+    "three": "0.82.1",
     "ws": "1.1.1"
   }
 }

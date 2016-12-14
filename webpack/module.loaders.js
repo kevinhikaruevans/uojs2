@@ -1,10 +1,34 @@
 const { resolve } = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const common = [{
-    test    : /\.json/,
-    loader  : 'json'
-}, {
+let plugins = [];
+
+if(global.webpack.development) {
+    plugins = [
+        [
+            'react-transform',
+            {
+                'transforms': [{
+                    'transform' : 'react-transform-hmr',
+                    'imports'   : [
+                        'react'
+                    ],
+                    'locals'    : [
+                        'module'
+                    ]
+                }, {
+                    'transform' : 'react-transform-catch-errors',
+                    'imports'   : [
+                        'react',
+                        'redbox-react'
+                    ]
+                }]
+            }
+        ]
+    ];
+}
+
+module.exports = [{
     test    : /\.(webm|cur)$/,
     loader  : 'file',
     query   : {
@@ -30,88 +54,22 @@ const common = [{
     include : [
         resolve(global.webpack.context, 'src', 'client')
     ]
-}/*, {
-    test    : /\.(png|jpe?g|gif|ico|svg)$/,
-    loader  : 'url',
-    exclude : [
-        resolve(global.webpack.context, 'app', 'pages', 'html'),
+}, {
+    test    : /\.jsx?$/,
+    include : [
+        resolve(global.webpack.context, 'src', 'client')
     ],
+    loader  : 'babel',
     query   : {
-        limit   : 10240,
-        emitFile: global.webpack.client
+        sourceMaps      : global.webpack.development,
+        cacheDirectory  : global.webpack.development,
+        plugins         : [
+            'transform-es2015-destructuring',
+            'transform-es2015-modules-commonjs',
+            'transform-class-properties',
+            'transform-react-jsx',
+            'transform-decorators-legacy',
+            ...plugins
+        ]
     }
-}, {
-    test    : /\.(eot|woff|ttf)$/,
-    loader  : 'file',
-    query   : {
-        name : '[name].[hash].[ext]'
-    }
-}, {
-    test    : /\.(webm|mp4)$/,
-    loader  : 'file'
-}*/];
-
-const config = {
-    development : [
-        ...common,
-        {
-            test    : /\.jsx?$/,
-            include : [
-                resolve(global.webpack.context, 'src', 'client')
-            ],
-            loader  : 'babel',
-            query   : {
-                sourceMaps : true,
-                // cacheDirectory: global.webpack.development,
-                plugins : [
-                    'transform-es2015-destructuring',
-                    'transform-es2015-modules-commonjs',
-                    'transform-class-properties',
-                    'transform-react-jsx',
-                    'transform-decorators-legacy',
-                    [
-                        'react-transform',
-                        {
-                            'transforms': [{
-                                'transform' : 'react-transform-hmr',
-                                'imports'   : [
-                                    'react'
-                                ],
-                                'locals'    : [
-                                    'module'
-                                ]
-                            }, {
-                                'transform' : 'react-transform-catch-errors',
-                                'imports'   : [
-                                    'react',
-                                    'redbox-react'
-                                ]
-                            }]
-                        }
-                    ]
-                ]
-            }
-        }],
-    production  : [
-        ...common, {
-        test    : /\.jsx?$/,
-        include : [
-            resolve(global.webpack.context, 'src', 'client')
-        ],
-        loader  : 'babel',
-        query   : {
-            sourceMaps : true,
-            cacheDirectory: global.webpack.development,
-            presets: [
-                'react',
-                'latest',
-                'stage-2'
-            ],
-            plugins: [
-                'transform-decorators-legacy'
-            ]
-        }
-    }]
-};
-
-module.exports = config[global.webpack.env];
+}];

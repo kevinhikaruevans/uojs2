@@ -1,28 +1,32 @@
 const { resolve } = require('path');
 
-const env = process.argv.indexOf('--production', 2) !== -1;
+module.exports = env => {
+    if(!env) {
+        env = {};
+    }
 
-global.webpack = {
-    context     : resolve(__dirname, '..'),
-    dir         : __dirname,
-    env         : process.env.NODE_ENV || (env ? 'production' : 'development'),
-    production  : env,
-    development : !env
-};
+    global.webpack = {
+        context     : resolve(__dirname, '..'),
+        dir         : __dirname,
+        env         : process.env.NODE_ENV || (env.production ? 'production' : 'development'),
+        production  : env.production,
+        development : !env.production
+    };
 
-module.exports = {
-    context         : global.webpack.context,
-    entry           : require('./entry'),
-    devtool         : require('./devtool'),
-    target          : require('./target'),
-    output          : require('./output'),
-    module          : {
-        // preLoaders  : require('./module.preLoaders'),
-        loaders     : require('./module.loaders')
-    },
-    resolve         : require('./resolve'),
-    resolveLoader   : require('./resolveLoader'),
-    plugins         : require('./plugins'),
-    // postcss         : require('./postcss'),
-    devServer       : require(`./devServer/${global.webpack.env}`)
+    return {
+        context         : global.webpack.context,
+        entry           : require('./entry'),
+        devtool         : require('./devtool'),
+        target          : require('./target'),
+        output          : require('./output'),
+        module          : {
+            loaders     : require('./module.loaders')
+        },
+        resolve         : require('./resolve'),
+        bail            : global.webpack.production,
+        resolveLoader   : require('./resolveLoader'),
+        plugins         : require('./plugins'),
+        performance     : require('./performance'),
+        devServer       : require(`./devServer/${global.webpack.env}`)
+    };
 };

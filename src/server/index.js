@@ -1,8 +1,9 @@
+require('./env');
+
 const config = require('./../../configs');
 const { connect } = require('net');
 const { Server } = require('ws');
 const debug = require('debug');
-
 const debugWS = debug('proxy:ws');
 const debugNET = debug('proxy:net');
 
@@ -57,7 +58,3 @@ wss.on('connection', ws => {
     });
 
 });
-
-
-
-
