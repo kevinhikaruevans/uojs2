@@ -5,31 +5,30 @@ let plugins = [];
 
 if(global.webpack.development) {
     plugins = [
-        'react-transform',
-        {
-            'transforms': [{
-                'transform' : 'react-transform-hmr',
-                'imports'   : [
-                    'react'
-                ],
-                'locals'    : [
-                    'module'
-                ]
-            }, {
-                'transform' : 'react-transform-catch-errors',
-                'imports'   : [
-                    'react',
-                    'redbox-react'
-                ]
-            }]
-        }
+        [
+            'react-transform',
+            {
+                'transforms': [{
+                    'transform' : 'react-transform-hmr',
+                    'imports'   : [
+                        'react'
+                    ],
+                    'locals'    : [
+                        'module'
+                    ]
+                }, {
+                    'transform' : 'react-transform-catch-errors',
+                    'imports'   : [
+                        'react',
+                        'redbox-react'
+                    ]
+                }]
+            }
+        ]
     ];
 }
 
 module.exports = [{
-    test    : /\.json/,
-    loader  : 'json'
-}, {
     test    : /\.(webm|cur)$/,
     loader  : 'file',
     query   : {

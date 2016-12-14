@@ -1,6 +1,5 @@
-const config = {
-      development : 'warning',
-      production  : false
+module.exports = {
+    maxAssetSize        : 320000,
+    maxInitialChunkSize : 10000000,
+    hints               : global.webpack.development
 };
-
-module.exports = config[global.webpack.env];

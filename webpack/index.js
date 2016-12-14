@@ -23,6 +23,7 @@ module.exports = env => {
             loaders     : require('./module.loaders')
         },
         resolve         : require('./resolve'),
+        bail            : global.webpack.production,
         resolveLoader   : require('./resolveLoader'),
         plugins         : require('./plugins'),
         performance     : require('./performance'),
