@@ -26,7 +26,7 @@ export class GameSocket {
             }
         }
         this.store.dispatch(networkActions.setConnected(false, true, null));
-        const socket = this.socket = new WebSocket(`ws://${config['ws.host']}:${config['ws.port']}`, 'binary');
+        const socket = this.socket = new WebSocket(`ws://${config['ws.client.host']}:${config['ws.port']}`, 'binary');
 
         socket.binaryType = 'arraybuffer';
         socket.onopen = this.handleOpen;

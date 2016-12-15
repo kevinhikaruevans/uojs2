@@ -317,6 +317,10 @@ babel-plugin-syntax-jsx@^6.8.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
 
+babel-plugin-syntax-object-rest-spread@^6.8.0:
+  version "6.13.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
+
 babel-plugin-transform-class-properties@6.19.0:
   version "6.19.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-class-properties/-/babel-plugin-transform-class-properties-6.19.0.tgz#1274b349abaadc835164e2004f4a2444a2788d5f"
@@ -348,6 +352,19 @@ babel-plugin-transform-es2015-modules-commonjs@6.18.0:
     babel-runtime "^6.0.0"
     babel-template "^6.16.0"
     babel-types "^6.18.0"
+
+babel-plugin-transform-es2015-spread@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-spread/-/babel-plugin-transform-es2015-spread-6.8.0.tgz#0217f737e3b821fa5a669f187c6ed59205f05e9c"
+  dependencies:
+    babel-runtime "^6.0.0"
+
+babel-plugin-transform-object-rest-spread@^6.20.2:
+  version "6.20.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-object-rest-spread/-/babel-plugin-transform-object-rest-spread-6.20.2.tgz#e816c55bba77b14c16365d87e2ae48c8fd18fc2e"
+  dependencies:
+    babel-plugin-syntax-object-rest-spread "^6.8.0"
+    babel-runtime "^6.20.0"
 
 babel-plugin-transform-react-jsx@6.8.0:
   version "6.8.0"
@@ -996,9 +1013,9 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-debug@2.4.1, debug@^2.1.1, debug@^2.2.0:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.4.1.tgz#ef2532d2753d282045c13c82ce47a09e56b91d53"
+debug@^2.1.1, debug@^2.2.0, debug@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.4.4.tgz#c04d17a654e9202464803f096153f70a6f31f4be"
   dependencies:
     ms "0.7.2"
 
@@ -3065,6 +3082,10 @@ reduce-function-call@^1.0.1:
 reduce-reducers@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/reduce-reducers/-/reduce-reducers-0.1.2.tgz#fa1b4718bc5292a71ddd1e5d839c9bea9770f14b"
+
+redux-actions-helpers@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/redux-actions-helpers/-/redux-actions-helpers-1.0.2.tgz#6d9e1927cdf8d3184cded126a179a2b24d5a8934"
 
 redux-actions@1.2.0:
   version "1.2.0"

@@ -9,41 +9,32 @@ import World from './../../ui/components/world';
 import * as loginActionCreators from '../../state/login/actions';
 import * as networkActionCreators from '../../state/network/actions';
 
-import config from 'config'
 import Intro from 'component/intro'
-import SignIn from 'component/sign-in'
+import Login from 'component/login'
+
+import { Packet } from './../../network/packet'
 
 import style from './style'
 
 class Application extends Component {
 
     static propTypes = {
-        handlers: PropTypes.object.isRequired
+        handlers    : PropTypes.object.isRequired,
+        transport   : PropTypes.object.isRequired
+    };
+
+    static childContextTypes = {
+        transport: PropTypes.object
     };
 
     state = {
         intro : !!localStorage.getItem('intro')
     };
 
-    constructor() {
-        super(...arguments);
-
-        const socket = this.socket = new WebSocket(`ws://${config['ws.host']}:${config['ws.port']}`, 'binary');
-/*
-
-        socket.onopen = () => {
-            socket.send(seed);
-        };
-*/
-
-        /*
-
-        socket.binaryType = 'arraybuffer';
-        socket.onmessage = this.handleMessage;
-        socket.onclose = this.handleClose;
-        socket.onerror = this.handleError;
-*/
-
+    getChildContext() {
+        return {
+            transport : this.props.transport
+        }
     }
 
     get elIntro() {
@@ -64,7 +55,12 @@ class Application extends Component {
 
     get content() {
         if (this.props.login.user.loggedIn === false) {
-            return <LoginComponent {...this.props} />;
+            return(
+                <div>
+                    <Login />
+                    <LoginComponent {...this.props} />
+                </div>
+            );
         }
         if (this.props.login.user.chosenCharacterIndex === null) {
             return <PostLoginComponent {...this.props}/>;

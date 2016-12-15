@@ -14,6 +14,16 @@ import { LoginHandler } from './state/login/login';
 import { WorldHandler } from './state/world/world';
 import { PlayerHandler } from './state/player/player';
 
+// @@@@@
+import config from 'config'
+import Transport from 'core/transport'
+
+const transport = new Transport({
+    host        : config['ws.client.host'],
+    port        : config['ws.port'],
+    protocol    : 'binary',
+    binaryType  : 'arraybuffer'
+});
 
 const middleware = [
     thunk
@@ -46,7 +56,7 @@ Object
 
 render(
     <Provider store={store}>
-        <Application handlers={handlers}/>
+        <Application handlers={handlers} transport={transport} />
     </Provider>,
     document.getElementById('app')
 );

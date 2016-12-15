@@ -69,6 +69,7 @@ module.exports = [{
             'transform-class-properties',
             'transform-react-jsx',
             'transform-decorators-legacy',
+            'transform-object-rest-spread',
             ...plugins
         ]
     }
