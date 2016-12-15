@@ -41,7 +41,7 @@ There also needs to be an art server and a way to quickly transfer art between t
 
 ## Getting Started
 
-0. Start your ServUO server.
+0. Start your [ServUO][SUO] server.
 1. Clone the repository. Edit `src/server/config.js` if needed.
 2. Install dependencies: `npm install`
 3. In a terminal window, Build the project: `gulp build-server && gulp dev`
@@ -53,12 +53,14 @@ There also needs to be an art server and a way to quickly transfer art between t
 
 Here are some ways you can contribute to this project!
 
-* Implement more of the packets. Check out the `state` directory for examples. 
+* Implement more of the packets. Check out the `state` directory for examples.
 * Create a UI. I'm thinking if the state has an 'invalidate' flag, so that when set to true, it'll call a redraw in the redux subscribe method, which just rerenders the viewport. Does that make sense? I have no idea.
-* Code review it! If you're a hardcore javascripter (is that a word?), I really want you to tell me what can be improved on here. 
+* Code review it! If you're a hardcore javascripter (is that a word?), I really want you to tell me what can be improved on here.
 * Add in pages in the [Wiki](https://github.com/kevinhikaruevans/uojs2/wiki/A-general-overview-of-everything)
 * Write tests (these are like the last thing on my todo list)
 * Migrate everything into web workers (particularly networking, redux stuff, and decompression). Then on the redux subscribe callback, transfer the data into the main UI thread?
 * If you live in Seattle, buy me some more beer. pls :beer:
 
 ![ga](https://ga-beacon.appspot.com/UA-38326743-3/welcome-page?pixel)
+
+[SUO]: https://github.com/ServUO/ServUO
