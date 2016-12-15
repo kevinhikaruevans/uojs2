@@ -23,39 +23,62 @@ wss.on('connection', ws => {
         if(typeof message === 'string') {
             const { event, data, uid } = JSON.parse(message);
 
-            if(event === 'connect:server' && !proxy) {
-                // @TODO: check host & port
-                proxy = connect({
-                    host : data.host,
-                    port : data.port
-                }, () => debugNET('connect %s:%s', data.host, data.port));
+            if(event === 'connect:server') {
+                if(!proxy) {
+                    // @TODO: check host & port
+                    proxy = connect({
+                        host : data.host,
+                        port : data.port
+                    }, () => {
+                        debugNET('connect %s:%s', data.host, data.port);
 
-                proxy.on('data', buffer => {
-                    debugNET('data length %s', buffer.length);
+                        ws.send(JSON.stringify({
+                            uid,
+                            error   : null,
+                            payout  : {
+                                ip : ws.upgradeReq.connection.remoteAddress
+                            }
+                        }));
+                    });
 
-                    ws.send(buffer, { binary: true });
-                });
+                    proxy.on('data', buffer => {
+                        debugNET('data length %s', buffer.length);
 
-                proxy.on('end', () => {
-                    debugNET('end connect');
+                        ws.send(buffer, { binary: true });
+                    });
 
-                    proxy = null;
-                });
+                    proxy.on('end', () => {
+                        debugNET('end connect');
 
-                proxy.on('error', error => {
-                    debugNET('error: %s', error);
+                        proxy = null;
+                    });
 
+                    proxy.on('error', error => {
+                        debugNET('error: %s', error);
+
+                        ws.send(JSON.stringify({
+                            uid,
+                            error : {
+                                code    : error.code,
+                                message : `Host unreach ${data.host}:${data.port}`
+                            }
+                        }));
+
+                        // @TODO: need method
+                        if(proxy) {
+                            proxy.end();
+                            proxy = null;
+                        }
+                    });
+                } else {
                     ws.send(JSON.stringify({
                         uid,
-                        data : error
+                        error   : null,
+                        payout  : {
+                            ip : ws.upgradeReq.connection.remoteAddress
+                        }
                     }));
-
-                    // @TODO: need method
-                    if(proxy) {
-                        proxy.end();
-                        proxy = null;
-                    }
-                });
+                }
             }
         } else {
             proxy && proxy.write(message);

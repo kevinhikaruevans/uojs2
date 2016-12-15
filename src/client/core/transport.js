@@ -44,14 +44,6 @@ class Transport {
     handleMessage = event => {
         log('Socket message %o', event);
 
-        const message = JSON.parse(event.data);
-
-        const response = this.responseGet(message.uid);
-
-        console.log(response, message);
-        if(response) {
-            response(message.data)
-        }
     };
 
     handleClose = event => {
@@ -63,47 +55,38 @@ class Transport {
         log('Socket error %o', event);
     };
 
-    responseSet = params => {
-        if(!this._response) {
-            this._response = {}
-        }
+    sendObject = data => {
+        return new Promise((resolve, reject) => {
+            if(this._socket.readyState === 1) {
+                const uid = this.uid;
 
-        if(params.uid && typeof params.response === 'function') {
-            this._response[params.uid] = params.response;
-        }
-    };
+                const message = {
+                    ...data,
+                    uid
+                };
 
-    responseGet = uid => {
-        let result = null;
+                const once = message => {
+                    // @TODO: check data not null
+                    const data = JSON.parse(message.data);
 
-        if(this._response && this._response[uid]) {
-            result = this._response[uid];
-        }
+                    if(uid === data.uid) {
+                        if(data.error) {
+                            reject(data.error);
+                        } else {
+                            resolve(data.payout);
+                        }
 
-        return result;
-    };
+                        this._socket.removeEventListener('message', once);
+                    }
+                };
 
-    sendObject = (data, response) => {
-        if(this._socket.readyState === 1) {
-            const uid = this.uid;
-
-            if(typeof response === 'function') {
-                this.responseSet({
-                    uid,
-                    response,
-                    type : 'object'
-                });
+                this._socket.addEventListener('message', once);
+                this._socket.send(JSON.stringify(message));
+            } else {
+                // @TODO: return normal error message
+                reject(this._socket.readyState)
             }
-
-            const message = {
-                ...data,
-                uid
-            };
-
-            this._socket.send(JSON.stringify(message));
-        } else {
-            // @TODO: connect & send message
-        }
+        });
     }
 }
 
