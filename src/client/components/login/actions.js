@@ -1,25 +1,20 @@
 import { createAction } from 'redux-actions-helpers';
 
-export const auth = createAction('@@login/AUTH', (transport, { username, password, host, port }) => ({
-    transport,
+export const auth = createAction('@@login/AUTH', ({ username, password }) => ({
     username,
-    password,
-    host,
-    port
-}));
-/*
-
-export const authSuccess = createAction('@@connect/CONNECT_SUCCESS', ip => ({
-    ip
+    password
 }));
 
-export const authError = createAction('@@connect/CONNECT_ERROR', error => ({
-    error
-}));
-*/
+export const authMaster = payout => (dispatch, getState, transport) => {
+    dispatch(auth(payout));
+
+    return new Promise((resolve, reject) => {
+
+    });
+};
 
 export default {
-    auth
+    authMaster
 }
 
 

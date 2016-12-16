@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react'
+import { actions as actionsConnect } from 'component/connect'
 
-import actions, { auth } from './actions'
+import actions, { authMaster } from './actions'
 import reducer from './reducer'
-import saga from './saga'
-
 import style from './style'
 
 class Login extends Component {
@@ -40,9 +39,23 @@ class Login extends Component {
             }
         });
 
-        console.log(this.context.store.dispatch(
-            auth(this.context.transport, params)
-        ));
+        const connect = this.context.store.dispatch(
+            actionsConnect.connectMaster({
+                host : params['host'],
+                port : params['port']
+            })
+        );
+
+        connect.then(
+            result => {
+                this.context.store.dispatch(
+                    authMaster({
+                        username : params['username'],
+                        password : params['password']
+                    })
+                )
+            }
+        );
     };
 
     render() {
@@ -59,4 +72,4 @@ class Login extends Component {
 
 }
 
-export { Login as default, actions, reducer, saga }
+export { Login as default, actions, reducer }

@@ -3,9 +3,11 @@
     "dev-server.port"   : 8080,
     "dev-server.proxy"  : [],
 
-    "server.host" : "he-lapp-43.tech-ses.com",
+    "server.host" : "192.168.1.124",
 
-    "ws.client.host" : "he-lapp-43.tech-ses.com",
+    "net.timeout" : 5000,
+
+    "ws.client.host" : "192.168.1.124",
     "ws.server.host" : "0.0.0.0",
     "ws.port" : 2594
 }

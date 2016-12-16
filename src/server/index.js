@@ -15,8 +15,6 @@ const Proxy = require('./socket');
 wss.on('connection', ws => {
     debug('Connect protocol %s/%s', ws.protocolVersion, ws.protocol);
 
-    let proxy = null;
-
     ws.on('message', message => {
         debug('Message length %d, type %s', message.length, typeof message);
 
@@ -54,7 +52,7 @@ wss.on('connection', ws => {
                 }
                 break;
             case 'object':
-                proxy && proxy.write(message);
+                Proxy.write(message);
                 break;
         }
 
