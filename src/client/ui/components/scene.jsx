@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import React3 from 'react-three-renderer';
-import THREE from 'three';
+import * as THREE from 'three';
 import ReactDOM from 'react-dom';
 
 export default class MainScene
