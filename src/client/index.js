@@ -37,8 +37,9 @@ const middleware = [
 if(__DEVELOPMENT__) {
     middleware.push(
         require('redux-logger')({
-            duration: true,
-            diff    : true
+            duration    : true,
+            diff        : true,
+            collapsed   : true
         })
     );
 }

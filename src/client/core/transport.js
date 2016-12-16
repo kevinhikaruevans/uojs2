@@ -87,6 +87,11 @@ class Transport {
                 reject(this._socket.readyState)
             }
         });
+    };
+
+    sendPacket = data => {
+        console.log('data', data);
+        this._socket.send(data.toBuffer());
     }
 }
 

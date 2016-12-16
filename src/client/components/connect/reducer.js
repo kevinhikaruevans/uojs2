@@ -6,7 +6,8 @@ const initialState = {
     host    : null,
     port    : null,
     ip      : null,
-    error   : null
+    error   : null,
+    status  : false
 };
 
 export default handleActions({
@@ -18,11 +19,13 @@ export default handleActions({
     }),
     [connectSuccess] : (state, { ip }) => ({
         ...state,
-        ip
+        ip,
+        status : true
     }),
     [connectError] : (state, { error }) => ({
         ...state,
-        error
+        error,
+        status : false
     })
 }, {
     initialState

@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { actions as actionsConnect } from 'component/connect'
+
+import actions, { auth } from './actions'
+import reducer from './reducer'
+import saga from './saga'
 
 import style from './style'
 
@@ -37,12 +40,9 @@ class Login extends Component {
             }
         });
 
-        this.context.store.dispatch(
-            actionsConnect.connect(this.context.transport, {
-                host : params['server-host'],
-                port : params['server-port']
-            })
-        );
+        console.log(this.context.store.dispatch(
+            auth(this.context.transport, params)
+        ));
     };
 
     render() {
@@ -50,8 +50,8 @@ class Login extends Component {
             <form className={style['login']} onSubmit={this.onSubmit}>
                 <input name="username" type="text" placeholder="Your username" defaultValue={this.state.username} autoFocus={!this.state.username} />
                 <input name="password" type="password" placeholder="Your password" autoFocus={this.state.username} />
-                <input name="server-host" type="text" placeholder="Your game server ip" defaultValue={this.state.host} />
-                <input name="server-port" type="number" min="1" max="65535" placeholder="Your game server port" defaultValue={this.state.port} />
+                <input name="host" type="text" placeholder="Your game server ip" defaultValue={this.state.host} />
+                <input name="port" type="number" min="1" max="65535" placeholder="Your game server port" defaultValue={this.state.port} />
                 <button type="submit">Login</button>
             </form>
         )
@@ -59,4 +59,4 @@ class Login extends Component {
 
 }
 
-export { Login as default }
+export { Login as default, actions, reducer, saga }

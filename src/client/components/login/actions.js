@@ -1,12 +1,27 @@
 import { createAction } from 'redux-actions-helpers';
 
-export const auth = createAction('@@login/AUTH');
+export const auth = createAction('@@login/AUTH', (transport, { username, password, host, port }) => ({
+    transport,
+    username,
+    password,
+    host,
+    port
+}));
+/*
 
-export const close = createAction('@@sidebar/MENU_OPEN');
+export const authSuccess = createAction('@@connect/CONNECT_SUCCESS', ip => ({
+    ip
+}));
+
+export const authError = createAction('@@connect/CONNECT_ERROR', error => ({
+    error
+}));
+*/
 
 export default {
     auth
 }
+
 
 /*
 import { Packet } from '../../network/packet';

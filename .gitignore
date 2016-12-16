@@ -3,4 +3,4 @@ logs
 node_modules/
 .npm/
 .idea/
-/configs/development.json
+configs/development.json
