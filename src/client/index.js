@@ -17,6 +17,8 @@ import { PlayerHandler } from './state/player/player';
 // @@@@@
 import config from 'config'
 import Transport from 'core/transport'
+import { Package } from 'component/helpers'
+import manager from 'package/manager'
 
 const transport = new Transport({
     host        : config['ws.client.host'],
@@ -42,6 +44,20 @@ if(__DEVELOPMENT__) {
 const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 
 const store = createStoreWithMiddleware(reducers);
+
+// @TODO: GO to app
+transport.on('message', ({ data }) => {
+    if(typeof data === 'object') {
+        data = new Uint8Array(data);
+        data = new Package(data);
+
+        const item = manager.getPackageServer(data.getId());
+
+        if(item) {
+            item.action(store, data);
+        }
+    }
+});
 
 const registry = new PacketRegistry();
 const socket = new GameSocket(store, registry);

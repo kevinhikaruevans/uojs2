@@ -11,31 +11,24 @@ import * as networkActionCreators from '../../state/network/actions';
 
 import Intro from 'component/intro'
 import Login from 'component/login'
-
-import { Packet } from './../../network/packet'
+import ServerList from 'component/server-list'
 
 import style from './style'
 
+@connect(store => ({
+    connectStatus   : store.connect.status,
+    serverListStatus: store.serverList.status
+}))
 class Application extends Component {
 
     static propTypes = {
-        handlers    : PropTypes.object.isRequired,
-        transport   : PropTypes.object.isRequired
-    };
-
-    static childContextTypes = {
-        transport: PropTypes.object
+        connectStatus   : PropTypes.bool,
+        serverListStatus: PropTypes.bool
     };
 
     state = {
         intro : !!localStorage.getItem('intro')
     };
-
-    getChildContext() {
-        return {
-            transport : this.props.transport
-        }
-    }
 
     get elIntro() {
         if(!this.state.intro) {
@@ -54,17 +47,16 @@ class Application extends Component {
     }
 
     get content() {
-        if (this.props.login.user.loggedIn === false) {
-            return(
-                <div>
-                    <Login />
-                    <LoginComponent {...this.props} />
-                </div>
-            );
+        if(this.props.connectStatus) {
+            if(this.props.serverListStatus) {
+                return <ServerList />
+            }
+        } else {
+            return <Login />
         }
-        if (this.props.login.user.chosenCharacterIndex === null) {
-            return <PostLoginComponent {...this.props}/>;
-        }
+
+        return <PostLoginComponent {...this.props}/>;
+        // }
         return <World handlers={this.props.handlers}/>;
     }
 
@@ -78,10 +70,4 @@ class Application extends Component {
     }
 }
 
-export default connect(
-        store => ({login: store.login, network: store.network}),
-        dispatch => ({
-            loginActions: bindActionCreators(loginActionCreators, dispatch),
-            networkActions: bindActionCreators(networkActionCreators, dispatch)
-        })
-)(Application);
+export default Application;

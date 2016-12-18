@@ -1,7 +1,7 @@
-import { PacketTypes, MaximumPacketSize } from './constants';
+import { types, maxSize } from 'datapack/packet';
 import { trim } from './pad';
 
-export class Packet {
+export default class Packet {
 
     constructor(data) {
         this.data = new Uint8Array(data);
@@ -9,7 +9,7 @@ export class Packet {
     }
 
     resize(newSize) {
-        newSize = Math.min(newSize, MaximumPacketSize);
+        newSize = Math.min(newSize, maxSize);
         const newBuffer = new Uint8Array(newSize);
 
         for(let i = 0; i < newSize /*this.data.length*/; i++) {
@@ -139,8 +139,8 @@ export class Packet {
 
         const initialByte = this.data[0];
 
-        if (PacketTypes[initialByte]) {
-            return `[Packet: ${PacketTypes[initialByte][0]}]`;
+        if (types[initialByte]) {
+            return `[Packet: ${types[initialByte][0]}]`;
         }
         return `[Packet: Unknown 0x${this.data[0].toString(16)}]`;
     }
@@ -167,15 +167,15 @@ export class Packet {
 
         const prettyString = Array.prototype.map.call(this.data, x => x.toString(16)).join(', ').toUpperCase();
         const initialByte = this.data[0];
-        if (PacketTypes[initialByte]) {
-            return `[Packet(${PacketTypes[initialByte][0]}): ${prettyString}]`;
+        if (types[initialByte]) {
+            return `[Packet(${types[initialByte][0]}): ${prettyString}]`;
         }
         return `[Packet: ${prettyString}]`;
     }
 
     get expectedSize() {
         const initialByte = this.data[0];
-        return PacketTypes[initialByte][1];
+        return types[initialByte][1];
     }
 
     get variableSize() {

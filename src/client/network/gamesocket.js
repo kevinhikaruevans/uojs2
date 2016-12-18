@@ -113,7 +113,7 @@ export class GameSocket {
             0x80,
             StringUtils.padRight(this.username, 30),
             StringUtils.padRight(this.password, 30),
-            0x5D
+            0x5D // NextLoginKey= value in uo.cfg
         );
 
         this.send(loginPacket);

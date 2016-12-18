@@ -52,7 +52,7 @@ wss.on('connection', ws => {
                 }
                 break;
             case 'object':
-                Proxy.write(message);
+                Proxy.send(message);
                 break;
         }
 

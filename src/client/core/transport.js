@@ -37,11 +37,30 @@ class Transport {
         this._socket.addEventListener('error', this.handleError);
     }
 
+    on = (event, fn) => {
+        if(typeof event === 'string' && typeof fn === 'function') {
+            this._socket.addEventListener(event, fn);
+        } else {
+            // @TODO: normal error
+            console.log('Error');
+        }
+    };
+
+    off = (event, fn) => {
+        if(typeof event === 'string' && typeof fn === 'function') {
+            this._socket.removeEventListener(event, fn);
+        } else {
+            // @TODO: normal error
+            console.log('Error');
+        }
+    };
+
     handleOpen = event => {
         log('Socket open %o', event);
     };
 
     handleMessage = event => {
+        console.log('aaa', event);
         log('Socket message %o', event);
 
     };

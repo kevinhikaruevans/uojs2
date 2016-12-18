@@ -1,20 +1,31 @@
-import { createAction } from 'redux-actions-helpers';
+import { createAction } from 'redux-actions-helpers'
+import { Package, pad } from 'component/helpers'
+import manager from 'package/manager'
 
 export const auth = createAction('@@login/AUTH', ({ username, password }) => ({
     username,
     password
 }));
 
+export const error = createAction('@@login/ERROR', ({ error }) => ({
+    error
+}));
+
 export const authMaster = payout => (dispatch, getState, transport) => {
     dispatch(auth(payout));
 
     return new Promise((resolve, reject) => {
+        const packageSeed = manager.getPackageClient('seed');
+        transport.sendPacket(packageSeed.create(getState().connect.ip));
 
+        const packageLoginRequest = manager.getPackageClient('login-request');
+        transport.sendPacket(packageLoginRequest.create(payout.username, payout.password));
     });
 };
 
 export default {
-    authMaster
+    authMaster,
+    error
 }
 
 

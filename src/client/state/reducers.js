@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux';
-import login from './login/reducers';
+import _login from './login/reducers';
 import world from './world/reducers';
 import player from './player/reducers';
 import network from './network/reducers';
 import ping from './ping/reducers';
 
 import { reducer as connect } from 'component/connect'
+import { reducer as login } from 'component/login'
+import { reducer as serverList } from 'component/server-list'
+import { reducer as serverSelect } from 'component/server-select'
 
 /*
     I wonder if there is a way to automate this, like read the "directory" and just
@@ -13,8 +16,11 @@ import { reducer as connect } from 'component/connect'
 */
 export default combineReducers({
     connect,
-
     login,
+    serverList,
+    serverSelect,
+
+    _login,
     world,
     player,
     network,

@@ -1,23 +1,27 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux';
+
 import { actions as actionsConnect } from 'component/connect'
 
 import actions, { authMaster } from './actions'
 import reducer from './reducer'
 import style from './style'
 
+@connect(store => ({
+    error : store.login.error
+}))
 class Login extends Component {
 
-    static displayName = '[component] sign-in';
+    static displayName = '[component] login';
 
-    static contextTypes = {
-        store       : PropTypes.object.isRequired,
-        transport   : PropTypes.object.isRequired
+    static propTypes = {
+        error : PropTypes.string
     };
 
     state = {
         username: localStorage.getItem('username'),
-        host    : localStorage.getItem('server-host'),
-        port    : localStorage.getItem('server-port')
+        host    : localStorage.getItem('host'),
+        port    : localStorage.getItem('port')
     };
 
     componentWillUnmount() {
@@ -39,7 +43,7 @@ class Login extends Component {
             }
         });
 
-        const connect = this.context.store.dispatch(
+        const connect = this.props.dispatch(
             actionsConnect.connectMaster({
                 host : params['host'],
                 port : params['port']
@@ -48,7 +52,7 @@ class Login extends Component {
 
         connect.then(
             result => {
-                this.context.store.dispatch(
+                this.props.dispatch(
                     authMaster({
                         username : params['username'],
                         password : params['password']
@@ -58,9 +62,16 @@ class Login extends Component {
         );
     };
 
+    get elError() {
+        if(this.props.error) {
+            return <div>{this.props.error}</div>
+        }
+    }
+
     render() {
         return(
             <form className={style['login']} onSubmit={this.onSubmit}>
+                {this.elError}
                 <input name="username" type="text" placeholder="Your username" defaultValue={this.state.username} autoFocus={!this.state.username} />
                 <input name="password" type="password" placeholder="Your password" autoFocus={this.state.username} />
                 <input name="host" type="text" placeholder="Your game server ip" defaultValue={this.state.host} />

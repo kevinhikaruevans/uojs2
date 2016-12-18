@@ -1,5 +1,7 @@
 import pad from './pad'
+import Package from './packet'
 
-export default {
-    pad
+export {
+    pad,
+    Package
 }
