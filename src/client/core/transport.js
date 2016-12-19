@@ -60,7 +60,6 @@ class Transport {
     };
 
     handleMessage = event => {
-        console.log('aaa', event);
         log('Socket message %o', event);
 
     };
@@ -109,7 +108,7 @@ class Transport {
     };
 
     sendPacket = data => {
-        console.log('data', data);
+        console.info(data);
         this._socket.send(data.toBuffer());
     }
 }

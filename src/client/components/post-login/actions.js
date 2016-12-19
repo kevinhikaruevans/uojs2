@@ -10,7 +10,6 @@ export const loginMaster = payload => (dispatch, getState, transport) => {
 
     const state = getState().login;
 
-    console.log(payload.key)
     const packageSeed = manager.getPackageClient('seed');
     transport.sendPacket(packageSeed.create(payload.key));
 

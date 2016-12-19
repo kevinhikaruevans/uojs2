@@ -68,30 +68,6 @@ export default class {
             }
         )
 
-
-        /*console.warn(`received a server relay, but I can't connect to ${address}:${port} because I'm not able to yet...`);
-        console.warn(`we'll just connect to the same address/port again`);
-
-        socket.reconnect({
-            key
-        });
-        dispatch({
-            type: types.LOGIN_SERVER_RELAY,
-            payload: key
-        });*/
-/*
-        let error = this.message[99];
-
-        if(this.message[_package.getByte(1)]) {
-            error = this.message[_package.getByte(1)];
-        }
-
-        dispatch(
-            actionsLogin.error({
-                error
-            })
-        );
-*/
     }
 
 };

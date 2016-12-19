@@ -40,7 +40,7 @@ export const PacketTypes = {
     0x3C: ['Container Content',         -1],
 
     //
-    0x3E: ['Versions',                  37],
+    // 0x3E: ['Versions',                  37],
 
     0x33: ['Pause client?!?!!!!',        2],
     0x4E: ['Personal Light Level',       6],

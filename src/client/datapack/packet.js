@@ -1,4 +1,4 @@
-const maxSize = 4096;
+export const maxSize = 4096;
 
 /**
  * Basic lookup table for a name & expected size.
@@ -6,7 +6,7 @@ const maxSize = 4096;
  * the next two bytes (usually) represents the ushort of the packet size.
  * @type {Object}
  */
-const types = {
+export const types = {
     0x0B: ['Damage',                     7],
     0x11: ['Mob Status Compact',        -1],
     0x1A: ['World Item',                -1],

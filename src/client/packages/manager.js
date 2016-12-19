@@ -5,6 +5,8 @@ import ServerList from './0xA8.server-list'
 import ServerSelect from './0xA0.server-select'
 import ServerRedirect from './0x8C.server-redirect'
 import PostLogin from './0x91.post-login'
+import Features from './0xB9.features'
+import CharacterList from './0xA9.character-list'
 
 class Manager {
 
@@ -24,7 +26,9 @@ class Manager {
         const server = [
             LoginFailed,
             ServerList,
-            ServerRedirect
+            ServerRedirect,
+            Features,
+            CharacterList
         ];
 
         client.forEach(this.registration);

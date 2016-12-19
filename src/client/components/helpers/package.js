@@ -9,6 +9,7 @@ export default class Packet {
     }
 
     resize(newSize) {
+        console.warn(newSize, maxSize);
         newSize = Math.min(newSize, maxSize);
         const newBuffer = new Uint8Array(newSize);
 

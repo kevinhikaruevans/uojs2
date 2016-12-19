@@ -46,21 +46,29 @@ const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
 // @TODO: GO to app HuffmanDecompression
-const test = new HuffmanDecompression();
+// need huffman return result
+const decompression = new HuffmanDecompression(_package => {
+    const item = manager.getPackageServer(_package.getId());
+
+    if(item) {
+        item.action(store, _package);
+    }
+});
+
 transport.on('message', ({ data }) => {
     if(typeof data === 'object') {
         data = new Uint8Array(data);
 
         if(store.getState().connect.compression) {
-            console.log('DECOMPRESS', test.receive(data));
-        }
+            decompression.receive(data);
+        } else {
+            data = new Package(data);
 
-        data = new Package(data);
+            const item = manager.getPackageServer(data.getId());
 
-        const item = manager.getPackageServer(data.getId());
-
-        if(item) {
-            item.action(store, data);
+            if(item) {
+                item.action(store, data);
+            }
         }
     }
 });

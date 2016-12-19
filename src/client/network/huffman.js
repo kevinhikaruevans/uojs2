@@ -13,6 +13,7 @@ export class HuffmanDecompression {
     receive = (message) => {
         // This was adapted from UltimaXNA's huffman decompression:
         // https://github.com/ZaneDubya/UltimaXNA/blob/master/dev/Core/Network/Compression/HuffmanDecompression.cs
+        console.log('HERE DECOM1111111111111', message);
         const data = new Uint8Array(message.data);
         let node = 0;
         let bit = 0x08;
