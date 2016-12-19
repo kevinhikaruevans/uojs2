@@ -9,6 +9,7 @@ import { reducer as connect } from 'component/connect'
 import { reducer as login } from 'component/login'
 import { reducer as serverList } from 'component/server-list'
 import { reducer as serverSelect } from 'component/server-select'
+import { reducer as postLogin } from 'component/post-login'
 
 /*
     I wonder if there is a way to automate this, like read the "directory" and just
@@ -19,6 +20,7 @@ export default combineReducers({
     login,
     serverList,
     serverSelect,
+    postLogin,
 
     _login,
     world,

@@ -4,6 +4,7 @@ import LoginFailed from './0x82.login-failed'
 import ServerList from './0xA8.server-list'
 import ServerSelect from './0xA0.server-select'
 import ServerRedirect from './0x8C.server-redirect'
+import PostLogin from './0x91.post-login'
 
 class Manager {
 
@@ -16,7 +17,8 @@ class Manager {
         const client = [
             Seed,
             LoginRequest,
-            ServerSelect
+            ServerSelect,
+            PostLogin
         ];
 
         const server = [

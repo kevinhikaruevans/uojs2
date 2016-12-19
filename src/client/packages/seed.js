@@ -35,14 +35,16 @@ export default class {
     }
     // -------------
 
-    create = ip => {
+    create = key => {
         let result = null;
 
-        if(ip) {
-            if(typeof ip === 'string') {
-                const parse = ip.split('.');
+        if(key) {
+            if(typeof key === 'string') {
+                const parse = key.split('.');
 
                 result = parse.map(item => parseInt(item, 10))
+            } else if(Array.isArray(key)) {
+                result = key;
             }
         } else {
             result = [

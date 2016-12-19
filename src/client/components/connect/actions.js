@@ -13,6 +13,30 @@ export const connectError = createAction('@@connect/CONNECT_ERROR', ({ error }) 
     error
 }));
 
+export const compressionEnable = createAction('@@connect/COMPRESSION_ENABLE');
+export const compressionDisable = createAction('@@connect/COMPRESSION_DISABLE');
+
+export const disconnectMaster = payout => (dispatch, getState, transport) => {
+    return new Promise((resolve, reject) => {
+        const request = transport.sendObject({
+            event : 'disconnect:server'
+        });
+
+        request
+            .then(
+                result => {
+                    console.log('DISCONNECT OK')
+                    resolve(result);
+                },
+                error => {
+                    console.log('DISCONNECT ERROR')
+                    reject(error);
+                }
+            )
+
+    });
+};
+
 export const connectMaster = payout => (dispatch, getState, transport) => {
     dispatch(connect(payout));
 
@@ -40,5 +64,8 @@ export const connectMaster = payout => (dispatch, getState, transport) => {
 };
 
 export default {
-    connectMaster
+    connectMaster,
+    disconnectMaster,
+    compressionEnable,
+    compressionDisable
 }

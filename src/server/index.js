@@ -38,7 +38,8 @@ wss.on('connection', ws => {
                                 }));
 
                                 socket.on('data', buffer => ws.send(buffer, { binary: true }));
-                                socket.on('close', ws.close);
+                                // @TODO: readyState error
+                                // socket.on('close', ws.close);
                             },
                             error => {
                                 ws.send(JSON.stringify({
@@ -48,6 +49,18 @@ wss.on('connection', ws => {
                                 }));
                             }
                         );
+                        break;
+                    case 'disconnect:server':
+                        if(Proxy) {
+                            Proxy.socket.on('close', hadError => {
+                                ws.send(JSON.stringify({
+                                    uid,
+                                    event,
+                                    hadError
+                                }));
+                            });
+                            Proxy.end();
+                        }
                         break;
                 }
                 break;

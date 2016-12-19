@@ -1,7 +1,7 @@
-import { HuffmanTable, HuffmanEOF, PacketTypes } from './constants';
-import { Packet } from './packet';
+import { HuffmanTable, HuffmanEOF, PacketTypes } from './../../network/constants';
+import Package from './package';
 
-export class HuffmanDecompression {
+export default class HuffmanDecompression {
     constructor(receivePacket) {
         this.receivePacket = receivePacket;
     }
@@ -10,16 +10,15 @@ export class HuffmanDecompression {
         return (buffer >> (bit - 1)) & 1;
     }
 
-    receive = (message) => {
+    receive = data => {
         // This was adapted from UltimaXNA's huffman decompression:
         // https://github.com/ZaneDubya/UltimaXNA/blob/master/dev/Core/Network/Compression/HuffmanDecompression.cs
-        const data = new Uint8Array(message.data);
         let node = 0;
         let bit = 0x08;
         let i = 0;
 
         if (!this.destination) {
-            this.destination = new Packet(0x800);
+            this.destination = new Package(0x800);
         }
         while (i < data.length) {
             const leaf = HuffmanDecompression.getBit(data[i], bit);
@@ -38,7 +37,6 @@ export class HuffmanDecompression {
                 this.destination.append(value);
 
                 if (this.destination.position === 1 || this.destination.position === 3) {
-                    console.log('HERE', this.destination.data[0], PacketTypes[this.destination.data[0]])
                     const packetType = PacketTypes[this.destination.data[0]];
 
                     // completed the first byte
@@ -80,10 +78,11 @@ export class HuffmanDecompression {
 
     finish = () => {
         const dest = this.destination.clone();
+        console.log('DECS', dest);
         const type = PacketTypes[dest.getByte(0)] || [];
         console.log(`receive > 0x${dest.getByte(0).toString(16)} > ${type[0]}`);
         this.receivePacket(dest);
 
-        this.destination = new Packet(3);
+        this.destination = new Package(3);
     }
 }

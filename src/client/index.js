@@ -17,7 +17,7 @@ import { PlayerHandler } from './state/player/player';
 // @@@@@
 import config from 'config'
 import Transport from 'core/transport'
-import { Package } from 'component/helpers'
+import { Package, HuffmanDecompression } from 'component/helpers'
 import manager from 'package/manager'
 
 const transport = new Transport({
@@ -45,10 +45,16 @@ const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 
 const store = createStoreWithMiddleware(reducers);
 
-// @TODO: GO to app
+// @TODO: GO to app HuffmanDecompression
+const test = new HuffmanDecompression();
 transport.on('message', ({ data }) => {
     if(typeof data === 'object') {
         data = new Uint8Array(data);
+
+        if(store.getState().connect.compression) {
+            console.log('DECOMPRESS', test.receive(data));
+        }
+
         data = new Package(data);
 
         const item = manager.getPackageServer(data.getId());
@@ -58,6 +64,23 @@ transport.on('message', ({ data }) => {
         }
     }
 });
+
+/*
+
+handleMessage = (message) => {
+    if (this.state.compressed) {
+        this.decompression.receive(message);
+        return;
+    }
+    if (!this.registry) {
+        throw 'no handlers available :(';
+    }
+
+    const packet = new Packet(new Uint8Array(message.data));
+    this.receivePacket(packet);
+}
+*/
+
 
 const registry = new PacketRegistry();
 const socket = new GameSocket(store, registry);

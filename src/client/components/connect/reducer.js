@@ -1,13 +1,20 @@
-import { connect, connectSuccess, connectError } from './actions'
+import {
+    connect,
+    connectSuccess,
+    connectError,
+    compressionEnable,
+    compressionDisable
+} from './actions'
 
 import { handleActions } from 'redux-actions-helpers'
 
 const initialState = {
-    host    : null,
-    port    : null,
-    ip      : null,
-    error   : null,
-    status  : false
+    host        : null,
+    port        : null,
+    ip          : null,
+    error       : null,
+    compression : false,
+    status      : false
 };
 
 export default handleActions({
@@ -26,6 +33,14 @@ export default handleActions({
         ...state,
         error,
         status : false
+    }),
+    [compressionEnable] : state => ({
+        ...state,
+        compression : true
+    }),
+    [compressionDisable] : state => ({
+        ...state,
+        compression : false
     })
 }, {
     initialState
