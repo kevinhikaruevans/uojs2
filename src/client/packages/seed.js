@@ -38,6 +38,7 @@ export default class {
     create = key => {
         let result = null;
 
+        console.log('SEED', key)
         if(key) {
             if(typeof key === 'string') {
                 const parse = key.split('.');

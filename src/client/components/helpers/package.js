@@ -97,29 +97,36 @@ export default class Packet {
         return this.getNumber(offset, 4);
     }
 
-    append() {
-        for(let i = 0; i < arguments.length; i++) {
-            let arg = arguments[i];
-            let t = typeof(arg);
+    append = (...args) => {
+        if(args) {
+            for(const data of args) {
+                const type = typeof data;
 
-            if (t === 'number') {
-                // just assume t is a byte
-                this.data[this.position++] = arg & 0xFF;
-            } else if (t === 'string') {
-                // iterate through the string
-                for(let j = 0; j < arg.length; j++) {
-                    this.data[this.position++] = arg.charCodeAt(j) & 0xFF;
+                switch(type) {
+                    case 'number':
+                        this.data[this.position++] = data & 0xFF;
+                        break;
+                    case 'string':
+                        for(const char of data) {
+                            this.data[this.position++] = char.charCodeAt(0) & 0xFF;
+                        }
+                        break;
+                    case 'object':
+                        if(data instanceof Array) {
+                            for(const item of data) {
+                                this.append(item)
+                            }
+                        }
+                        break;
                 }
-            } else if (arg instanceof Array) {
-                for(let j = 0; j < arg.length; j++) {
-                    this.data[this.position++] = arg[j] & 0xFF;
-                }
-            } else {
-                // unknown type
-                throw `cannot append type ${t}`;
+
             }
+        } else {
+            // @TODO: corrected error
+            console.error('Append not data', data);
         }
-    }
+
+    };
 
     appendShort(value) {
         this.append((value >> 8) & 0xFF, (value) & 0xFF);

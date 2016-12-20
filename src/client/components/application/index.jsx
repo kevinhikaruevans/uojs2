@@ -12,12 +12,14 @@ import * as networkActionCreators from '../../state/network/actions';
 import Intro from 'component/intro'
 import Login from 'component/login'
 import ServerList from 'component/server-list'
+import CharacterList from 'component/character-list'
 
 import style from './style'
 
 @connect(store => ({
-    connectStatus   : store.connect.status,
-    serverListStatus: store.serverList.status
+    connectStatus       : store.connect.status,
+    serverListStatus    : store.serverList.status,
+    characterListStatus : store.characterList.status
 }))
 class Application extends Component {
 
@@ -48,16 +50,19 @@ class Application extends Component {
 
     get content() {
         if(this.props.connectStatus) {
-            if(this.props.serverListStatus) {
+            if(this.props.characterListStatus) {
+                return <CharacterList />
+            }
+            else if(this.props.serverListStatus) {
                 return <ServerList />
             }
         } else {
             return <Login />
         }
 
-        return <PostLoginComponent {...this.props}/>;
+        // return <PostLoginComponent {...this.props}/>;
         // }
-        return <World handlers={this.props.handlers}/>;
+        // return <World handlers={this.props.handlers}/>;
     }
 
     render() {
