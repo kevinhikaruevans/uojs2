@@ -48,7 +48,7 @@ const store = createStoreWithMiddleware(reducers);
 // @TODO: GO to app HuffmanDecompression
 // need huffman return result
 const decompression = new HuffmanDecompression(_package => {
-    const item = manager.getPackageServer(_package.getId());
+    const item = manager.getPackage(_package.getId());
 
     if(item) {
         item.action(store, _package);
@@ -64,7 +64,7 @@ transport.on('message', ({ data }) => {
         } else {
             data = new Package(data);
 
-            const item = manager.getPackageServer(data.getId());
+            const item = manager.getPackage(data.getId());
 
             if(item) {
                 item.action(store, data);

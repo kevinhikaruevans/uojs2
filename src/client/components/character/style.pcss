@@ -1,0 +1,38 @@
+:local {
+
+    .character {
+        display: flex;
+        height: 40px;
+        line-height: 40px;
+        border: solid 1px #000000;
+        margin: 4px 0;
+
+        &[data-disabled="true"] {
+            opacity: 0.4;
+        }
+
+        &__name {
+            display: block;
+            padding: 0 8px;
+            flex-grow: 1;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        &__delete {
+            display: block;
+            height: 40px;
+            width: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: #ff0000;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+
+        }
+
+    }
+
+}

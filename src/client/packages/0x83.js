@@ -10,15 +10,16 @@ class _0x83 extends PackageBase {
         this.description = 'Account Delete Character';
     }
 
-    create = (password, index, address) => {
-        let result = new Package(39);
+    create = ({ index, password, ip }) => {
+        let result = new Package(this.length);
 
         // @TODO: IP address & index
         result.append(
-            this.numbet,
-            pad.right(password || '', 30),
-            0
+            this.number,
+            pad.right(password || '', 30)
         );
+
+        result.writeUINT32(index);
 
         return result;
     }

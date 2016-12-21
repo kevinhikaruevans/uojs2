@@ -27,6 +27,7 @@ class _0x85 extends PackageBase {
             error = this.message[_package.getByte(1)];
         }
 
+        console.log(error);
         // @TODO: DISPATCH
     }
 

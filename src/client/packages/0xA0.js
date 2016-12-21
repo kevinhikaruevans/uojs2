@@ -11,7 +11,7 @@ class _0xA0 extends PackageBase {
     }
 
     create = index => {
-        const result = new Package(3);
+        const result = new Package(this.length);
         // @TODO: need fix first 8 bit
         // shard.id is technically a short, but I'm saying it's a byte
         // and padding the first with a zero.

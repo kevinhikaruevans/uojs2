@@ -16,9 +16,11 @@ export const authMaster = payout => (dispatch, getState, transport) => {
 
     return new Promise((resolve, reject) => {
         const packageSeed = manager.getPackage('seed');
+        console.log(packageSeed);
         transport.sendPacket(packageSeed.create(getState().connect.ip));
 
         const packageLoginRequest = manager.getPackage(0x80);
+        console.log('123', packageLoginRequest)
         transport.sendPacket(packageLoginRequest.create(payout.username, payout.password));
     });
 };

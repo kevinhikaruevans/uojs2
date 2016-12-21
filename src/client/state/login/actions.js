@@ -3,33 +3,6 @@ import { StringUtils } from '../../utils';
 import * as types from './actionTypes';
 import { EmulationVersion } from '../../constants';
 
-export const receiveServerlist = (socket, packet) => (dispatch) => {
-    const servers = new Array(packet.getShort(4)).fill({});
-    const serverList = servers.map((o, index) => {
-        // each entry is 40b at offset=6
-        const offset = index * 40 + 6;
-        const id = packet.getShort(offset);
-        const name = packet.getString(offset + 2, 32);
-        const address = [
-            // it uses network endian, so the IP address is "reversed"
-            packet.getByte(offset + 39),
-            packet.getByte(offset + 38),
-            packet.getByte(offset + 37),
-            packet.getByte(offset + 36)
-        ];
-        return {
-            id,
-            name,
-            address: address.join('.')
-        };
-    });
-
-    dispatch({
-        type: types.LOGIN_UPDATE_SERVERLIST,
-        payload: serverList
-    });
-};
-
 export const receiveServerRelay /* aka login success!*/ = (socket, packet) => (dispatch) => {
     /*
         this packet sends the client the [new] address to (re)connect to.
@@ -70,73 +43,6 @@ export const receiveServerRelay /* aka login success!*/ = (socket, packet) => (d
     dispatch({
         type: types.LOGIN_SERVER_RELAY,
         payload: key
-    });
-};
-
-export const receiveLoginFailure = (socket, packet) => (dispatch) => {
-    /*
-        depending on the server used (particularly runuo/servuo), this packet
-        might not even exist. there is a bug in these servers that causes the packet
-        to not get written to the stream. the socket closes (on their end) before
-        its flushed.
-     */
-    const reason = {
-        0: 'Incorrect name/password',
-        1: 'Someone is already using this account',
-        2: 'Your account is blocked',
-        3: 'Your account credentials are invalid',
-        4: 'Communication problem',
-        5: 'IGR concurrency limit met',
-        6: 'IGR time limit met',
-        7: 'General IGR failure'
-    }[packet.getByte(1)] || 'Unknown login issue';
-
-    dispatch({
-        type: types.LOGIN_FAILURE,
-        payload: reason
-    });
-};
-
-export const receiveCharacterList = (socket, packet) => (dispatch) => {
-    const characterCount = packet.getByte(3);
-    const characters = [];
-
-    if (characterCount < 5 || characterCount > 7) {
-        throw 'character count in 0xA9 is not valid. it should be in (5, 6, 7)';
-    }
-
-    for(let i = 0; i < characterCount; i++) {
-        characters.push({
-            name: packet.getString(4 + i * 60, 30),
-            password: packet.getString(34 + i * 60, 30)
-        });
-    }
-
-    dispatch({
-        type: types.LOGIN_UPDATE_CHAR_LIST,
-        payload: characters
-    });
-};
-
-export const receiveFeatures = (socket, packet) => (dispatch) => {
-    const flags = packet.getInt(1);
-
-    dispatch({
-        type: types.LOGIN_UPDATE_SERVER_FEATURES,
-        payload: flags
-    });
-};
-
-export const chooseShard = (socket, shardId = 0) => (dispatch) => {
-    const packet = new Packet(3);
-    // shard.id is technically a short, but I'm saying it's a byte
-    // and padding the first with a zero.
-    packet.append(0xA0, 0, shardId);
-    socket.send(packet);
-
-    dispatch({
-        type: types.LOGIN_SELECT_SHARD,
-        payload: shardId
     });
 };
 

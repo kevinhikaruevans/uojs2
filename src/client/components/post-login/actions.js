@@ -10,10 +10,10 @@ export const loginMaster = payload => (dispatch, getState, transport) => {
 
     const state = getState().login;
 
-    const packageSeed = manager.getPackageClient('seed');
+    const packageSeed = manager.getPackage('seed');
     transport.sendPacket(packageSeed.create(payload.key));
 
-    const packagePostLogin = manager.getPackageClient('post-login');
+    const packagePostLogin = manager.getPackage(0x91);
     transport.sendPacket(packagePostLogin.create(state.username, state.password, payload.key));
 };
 

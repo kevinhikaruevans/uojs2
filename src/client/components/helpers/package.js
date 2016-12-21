@@ -132,6 +132,12 @@ export default class Packet {
         this.append((value >> 8) & 0xFF, (value) & 0xFF);
     }
 
+    writeUINT32(value) {
+        for(let i = 3; i >= 0; i--) {
+            this.append((value >> i * 8) & 0xFF);
+        }
+    }
+
     toArray() {
         return Array.prototype.slice.call(this.data);
     }

@@ -11,10 +11,10 @@ class _0x80 extends PackageBase {
     }
 
     create = (username, password, NextLoginKey) => {
-        let result = new Package(62);
+        let result = new Package(this.length);
 
         result.append(
-            this.numbet,
+            this.number,
             pad.right(username, 30),
             pad.right(password, 30),
             NextLoginKey || 0x5D

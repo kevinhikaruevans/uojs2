@@ -8,7 +8,7 @@ export const select = createAction('@@server-select/SELECT', index => ({
 export const selectMaster = index => (dispatch, getState, transport) => {
     dispatch(select(index));
 
-    const packageServerSelect = manager.getPackageClient('server-select');
+    const packageServerSelect = manager.getPackage(0xA0);
     transport.sendPacket(packageServerSelect.create(index));
 };
 

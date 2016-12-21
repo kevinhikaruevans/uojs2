@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import CharacterSelect from 'component/character-select';
 
+import Character from 'component/character'
+
 import actions, { characterDelete } from './actions'
 import reducer from './reducer'
 
@@ -30,11 +32,12 @@ class CharacterList extends Component {
                     {this.props.list.map(({ name, password }, index) => {
                         const props = {
                             key : index,
+                            index,
                             name,
                             password
                         };
 
-                        return <CharacterSelect {...props} />
+                        return <Character {...props} />
                     })}
                 </ul>
                 <div>Add char</div>

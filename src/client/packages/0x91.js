@@ -11,7 +11,7 @@ class _0x91 extends PackageBase {
     }
 
     create = (username, password, key) => {
-        const result = new Package(65);
+        const result = new Package(this.length);
 
         result.append(
             this.number,
