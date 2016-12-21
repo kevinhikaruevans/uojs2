@@ -1,44 +1,19 @@
+import PackageBase from 'core/package-base'
 import { Package } from 'component/helpers'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/seed.htm
-export default class {
+class Seed extends PackageBase {
 
-    meta = {
-        number  : null,
-        name    : 'Encrypted Login Seed',
-        length  : 0x0004,
-        type    : 'client',
-        alias   : [
-            'seed'
-        ]
-    };
+    constructor() {
+        super(null, 0x0004);
 
-    // Create base class
-    get number() {
-        return this.meta.number;
+        this.description = 'Encrypted Login Seed';
+        this.alias = 'seed';
     }
-
-    get name() {
-        return this.meta.name;
-    }
-
-    get length() {
-        return this.meta.length;
-    }
-
-    get alias() {
-        return this.meta.alias;
-    }
-
-    get type() {
-        return this.meta.type
-    }
-    // -------------
 
     create = key => {
         let result = null;
 
-        console.log('SEED', key)
         if(key) {
             if(typeof key === 'string') {
                 const parse = key.split('.');
@@ -59,4 +34,6 @@ export default class {
         return new Package(result);
     }
 
-};
+}
+
+export default Seed;

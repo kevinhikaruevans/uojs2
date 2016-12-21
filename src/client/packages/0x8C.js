@@ -1,39 +1,17 @@
+import PackageBase from 'core/package-base'
 import { Package, pad } from 'component/helpers'
+
 import { actions as actionsConnect } from 'component/connect'
 import { actions as actionsPostLogin } from 'component/post-login'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet8c.htm
-export default class {
+class _0x8C extends PackageBase {
 
-    meta = {
-        number  : 0x8C,
-        name    : 'Server Redirect',
-        length  : 0x000B,
-        type    : 'server',
-        alias   : []
-    };
+    constructor() {
+        super(0x8C, 0x000B);
 
-    // Create base class
-    get number() {
-        return this.meta.number;
+        this.description = 'Server Redirect';
     }
-
-    get name() {
-        return this.meta.name;
-    }
-
-    get length() {
-        return this.meta.length;
-    }
-
-    get alias() {
-        return this.meta.alias;
-    }
-
-    get type() {
-        return this.meta.type
-    }
-    // -------------
 
     action = ({ dispatch }, _package) => {
         const address   = [1, 2, 3, 4].map(offset => _package.getByte(offset));
@@ -70,4 +48,6 @@ export default class {
 
     }
 
-};
+}
+
+export default _0x8C;

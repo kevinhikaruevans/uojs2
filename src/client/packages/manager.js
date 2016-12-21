@@ -1,26 +1,28 @@
+import debug from 'debug'
+
 import Seed from './seed'
-import LoginRequest from './0x80.login-request'
+import _0x80 from './0x80'
+import _0x8C from './0x8C'
+
 import LoginFailed from './0x82.login-failed'
 import ServerList from './0xA8.server-list'
 import ServerSelect from './0xA0.server-select'
-import ServerRedirect from './0x8C.server-redirect'
 import PostLogin from './0x91.post-login'
 import Features from './0xB9.features'
 import CharacterList from './0xA9.character-list'
 import CharacterDelete from './0x83.character-delete'
 import _0x85 from './0x85'
 
+const log = debug('app:package:manager');
+
 class Manager {
 
-    packages = {
-        client : {},
-        server : {}
-    };
+    packages = {};
 
     constructor() {
         const client = [
             Seed,
-            LoginRequest,
+            _0x80,
             ServerSelect,
             PostLogin,
             CharacterDelete
@@ -29,7 +31,7 @@ class Manager {
         const server = [
             LoginFailed,
             ServerList,
-            ServerRedirect,
+            _0x8C,
             Features,
             CharacterList,
             _0x85
@@ -39,18 +41,15 @@ class Manager {
         server.forEach(this.registration);
     }
 
-    getPackage = (type, id) => {
-        if(this.packages[type][id]) {
-            return this.packages[type][id];
+    getPackage = id => {
+        console.log(this.packages, this.packages[id], id);
+        if(this.packages[id]) {
+            return this.packages[id];
         } else {
             // @TODO: Normal message error
             console.warn('package not found', id)
         }
     };
-
-    getPackageClient = id => this.getPackage('client', id);
-
-    getPackageServer = id => this.getPackage('server', id);
 
     registration = Package => {
         if(typeof Package === 'function') {
@@ -58,13 +57,15 @@ class Manager {
 
             if(item.number) {
                 // @TODO: check number
-                this.packages[item.type][item.number] = item;
+                log('Registration package number %s', item.number);
+                this.packages[item.number] = item;
             }
 
             if(item.alias) {
                 item.alias.forEach(key => {
                     // @TODO: check key
-                    this.packages[item.type][key] = item
+                    log('Registration package alias %d -> %s', item.number, key);
+                    this.packages[key] = item
                 });
             }
         }

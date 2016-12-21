@@ -15,10 +15,10 @@ export const authMaster = payout => (dispatch, getState, transport) => {
     dispatch(auth(payout));
 
     return new Promise((resolve, reject) => {
-        const packageSeed = manager.getPackageClient('seed');
+        const packageSeed = manager.getPackage('seed');
         transport.sendPacket(packageSeed.create(getState().connect.ip));
 
-        const packageLoginRequest = manager.getPackageClient('login-request');
+        const packageLoginRequest = manager.getPackage(0x80);
         transport.sendPacket(packageLoginRequest.create(payout.username, payout.password));
     });
 };
