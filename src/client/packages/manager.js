@@ -4,13 +4,13 @@ import Seed from './seed'
 import _0x80 from './0x80'
 import _0x8C from './0x8C'
 
-import LoginFailed from './0x82.login-failed'
-import ServerList from './0xA8.server-list'
-import ServerSelect from './0xA0.server-select'
-import PostLogin from './0x91.post-login'
-import Features from './0xB9.features'
-import CharacterList from './0xA9.character-list'
-import CharacterDelete from './0x83.character-delete'
+import _0x82 from './0x82'
+import _0xA8 from './0xA8'
+import _0xA0 from './0xA0'
+import _0x91 from './0x91'
+import _0xB9 from './0xB9'
+import _0xA9 from './0xA9'
+import _0x83 from './0x83'
 import _0x85 from './0x85'
 
 const log = debug('app:package:manager');
@@ -23,17 +23,17 @@ class Manager {
         const client = [
             Seed,
             _0x80,
-            ServerSelect,
-            PostLogin,
-            CharacterDelete
+            _0xA0,
+            _0x91,
+            _0x83
         ];
 
         const server = [
-            LoginFailed,
-            ServerList,
+            _0x82,
+            _0xA8,
             _0x8C,
-            Features,
-            CharacterList,
+            _0xB9,
+            _0xA9,
             _0x85
         ];
 
@@ -42,7 +42,6 @@ class Manager {
     }
 
     getPackage = id => {
-        console.log(this.packages, this.packages[id], id);
         if(this.packages[id]) {
             return this.packages[id];
         } else {

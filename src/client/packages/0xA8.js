@@ -1,37 +1,14 @@
+import PackageBase from 'core/package-base'
 import { actions as actionsServerList } from 'component/server-list'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packeta8.htm
-export default class {
+class _0xA8 extends PackageBase {
 
-    meta = {
-        number  : 0xA8,
-        name    : 'Server List',
-        length  : null,
-        type    : 'server',
-        alias   : []
-    };
+    constructor() {
+        super(0xA8);
 
-    // Create base class
-    get number() {
-        return this.meta.number;
+        this.description = 'Server List';
     }
-
-    get name() {
-        return this.meta.name;
-    }
-
-    get length() {
-        return this.meta.length;
-    }
-
-    get alias() {
-        return this.meta.alias;
-    }
-
-    get type() {
-        return this.meta.type
-    }
-    // -------------
 
     action = ({ dispatch }, _package) => {
         const list  = [];
@@ -58,4 +35,6 @@ export default class {
         }));
     }
 
-};
+}
+
+export default _0xA8;

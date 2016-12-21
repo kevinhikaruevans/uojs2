@@ -1,37 +1,14 @@
+import PackageBase from 'core/package-base'
 import { actions } from 'component/character-list'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packeta9.htm
-export default class {
+class _0xA9 extends PackageBase {
 
-    meta = {
-        number  : 0xA9,
-        name    : 'Character List',
-        length  : null,
-        type    : 'server',
-        alias   : []
-    };
+    constructor() {
+        super(0xA9);
 
-    // Create base class
-    get number() {
-        return this.meta.number;
+        this.description = 'Character List';
     }
-
-    get name() {
-        return this.meta.name;
-    }
-
-    get length() {
-        return this.meta.length;
-    }
-
-    get alias() {
-        return this.meta.alias;
-    }
-
-    get type() {
-        return this.meta.type
-    }
-    // -------------
 
     action = ({ dispatch }, _package) => {
         const qty = _package.getByte(3);
@@ -69,4 +46,6 @@ export default class {
         }));
     }
 
-};
+}
+
+export default _0xA9;

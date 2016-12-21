@@ -18,6 +18,7 @@ class _0x8C extends PackageBase {
         const port      = _package.getShort(5);
         const key       = [7, 8, 9, 10].map(offset => _package.getByte(offset));
 
+        // @TODO: interation 2
         dispatch(actionsConnect.disconnectMaster()).then(
             zaeb => {
                 const connect = dispatch(
