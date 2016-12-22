@@ -20,6 +20,7 @@ class _0x83 extends PackageBase {
         );
 
         result.writeUINT32(index);
+        result.writeUINT32(ip.split('.'));
 
         return result;
     }

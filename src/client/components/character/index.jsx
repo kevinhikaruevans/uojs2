@@ -9,7 +9,7 @@ class Character extends Component {
 
     static contextTypes = {
         store : PropTypes.object
-    }
+    };
 
     static propTypes = {
         index   : PropTypes.number.isRequired,

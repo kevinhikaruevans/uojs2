@@ -133,8 +133,18 @@ export default class Packet {
     }
 
     writeUINT32(value) {
-        for(let i = 3; i >= 0; i--) {
-            this.append((value >> i * 8) & 0xFF);
+        if(Array.isArray(value)) {
+            if(value.length === 4) {
+                this.append(...value);
+            } else if(value.length < 4) {
+                const result = new Array(4 - value.length).fill(0);
+
+                this.writeUINT32(result.concat(value))
+            }
+        } else {
+            for(let i = 3; i >= 0; i--) {
+                this.append((value >> i * 8) & 0xFF);
+            }
         }
     }
 

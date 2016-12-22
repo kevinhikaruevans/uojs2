@@ -9,10 +9,13 @@ export const characterList = createAction('@@character-delete/UPDATE', ({ list, 
 
 export const remove = payload => (dispatch, getState, transport) => {
     const _package = manager.getPackage(0x83);
-
-    console.log('HERE');
-    // @TODO: params
-    transport.sendPacket(_package.create(payload));
+    transport.sendPacket(
+        _package.create({
+            index   : payload.index,
+            password: payload.password,
+            ip      : getState().connect.ip
+        })
+    );
 };
 
 
