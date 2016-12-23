@@ -18,13 +18,6 @@ class CharacterList extends Component {
         list : PropTypes.array.isRequired
     };
 
-    onClickDelete = e => {
-        e.preventDefault();
-
-        this.props.dispatch(characterDelete(''))
-        console.log('HERE');
-    };
-
     render() {
         return(
             <div>
@@ -40,8 +33,6 @@ class CharacterList extends Component {
                         return <Character {...props} />
                     })}
                 </ul>
-                <div>Add char</div>
-                <div onClick={this.onClickDelete}>delete</div>
             </div>
         )
     }

@@ -22,7 +22,8 @@ class Character extends Component {
     }
 
     get name() {
-        let result = 'Empty';
+        // @TODO: i18n
+        let result = 'Create character this slot.';
 
         if(this.props.name) {
             result = this.props.name;
