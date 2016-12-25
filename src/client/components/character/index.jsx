@@ -35,19 +35,19 @@ class Character extends Component {
     onClickDelete = e => {
         e.preventDefault();
 
-        // @TODO: GET ACTION
-        console.log('DELETED CHARACTER');
-        this.context.store.dispatch(remove({
-            index   : this.props.index,
-            password: this.props.password
-        }))
+        this.context.store.dispatch(
+            remove({
+                index   : this.props.index,
+                password: this.props.password
+            })
+        )
     };
 
     onClickSelected = e => {
         e.preventDefault();
 
         if(!this.disabled) {
-            // @TODO: Selected character & go game
+            // @TODO: Selected character slot & go game
             console.log('SELECTED');
         } else {
             // @TODO: Create character this slot

@@ -39,9 +39,9 @@ class Login extends Component {
         formData.forEach((value, key) => {
             params[key] = value;
 
-            // if(key !== 'password') {
+            if(__PRODUCTION__ && key !== 'password') {
                 localStorage.setItem(key, value);
-            // }
+            }
         });
 
         const connect = this.props.dispatch(

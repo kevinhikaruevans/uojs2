@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import CharacterSelect from 'component/character-select';
 
 import Character from 'component/character'
 

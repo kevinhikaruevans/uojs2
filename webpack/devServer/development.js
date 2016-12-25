@@ -22,7 +22,7 @@ module.exports = {
 */
     hot                 : true,
     inline              : true,
-    historyApiFallback  : false,
+    historyApiFallback  : true,
     compress            : true,
     lazy                : false,
     quiet               : false,

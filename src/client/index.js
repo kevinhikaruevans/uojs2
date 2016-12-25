@@ -6,22 +6,26 @@ import BrowserRouter from 'react-router-async/browser-router';
 import { hookRedux } from 'hook-redux';
 
 import Application from 'component/application';
+import router from 'core/router-middleware'
 
-import { GameSocket } from './network/gamesocket';
-import { PacketRegistry } from './network/packetregistry';
+// import { GameSocket } from './network/gamesocket';
+// import { PacketRegistry } from './network/packetregistry';
 import { createStore, applyMiddleware } from 'redux';
-import reducers from './state/reducers';
+import reducers from './reducers';
 import thunk from 'redux-thunk';
 
-import { LoginHandler } from './state/login/login';
-import { WorldHandler } from './state/world/world';
-import { PlayerHandler } from './state/player/player';
+// import { LoginHandler } from './state/login/login';
+// import { WorldHandler } from './state/world/world';
+// import { PlayerHandler } from './state/player/player';
 
 // @@@@@
+import routes from './routes'
 import config from 'config'
 import Transport from 'core/transport'
 import { Package, HuffmanDecompression } from 'component/helpers'
 import manager from 'package/manager'
+
+import Intro from 'component/intro'
 
 const history = createHistory();
 
@@ -33,7 +37,8 @@ const transport = new Transport({
 });
 
 const middleware = [
-    thunk.withExtraArgument(transport)
+    thunk.withExtraArgument(transport),
+    router(history)
 ];
 
 if(__DEVELOPMENT__) {
@@ -78,56 +83,24 @@ transport.on('message', ({ data }) => {
     }
 });
 
-/*
-
-handleMessage = (message) => {
-    if (this.state.compressed) {
-        this.decompression.receive(message);
-        return;
-    }
-    if (!this.registry) {
-        throw 'no handlers available :(';
-    }
-
-    const packet = new Packet(new Uint8Array(message.data));
-    this.receivePacket(packet);
-}
-*/
-
-
-const registry = new PacketRegistry();
-const socket = new GameSocket(store, registry);
-
-const handlers = {
-    login: new LoginHandler(store, socket),
-    world: new WorldHandler(store, socket),
-    player: new PlayerHandler(store, socket)
-};
-
-Object
-    .keys(handlers)
-    .forEach(handler => handlers[handler].register(registry));
-
-console.log(history);
-
 BrowserRouter
     .init({
         path    : history.location.pathname,
-        routes  : 'ROUTES',
         hooks   : [
             hookRedux({ dispatch: store.dispatch })
         ],
+        routes,
         history
     })
     .then(({ Router, routerProps, callback }) => {
         render(
-            <Provider store={store}>
-
-                <Router {...routerProps} />
-{/*
-                <Application handlers={handlers} />
-*/}
-            </Provider>,
+            (
+                <Application>
+                    <Provider store={store}>
+                        <Router {...routerProps} />
+                    </Provider>
+                </Application>
+            ),
             document.getElementById('app'),
             callback
         );

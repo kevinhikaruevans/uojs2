@@ -4,6 +4,7 @@ import manager from 'package/manager'
 
 export const remove = payload => (dispatch, getState, transport) => {
     const _package = manager.getPackage(0x83);
+    // @TODO: Hmm.. dispatch remove actions or no
     transport.sendPacket(
         _package.create({
             index   : payload.index,

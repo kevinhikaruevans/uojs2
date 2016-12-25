@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import style from './style'
 import video from './video/intro.webm'
@@ -7,14 +7,16 @@ class Intro extends Component {
 
     static displayName = '[component] intro';
 
+    static propTypes = {
+        status : PropTypes.bool.isRequired
+    };
+
     componentDidMount() {
         document.addEventListener('keyup', this.onExit);
-        this.refs.video.addEventListener('ended', this.onExit);
-    }
+    };
 
     componentWillUnmount() {
         document.removeEventListener('keyup', this.onExit);
-        this.refs.video.removeEventListener('ended', this.onExit);
     }
 
     onExit = e => {
@@ -26,7 +28,7 @@ class Intro extends Component {
     render() {
         return(
             <div className={style['intro']} onClick={this.onExit}>
-                <video ref="video" className={style['intro__video']} src={video} autoPlay />
+                <video className={style['intro__video']} src={video} autoPlay onEnded={this.onExit} />
             </div>
         )
     }

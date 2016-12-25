@@ -63,11 +63,12 @@ module.exports = [{
     query   : {
         sourceMaps      : global.webpack.development,
         cacheDirectory  : global.webpack.development,
+        presets         : [
+            'react',
+            'latest'
+        ],
         plugins         : [
-            'transform-es2015-destructuring',
-            'transform-es2015-modules-commonjs',
             'transform-class-properties',
-            'transform-react-jsx',
             'transform-decorators-legacy',
             'transform-object-rest-spread',
             ...plugins
