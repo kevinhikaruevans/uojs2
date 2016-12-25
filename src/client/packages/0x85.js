@@ -1,5 +1,7 @@
 import PackageBase from 'core/package-base'
 
+import { actions as character } from 'component/character'
+
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet85.htm
 class _0x85 extends PackageBase {
 
@@ -21,14 +23,14 @@ class _0x85 extends PackageBase {
     }
 
     action = ({ dispatch }, _package) => {
-        let error = this.message[100];
+        const code = _package.getByte(1);
 
-        if(this.message[_package.getByte(1)]) {
-            error = this.message[_package.getByte(1)];
-        }
-
-        console.log(error);
-        // @TODO: DISPATCH
+        dispatch(
+            character.removeError({
+                code,
+                message : this.message[code] || this.message[100]
+            })
+        );
     }
 
 }

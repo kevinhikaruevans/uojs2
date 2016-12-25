@@ -1,19 +1,31 @@
 :local {
 
     .character {
-        display: flex;
-        height: 40px;
-        line-height: 40px;
-        border: solid 1px #000000;
-        margin: 4px 0;
 
-        &[data-disabled="true"] {
-            opacity: 0.6;
+        &__slot {
+            display: flex;
+            height: 40px;
+            line-height: 40px;
+            border: solid 1px #000000;
+            margin: 4px 0;
 
-            &:hover {
-                opacity: 1;
+            &[data-disabled="true"] {
+                opacity: 0.6;
+
+                &:hover {
+                    opacity: 1;
+                }
+
             }
 
+            &[data-error="true"] {
+                border-color: red;
+            }
+
+        }
+
+        &__error {
+            color: red;
         }
 
         &__name {

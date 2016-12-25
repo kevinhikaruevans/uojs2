@@ -12,6 +12,7 @@ import _0xB9 from './0xB9'
 import _0xA9 from './0xA9'
 import _0x83 from './0x83'
 import _0x85 from './0x85'
+import _0x86 from './0x86'
 
 const log = debug('app:package:manager');
 
@@ -34,7 +35,8 @@ class Manager {
             _0x8C,
             _0xB9,
             _0xA9,
-            _0x85
+            _0x85,
+            _0x86
         ];
 
         client.forEach(this.registration);

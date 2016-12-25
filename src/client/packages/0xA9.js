@@ -1,5 +1,5 @@
 import PackageBase from 'core/package-base'
-import { actions } from 'component/character-list'
+import { actions as character } from 'component/character'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packeta9.htm
 class _0xA9 extends PackageBase {
@@ -40,7 +40,7 @@ class _0xA9 extends PackageBase {
         // @TODO: Get flags
         console.log('HERE flags', _package.getInt(offset + (qtyCities * 63)), cities);
 
-        dispatch(actions.characterList({
+        dispatch(character.list({
             list,
             cities
         }));
