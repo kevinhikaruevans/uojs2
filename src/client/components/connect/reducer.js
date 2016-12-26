@@ -1,4 +1,6 @@
 import {
+    setHost,
+    setPort,
     connect,
     connectSuccess,
     connectError,
@@ -18,11 +20,17 @@ const initialState = {
 };
 
 export default handleActions({
-    [connect] : (state, { host, port }) => ({
+    [setHost] : (state, { host }) => ({
         ...state,
-        error : null,
-        host,
+        host
+    }),
+    [setPort] : (state, { port }) => ({
+        ...state,
         port
+    }),
+    [connect] : state => ({
+        ...state,
+        error : null
     }),
     [connectSuccess] : (state, { ip }) => ({
         ...state,

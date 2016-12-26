@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 
 import Login from 'component/login'
+import Connect from 'component/connect'
+import Version from 'component/version'
 
 import style from './style'
 
@@ -12,6 +14,8 @@ class Home extends Component {
         return(
             <div>
                 <Login />
+                <Connect />
+                <Version />
             </div>
         )
     }

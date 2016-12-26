@@ -1,9 +1,14 @@
 import { createAction } from 'redux-actions-helpers';
 
-export const connect = createAction('@@connect/CONNECT', ({ host, port }) => ({
-    host,
+export const setHost = createAction('@@connect/SET_HOST', ({ host }) => ({
+    host
+}));
+
+export const setPort = createAction('@@connect/SET_PORT', ({ port }) => ({
     port
 }));
+
+export const connect = createAction('@@connect/CONNECT');
 
 export const connectSuccess = createAction('@@connect/CONNECT_SUCCESS', ({ ip }) => ({
     ip
@@ -38,7 +43,7 @@ export const disconnectMaster = payout => (dispatch, getState, transport) => {
 };
 
 export const connectMaster = payout => (dispatch, getState, transport) => {
-    dispatch(connect(payout));
+    dispatch(connect());
 
     return new Promise((resolve, reject) => {
         const request = transport.sendObject({
@@ -64,6 +69,8 @@ export const connectMaster = payout => (dispatch, getState, transport) => {
 };
 
 export default {
+    setHost,
+    setPort,
     connectMaster,
     disconnectMaster,
     compressionEnable,
