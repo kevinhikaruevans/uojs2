@@ -1,5 +1,5 @@
 import PackageBase from 'core/package-base'
-import { actions as actionsServerList } from 'component/server-list'
+import { actions as server } from 'component/server'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packeta8.htm
 class _0xA8 extends PackageBase {
@@ -30,7 +30,7 @@ class _0xA8 extends PackageBase {
             })
         }
 
-        dispatch(actionsServerList.list({
+        dispatch(server.list({
             list
         }));
     }
