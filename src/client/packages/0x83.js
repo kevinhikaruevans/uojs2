@@ -1,5 +1,5 @@
 import PackageBase from 'core/package-base'
-import { Package, pad } from 'component/helpers'
+import { Package } from 'component/helpers'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet83.htm
 class _0x83 extends PackageBase {
@@ -13,12 +13,8 @@ class _0x83 extends PackageBase {
     create = ({ index, password, ip }) => {
         let result = new Package(this.length);
 
-        // @TODO: IP address & index
-        result.append(
-            this.number,
-            pad.right(password || '', 30)
-        );
-
+        result.append(this.number);
+        result.writeCHAR(password || '', 30);
         result.writeUINT32(index);
         result.writeUINT32(ip.split('.'));
 

@@ -1,5 +1,5 @@
 import PackageBase from 'core/package-base'
-import { Package, pad } from 'component/helpers'
+import { Package } from 'component/helpers'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet5d.htm
 class _0x5D extends PackageBase {
@@ -15,8 +15,8 @@ class _0x5D extends PackageBase {
 
         result.append(this.number);
         result.writeUINT32(0xEDEDEDED);
-        result.append(pad.right(name, 30));
-        result.append(pad.right(password, 30));
+        result.writeCHAR(name, 30);
+        result.writeCHAR(password, 30);
         result.writeUINT32(slot);
         result.writeUINT32(key);
 

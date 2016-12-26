@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions-helpers'
-import { Package, pad } from 'component/helpers'
+import { Package } from 'component/helpers'
 import manager from 'package/manager'
 
 export const auth = createAction('@@login/AUTH', ({ username, password }) => ({

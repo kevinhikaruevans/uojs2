@@ -132,6 +132,25 @@ export default class Packet {
         this.append((value >> 8) & 0xFF, (value) & 0xFF);
     }
 
+    writeCHAR(value, length, char = '\0') {
+        let result = value;
+
+        if(result === 'undefined') {
+            console.warn(`[helpers:package:writeCHAR] String is %s`, result);
+        } else {
+            if(value.length > length) {
+                console.warn(`[helpers:package:writeCHAR] String length > fix length. %s`, value);
+                result = value.substring(0, length)
+            } else {
+                const pad = new Array(length - value.length + 1).join(char);
+
+                result = value + pad;
+            }
+
+            this.append(result);
+        }
+    }
+
     writeUINT32(value) {
         if(Array.isArray(value)) {
             if(value.length === 4) {

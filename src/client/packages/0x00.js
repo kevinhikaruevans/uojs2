@@ -1,5 +1,5 @@
 import PackageBase from 'core/package-base'
-import { Package, pad } from 'component/helpers'
+import { Package } from 'component/helpers'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet00.htm
 class _0x00 extends PackageBase {
@@ -16,11 +16,9 @@ class _0x00 extends PackageBase {
         result.append(this.number);
         result.writeUINT32(0xEDEDEDED);
         result.writeUINT32(0xffffffff);
-        result.append(
-            0x00,
-            pad.right('testedS', 30),
-            pad.right('password', 30),
-        );
+        result.append(0x00);
+        result.writeCHAR('testedS', 30);
+        result.writeCHAR('password', 30);
         /*result.append(
             0x00,
             pad.right('testedS', 30),

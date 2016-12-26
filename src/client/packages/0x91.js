@@ -1,5 +1,5 @@
 import PackageBase from 'core/package-base'
-import { Package, pad } from 'component/helpers'
+import { Package } from 'component/helpers'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet91.htm
 class _0x91 extends PackageBase {
@@ -13,15 +13,10 @@ class _0x91 extends PackageBase {
     create = (username, password, key) => {
         const result = new Package(this.length);
 
-        result.append(
-            this.number,
-            key[0],
-            key[1],
-            key[2],
-            key[3],
-            pad.right(username, 30),
-            pad.right(password, 30)
-        );
+        result.append(this.number);
+        result.writeUINT32(key);
+        result.writeCHAR(username, 30);
+        result.writeCHAR(password, 30);
 
         return result;
     }
