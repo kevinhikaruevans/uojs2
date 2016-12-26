@@ -42,13 +42,18 @@ export const disconnectMaster = payout => (dispatch, getState, transport) => {
     });
 };
 
-export const connectMaster = payout => (dispatch, getState, transport) => {
+export const connectMaster = () => (dispatch, getState, transport) => {
+    const { host, port } = getState().connect;
+
     dispatch(connect());
 
     return new Promise((resolve, reject) => {
         const request = transport.sendObject({
             event : 'connect:server',
-            payout
+            payout: {
+                host,
+                port
+            }
         });
 
         request

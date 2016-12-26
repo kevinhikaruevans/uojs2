@@ -5,6 +5,7 @@ import { actions as actionsConnect } from 'component/connect'
 
 import actions, { authMaster } from './actions'
 import reducer from './reducer'
+
 import style from './style'
 
 @connect(store => ({
@@ -20,14 +21,8 @@ class Login extends Component {
 
     state = {
         username: localStorage.getItem('username'),
-        password: localStorage.getItem('password'),
-        host    : localStorage.getItem('host'),
-        port    : localStorage.getItem('port')
+        password: localStorage.getItem('password')
     };
-
-    componentWillUnmount() {
-
-    }
 
     onSubmit = e => {
         e.preventDefault();
@@ -36,6 +31,7 @@ class Login extends Component {
         const formData  = new FormData($form);
         const params    = {};
 
+        // @TODO: FormData.forEach working only chrome :(
         formData.forEach((value, key) => {
             params[key] = value;
 
@@ -45,10 +41,7 @@ class Login extends Component {
         });
 
         const connect = this.props.dispatch(
-            actionsConnect.connectMaster({
-                host : params['host'],
-                port : params['port']
-            })
+            actionsConnect.connectMaster()
         );
 
         connect.then(
@@ -73,8 +66,8 @@ class Login extends Component {
         return(
             <form className={style['login']} onSubmit={this.onSubmit}>
                 {this.elError}
-                <input name="username" type="text" placeholder="Your username" defaultValue={this.state.username} autoFocus={!this.state.username} />
-                <input name="password" type="password" placeholder="Your password" defaultValue={this.state.password} autoFocus={this.state.username} />
+                <input name="username" type="text" placeholder="Your username" maxLength="30" defaultValue={this.state.username} autoFocus={!this.state.username} />
+                <input name="password" type="password" placeholder="Your password" maxLength="30" defaultValue={this.state.password} autoFocus={this.state.username} />
                 <button type="submit">Login</button>
             </form>
         )
