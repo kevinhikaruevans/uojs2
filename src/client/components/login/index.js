@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux';
 
 import { actions as actionsConnect } from 'component/connect'
+import Version from 'component/version'
 
 import actions, { authMaster } from './actions'
 import reducer from './reducer'
@@ -77,6 +78,7 @@ class Login extends Component {
                 <input name="password" type="password" placeholder="Your password" defaultValue={this.state.password} autoFocus={this.state.username} />
                 <input name="host" type="text" placeholder="Your game server ip" defaultValue={this.state.host} />
                 <input name="port" type="number" min="1" max="65535" placeholder="Your game server port" defaultValue={this.state.port} />
+                <Version />
                 <button type="submit">Login</button>
             </form>
         )

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { reducer as character } from 'component/character'
+import { reducer as version } from 'component/version'
 
 import { reducer as connect } from 'component/connect'
 import { reducer as login } from 'component/login'
@@ -10,6 +11,7 @@ import { reducer as postLogin } from 'component/post-login'
 
 export default combineReducers({
     character,
+    version,
 
     connect,
     login,
