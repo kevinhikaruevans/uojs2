@@ -4,6 +4,7 @@ import Seed from './seed'
 import _0x80 from './0x80'
 import _0x8C from './0x8C'
 import _0x00 from './0x00'
+import _0x5D from './0x5D'
 
 import _0x82 from './0x82'
 import _0xA8 from './0xA8'
@@ -29,7 +30,8 @@ class Manager {
             _0xA0,
             _0x91,
             _0x83,
-            _0x00
+            _0x00,
+            _0x5D
         ];
 
         const server = [
@@ -48,7 +50,6 @@ class Manager {
     }
 
     getPackage = id => {
-        console.log(id, this.packages[id]);
         if(this.packages[id]) {
             return this.packages[id];
         } else {

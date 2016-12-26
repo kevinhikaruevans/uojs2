@@ -47,11 +47,24 @@ export const create = payload => (dispatch, getState, transport) => {
     );
 };
 
+export const selected = ({ name, password, slot }) => (dispatch, getState, transport) => {
+    const _package = manager.getPackage(0x5D);
+    transport.sendPacket(
+        _package.create({
+            name,
+            password,
+            slot,
+            key : getState().postLogin.key
+        })
+    );
+};
+
 
 export default {
     remove,
     removeError,
     list,
     update,
-    create
+    create,
+    selected
 }

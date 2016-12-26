@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import actions, { remove, create } from './actions'
+import actions, { remove, create, selected } from './actions'
 import reducer from './reducer'
 
 import style from './style'
@@ -62,11 +62,14 @@ class Character extends Component {
         e.preventDefault();
 
         if(!this.isDisabled) {
-            // @TODO: Selected character slot & go game
-            console.log('SELECTED');
+            this.props.dispatch(
+                selected({
+                    name    : this.props.name,
+                    password: this.props.password,
+                    slot    : this.props.index
+                })
+            )
         } else {
-            // @TODO: Create character this slot
-            console.log('CREATE CHARACTER');
             this.props.dispatch(
                 create()
             )
