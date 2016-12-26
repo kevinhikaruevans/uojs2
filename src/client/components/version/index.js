@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import actions, { set } from './actions'
 import reducer from './reducer'
 
+import style from './style'
+
 @connect(store => ({
     selected: store.version.selected,
     list    : store.version.list
@@ -32,11 +34,13 @@ class Version extends Component {
 
     render() {
         return(
-            <select defaultValue={this.props.selected} onChange={this.onChange}>
-                {this.props.list.map((version, index) => {
-                    return <option key={index} value={index}>{version}</option>
-                })}
-            </select>
+            <form className={style['version']}>
+                <select defaultValue={this.props.selected} onChange={this.onChange}>
+                    {this.props.list.map((version, index) => {
+                        return <option key={index} value={index}>{version}</option>
+                    })}
+                </select>
+            </form>
         )
     }
 

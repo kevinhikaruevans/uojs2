@@ -6,8 +6,7 @@ const initialState = {
     selected: 0,
     list    : [
         // @TODO: Go config list versions
-        '7.0.13.0',
-        '7.0.14.0'
+        '7.0.13.0'
     ]
 };
 
