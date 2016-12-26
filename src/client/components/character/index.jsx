@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import actions, { remove } from './actions'
+import actions, { remove, create } from './actions'
 import reducer from './reducer'
 
 import style from './style'
@@ -67,6 +67,9 @@ class Character extends Component {
         } else {
             // @TODO: Create character this slot
             console.log('CREATE CHARACTER');
+            this.props.dispatch(
+                create()
+            )
         }
     };
 

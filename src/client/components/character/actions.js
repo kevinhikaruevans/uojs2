@@ -37,14 +37,14 @@ export const remove = ({ index, password }) => (dispatch, getState, transport) =
 };
 
 export const create = payload => (dispatch, getState, transport) => {
-/*    const _package = manager.getPackage(0x83);
+    const _package = manager.getPackage(0x00);
     transport.sendPacket(
         _package.create({
-            index   : payload.index,
-            password: payload.password,
-            ip      : getState().connect.ip
+            username: null,
+            password: null,
+            key     : getState().postLogin.key
         })
-    );*/
+    );
 };
 
 
@@ -52,5 +52,6 @@ export default {
     remove,
     removeError,
     list,
-    update
+    update,
+    create
 }

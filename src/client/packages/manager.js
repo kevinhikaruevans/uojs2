@@ -3,6 +3,7 @@ import debug from 'debug'
 import Seed from './seed'
 import _0x80 from './0x80'
 import _0x8C from './0x8C'
+import _0x00 from './0x00'
 
 import _0x82 from './0x82'
 import _0xA8 from './0xA8'
@@ -26,7 +27,8 @@ class Manager {
             _0x80,
             _0xA0,
             _0x91,
-            _0x83
+            _0x83,
+            _0x00
         ];
 
         const server = [
@@ -44,6 +46,7 @@ class Manager {
     }
 
     getPackage = id => {
+        console.log(id, this.packages[id]);
         if(this.packages[id]) {
             return this.packages[id];
         } else {
@@ -56,7 +59,7 @@ class Manager {
         if(typeof Package === 'function') {
             const item = new Package();
 
-            if(item.number) {
+            if(typeof item.number === 'number') {
                 // @TODO: check number
                 log('Registration package number %s', item.number);
                 this.packages[item.number] = item;
