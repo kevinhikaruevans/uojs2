@@ -8,15 +8,9 @@ import { hookRedux } from 'hook-redux';
 import Application from 'component/application';
 import router from 'core/router-middleware'
 
-// import { GameSocket } from './network/gamesocket';
-// import { PacketRegistry } from './network/packetregistry';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './reducers';
 import thunk from 'redux-thunk';
-
-// import { LoginHandler } from './state/login/login';
-// import { WorldHandler } from './state/world/world';
-// import { PlayerHandler } from './state/player/player';
 
 // @@@@@
 import routes from './routes'
@@ -24,8 +18,6 @@ import config from 'config'
 import Transport from 'core/transport'
 import { Package, HuffmanDecompression } from 'component/helpers'
 import manager from 'package/manager'
-
-import Intro from 'component/intro'
 
 const history = createHistory();
 
