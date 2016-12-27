@@ -11,6 +11,7 @@ import { reducer as serverList } from 'component/server-list'
 import { reducer as serverSelect } from 'component/server-select'
 import { reducer as postLogin } from 'component/post-login'
 import { reducer as characterList } from 'component/character-list'
+import { reducer as ping } from 'component/ping'
 
 /*
     I wonder if there is a way to automate this, like read the "directory" and just

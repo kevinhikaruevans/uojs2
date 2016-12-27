@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions-helpers'
 
-import { overall, personal } from './actions'
+import { update } from './actions'
 
 const initialState = {
     serial : null,
@@ -24,22 +24,19 @@ const initialState = {
     },
     gold : 0,
     armorRating : null,
-    weight : null,
-
+    weight : null
 };
 
 export default handleActions({
-    [overall] : (state, { overall }) => ({
-        ...state,
-        overall
-    }),
-    [personal] : (state, { level, object }) => ({
-        ...state,
-        personal : {
-            level,
-            object
-        }
-    })
+    [update] : (state, payload) => {
+        const params = {
+            ...state,
+            ...payload
+        };
+        delete params.type;
+
+        return params
+    }
 }, {
     initialState
 })

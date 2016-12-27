@@ -1,2 +1,0 @@
-export const PING_SEND = 'PING_SEND';
-export const PING_UPDATE_LATENCY = 'PING_UPDATE_LATENCY';

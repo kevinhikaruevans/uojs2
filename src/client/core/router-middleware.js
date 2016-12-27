@@ -1,5 +1,6 @@
 import { actions as server } from 'component/server'
 import { actions as character } from 'component/character'
+import { actions as login } from 'component/login'
 
 const middleware = history => ({ dispatch, getState }) => next => action => {
     switch(action.type) {
@@ -8,6 +9,9 @@ const middleware = history => ({ dispatch, getState }) => next => action => {
             break;
         case character.list.toString():
             history.push('/characters');
+            break;
+        case login.complete.toString():
+            history.push('/game');
             break;
     }
 

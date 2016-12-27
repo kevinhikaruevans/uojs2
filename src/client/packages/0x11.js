@@ -1,6 +1,5 @@
 import PackageBase from 'core/package-base'
-import { actions as player } from 'component/player'
-import { actions as login } from 'component/login'
+import { actions as statusInfo } from 'component/status-info'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet11.htm
 class _0x11 extends PackageBase {
@@ -74,7 +73,9 @@ class _0x11 extends PackageBase {
             }
         }
 
-        console.log(payload);
+        dispatch(
+            statusInfo.update(payload)
+        );
     }
 
 }

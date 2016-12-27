@@ -13,6 +13,8 @@ export const error = createAction('@@login/ERROR', ({ error }) => ({
 
 export const confirm = createAction('@@login/CONFIRM');
 
+export const complete = createAction('@@login/COMPLETE');
+
 export const authMaster = payout => (dispatch, getState, transport) => {
     dispatch(auth(payout));
 
@@ -26,5 +28,6 @@ export const authMaster = payout => (dispatch, getState, transport) => {
 export default {
     authMaster,
     error,
-    confirm
+    confirm,
+    complete
 }
