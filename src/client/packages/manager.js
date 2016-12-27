@@ -25,6 +25,7 @@ import _0x4E from './0x4E'
 import _0x11 from './0x11'
 import _0x55 from './0x55'
 import _0x73 from './0x73'
+import _0x5B from './0x5B'
 
 const log = debug('app:package:manager');
 
@@ -58,7 +59,8 @@ class Manager {
             _0x4E,
             _0x11,
             _0x55,
-            _0x73
+            _0x73,
+            _0x5B
         ].forEach(this.registration);
     }
 

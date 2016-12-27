@@ -10,6 +10,7 @@ import { reducer as combat } from 'component/combat'
 import { reducer as light } from 'component/light'
 import { reducer as statusInfo } from 'component/status-info'
 import { reducer as ping } from 'component/ping'
+import { reducer as time } from 'component/time'
 
 import { reducer as login } from 'component/login'
 import { reducer as postLogin } from 'component/post-login'
@@ -25,6 +26,7 @@ export default combineReducers({
     light,
     statusInfo,
     ping,
+    time,
 
     login,
     postLogin

@@ -51,6 +51,7 @@ export default class HuffmanDecompression {
                         }
 
                     } else {
+                        console.log(data);
                         console.error('unknown packet');
                         /*console.error('unknown packet');
                         console.error(this.destination.clone());
