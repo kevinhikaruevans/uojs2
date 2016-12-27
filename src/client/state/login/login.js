@@ -12,13 +12,6 @@ export class LoginHandler
     register(registry) {
         super.register(registry);
 
-        registry.registerPacket(0xA9, (packet) => {
-            //this.chooseCharacter(0);
-        });
-
-        registry.registerPacket(0xBD, () => {
-            this.sendVersionString(this.socket);
-        });
         registry.registerPacket(0x8C, (packet) => this.store.dispatch(actions.receiveServerRelay(this.socket, packet)));
         registry.registerPacket(0x55, (packet) => {
             this.store.dispatch(actions.receiveLoginCompleted(this.socket, packet));
@@ -33,11 +26,4 @@ export class LoginHandler
         this.socket.connect();
     }
 
-    chooseCharacter = (characterIndex) => {
-        this.store.dispatch(actions.chooseCharacter(this.socket, characterIndex));
-    }
-
-    sendVersionString = () => {
-        this.store.dispatch(actions.sendVersionString(this.socket));
-    }
 }

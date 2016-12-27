@@ -46,39 +46,6 @@ export const receiveServerRelay /* aka login success!*/ = (socket, packet) => (d
     });
 };
 
-export const chooseCharacter = (socket, characterIndex = 0) => (dispatch, getState) => {
-    const state = getState();
-    const characters = state.login.user.characters;
-    const chosenCharacter = characters[characterIndex];
-    const packet = new Packet(73);
-    console.info('choosing character', chosenCharacter);
-    packet.append(0x5D, 0xED, 0xED, 0xED, 0xED);
-    packet.append(StringUtils.padRight(chosenCharacter.name, 30));
-    // I have _NO_ idea what his segment is for:
-    packet.append(Array(5), 0x3F, Array(7), 0x02, Array(19));
-    packet.append(characterIndex);
-    // 127.0.0.1 :)
-    packet.append(0x7F, 0x00, 0x00, 0x01);
-    socket.send(packet);
-
-    dispatch({
-        type: types.LOGIN_CHOOSE_CHAR,
-        payload: characterIndex
-    });
-};
-
-export const sendVersionString = (socket) => (dispatch) => {
-    const length = 4 + EmulationVersion.length;
-    const versionPacket = new Packet(length);
-    versionPacket.append(0xBD, 0x00, length, EmulationVersion, 0);
-    socket.send(versionPacket);
-
-    dispatch({
-        type: types.LOGIN_SENT_VERSION,
-        payload: EmulationVersion
-    });
-};
-
 export const receiveLoginCompleted = () => (dispatch) => {
     dispatch({
         type: types.LOGIN_COMPLETED

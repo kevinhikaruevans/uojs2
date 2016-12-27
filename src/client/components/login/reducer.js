@@ -1,12 +1,13 @@
 import { handleActions } from 'redux-actions-helpers'
 
-import { auth, error } from './actions'
+import { auth, error, confirm } from './actions'
 
 const initialState = {
     username: null,
     password: null,
     error   : null,
-    status  : false
+    status  : false,
+    confirm : false
 };
 
 export default handleActions({
@@ -20,6 +21,10 @@ export default handleActions({
         ...state,
         error,
         status  : false
+    }),
+    [confirm] : state => ({
+        ...state,
+        confirm : false
     })
 }, {
     initialState

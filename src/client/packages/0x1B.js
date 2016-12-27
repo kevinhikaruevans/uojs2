@@ -1,0 +1,49 @@
+import PackageBase from 'core/package-base'
+import { actions as player } from 'component/player'
+import { actions as login } from 'component/login'
+
+// http://necrotoolz.sourceforge.net/kairpacketguide/packet1b.htm
+class _0x1B extends PackageBase {
+
+    constructor() {
+        super(0x1B, 0x0025);
+
+        this.description = 'Login Confirm';
+    }
+
+    action = ({ dispatch }, _package) => {
+        _package.begin();
+        const serial = _package.nextInt();
+        _package.nextInt();
+        const body = _package.nextShort();
+        const x = _package.nextShort();
+        const y = _package.nextShort();
+        const z = _package.nextShort();
+        const direction = _package.nextByte();
+
+        _package.nextByte();
+        _package.nextInt();
+
+        const serverBoundX = _package.nextShort();
+        const serverBoundY = _package.nextShort();
+        const serverBoundWidth = _package.nextShort();
+        const serverBoundHeight = _package.nextShort();
+
+        // @TODO: DISPATCH SET MAP INFO
+
+        dispatch(login.confirm());
+        dispatch(
+            player.setInfo({
+                serial,
+                body,
+                x,
+                y,
+                z,
+                direction
+            })
+        );
+    }
+
+}
+
+export default _0x1B;

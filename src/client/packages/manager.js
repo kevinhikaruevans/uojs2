@@ -5,7 +5,6 @@ import _0x80 from './0x80'
 import _0x8C from './0x8C'
 import _0x00 from './0x00'
 import _0x5D from './0x5D'
-
 import _0x82 from './0x82'
 import _0xA8 from './0xA8'
 import _0xA0 from './0xA0'
@@ -16,6 +15,14 @@ import _0x83 from './0x83'
 import _0x85 from './0x85'
 import _0x86 from './0x86'
 import _0xBD from './0xBD'
+import _0x1B from './0x1B'
+import _0xBC from './0xBC'
+import _0x72 from './0x72'
+import _0x20 from './0x20'
+import _0xBF from './0xBF'
+import _0x4F from './0x4F'
+import _0x4E from './0x4E'
+import _0x11 from './0x11'
 
 const log = debug('app:package:manager');
 
@@ -24,17 +31,14 @@ class Manager {
     packages = {};
 
     constructor() {
-        const client = [
+        [
             Seed,
             _0x80,
             _0xA0,
             _0x91,
             _0x83,
             _0x00,
-            _0x5D
-        ];
-
-        const server = [
+            _0x5D,
             _0x82,
             _0xA8,
             _0x8C,
@@ -42,11 +46,16 @@ class Manager {
             _0xA9,
             _0x85,
             _0x86,
-            _0xBD
-        ];
-
-        client.forEach(this.registration);
-        server.forEach(this.registration);
+            _0xBD,
+            _0x1B,
+            _0xBC,
+            _0x72,
+            _0x20,
+            _0xBF,
+            _0x4F,
+            _0x4E,
+            _0x11
+        ].forEach(this.registration);
     }
 
     getPackage = id => {

@@ -11,6 +11,8 @@ export const error = createAction('@@login/ERROR', ({ error }) => ({
     error
 }));
 
+export const confirm = createAction('@@login/CONFIRM');
+
 export const authMaster = payout => (dispatch, getState, transport) => {
     dispatch(auth(payout));
 
@@ -23,5 +25,6 @@ export const authMaster = payout => (dispatch, getState, transport) => {
 
 export default {
     authMaster,
-    error
+    error,
+    confirm
 }

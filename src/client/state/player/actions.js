@@ -78,15 +78,6 @@ export const receiveLocationWithBody = (socket, packet) => (dispatch) => {
     });
 };
 
-export const receiveWarMode = (socket, packet) => (dispatch) => {
-    const warMode = packet.getByte(1) === flags.WarModeFighting;
-
-    dispatch({
-        type: types.PLAYER_UPDATE_WARMODE,
-        payload: warMode
-    });
-};
-
 export const sendMessage = (socket, message) => (dispatch) => {
     const size = 9 + message.length;
     const packet = new Packet(size);
