@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import Ping from 'component/ping'
+import DevtoolsMap from 'component/devtools-map'
 
 import style from './style'
 
@@ -12,6 +13,7 @@ class Game extends Component {
         return(
             <div>
                 <Ping />
+                <DevtoolsMap />
                 123 GAME
             </div>
         )

@@ -1,5 +1,6 @@
 import PackageBase from 'core/package-base'
 import { actions as player } from 'component/player'
+import { actions as map } from 'component/map'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet20.htm
 class _0x20 extends PackageBase {
@@ -36,6 +37,12 @@ class _0x20 extends PackageBase {
                 direction
             })
         );
+        dispatch(
+            map.updateMaster({
+                x,
+                y
+            })
+        )
 
     }
 

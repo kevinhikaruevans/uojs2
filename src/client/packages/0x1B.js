@@ -1,6 +1,7 @@
 import PackageBase from 'core/package-base'
 import { actions as player } from 'component/player'
 import { actions as login } from 'component/login'
+import { actions as map } from 'component/map'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet1b.htm
 class _0x1B extends PackageBase {
@@ -29,8 +30,6 @@ class _0x1B extends PackageBase {
         const serverBoundWidth = _package.nextShort();
         const serverBoundHeight = _package.nextShort();
 
-        // @TODO: DISPATCH SET MAP INFO
-
         dispatch(login.confirm());
         dispatch(
             player.setInfo({
@@ -42,6 +41,12 @@ class _0x1B extends PackageBase {
                 direction
             })
         );
+        dispatch(
+            map.updateMaster({
+                x,
+                y
+            })
+        )
     }
 
 }

@@ -1,0 +1,26 @@
+:local {
+
+    .devtools-map {
+        display: flex;
+        width: calc(32px * 8);
+        flex-wrap: wrap;
+
+        &__tile {
+            display: block;
+            width: 32px;
+            height: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        &__img {
+            display: block;
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            transform: rotate(-45deg);
+        }
+
+    }
+
+}
