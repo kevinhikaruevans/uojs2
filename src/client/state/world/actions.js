@@ -9,42 +9,6 @@ export const receiveObjectInfo = (socket, packet) => (dispatch) => {
     const serial = id ^ 0x80000000;
 };
 
-export const receiveAsciiMessage = (socket, packet) => (dispatch) => {
-    packet.begin();
-    const serial = packet.nextInt();
-    const model = packet.nextShort();
-    const type = packet.nextByte();
-    const color = packet.nextShort();
-    const font = packet.nextShort();
-    const name = packet.nextString(30).trim();
-    const message = StringUtils.trim(packet.nextString(packet.variableSize - 44));
-    const asciiMessage = {
-        unicode: false,
-        serial,
-        model,
-        type,
-        color,
-        font,
-        name,
-        message
-    };
-
-    dispatch({
-        type: types.WORLD_ADD_MESSAGE,
-        payload: asciiMessage
-    });
-
-    setTimeout(() => {
-        // it's probably better to have a single timer, then add in each
-        // callback + a delay or something, unless if that's already what the browser does...
-        // will look into that
-        dispatch({
-            type: types.WORLD_REMOVE_MESSAGE,
-            payload: asciiMessage
-        })
-    }, 10000);
-};
-
 export const receiveUnicodeMessage = (socket, packet) => (dispatch) => {
     packet.begin();
     const serial = packet.nextInt();

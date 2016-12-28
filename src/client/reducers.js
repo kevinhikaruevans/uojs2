@@ -11,6 +11,8 @@ import { reducer as light } from 'component/light'
 import { reducer as statusInfo } from 'component/status-info'
 import { reducer as ping } from 'component/ping'
 import { reducer as time } from 'component/time'
+import { reducer as weather } from 'component/weather'
+import { reducer as message } from 'component/message'
 
 import { reducer as login } from 'component/login'
 import { reducer as postLogin } from 'component/post-login'
@@ -27,6 +29,8 @@ export default combineReducers({
     statusInfo,
     ping,
     time,
+    weather,
+    message,
 
     login,
     postLogin
