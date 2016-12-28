@@ -3,14 +3,14 @@ import { handleActions } from 'redux-actions-helpers'
 import { update } from './actions'
 
 const initialState = {
-    type        : null,
+    mode        : null,
     effect      : null,
     temperature : null
 };
 
 export default handleActions({
-    [update] : (state, { type, effect, temperature }) => ({
-        type,
+    [update] : (state, { mode, effect, temperature }) => ({
+        mode,
         effect,
         temperature
     })

@@ -16,7 +16,7 @@ class _0x65 extends PackageBase {
 
         dispatch(
             weather.update({
-                type        : _package.nextByte(),
+                mode        : _package.nextByte(),
                 effect      : _package.nextByte(),
                 temperature : _package.nextByte()
             })

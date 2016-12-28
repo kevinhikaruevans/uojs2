@@ -9,60 +9,6 @@ export const receiveObjectInfo = (socket, packet) => (dispatch) => {
     const serial = id ^ 0x80000000;
 };
 
-export const receiveUnicodeMessage = (socket, packet) => (dispatch) => {
-    packet.begin();
-    const serial = packet.nextInt();
-    const model = packet.nextShort();
-    const type = packet.nextByte();
-    const color = packet.nextShort();
-    const font = packet.nextShort();
-    const language = packet.nextInt();
-    const name = packet.nextString(30);
-    const message = StringUtils.trim(packet.nextUnicodeString(packet.variableSize - 48));
-
-    const unicodeMessage = {
-        unicode: true,
-        serial,
-        model,
-        type,
-        color,
-        font,
-        name,
-        language,
-        message
-    };
-
-    dispatch({
-        type: types.WORLD_ADD_MESSAGE,
-        payload: unicodeMessage
-    });
-
-    setTimeout(() => {
-        dispatch({
-            type: types.WORLD_REMOVE_MESSAGE,
-            payload: unicodeMessage
-        })
-    }, 10000);
-};
-
-export const receiveWeather = (socket, packet) => (dispatch) => {
-    packet.begin();
-    const type = packet.nextByte();
-    const particles = Math.max(Math.min(packet.nextByte(), 0), flags.WORLD_WEATHER_MAX_PARTICLES);
-    const particlesPercentage = particles / flags.WORLD_WEATHER_MAX_PARTICLES;
-    const temperature = packet.nextByte();
-
-    dispatch({
-        type: types.WORLD_UPDATE_WEATHER,
-        payload: {
-            isSnowing: type === flags.WorldWeatherSnow,
-            isRaining: type === flags.WorldWeatherRain,
-            particles: particlesPercentage,
-            temperature
-        }
-    });
-};
-
 export const receiveGeneralInformation = (socket, packet) => (dispatch) => {
     packet.begin();
     const subcommand = packet.nextShort();

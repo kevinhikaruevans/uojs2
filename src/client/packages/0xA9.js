@@ -31,14 +31,11 @@ class _0xA9 extends PackageBase {
 
         for(let i = 0; i < qtyCities; i++) {
             cities.push({
-                // index : _package.getByte(offset + (i * 63)),
-                name : _package.getString(offset + (1 + i * 63), 30),
-                tavern : _package.getString(offset + (32 + i * 63), 30)
+                index   : _package.getByte(offset + (1 + i * 63)),
+                name    : _package.getString(offset + (2 + i * 63), 30),
+                tavern  : _package.getString(offset + (33 + i * 63), 30)
             })
         }
-
-        // @TODO: Get flags
-        console.log('HERE flags', _package.getInt(offset + (qtyCities * 63)), cities);
 
         dispatch(character.list({
             list,
