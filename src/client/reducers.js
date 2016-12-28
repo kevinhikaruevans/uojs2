@@ -13,6 +13,7 @@ import { reducer as ping } from 'component/ping'
 import { reducer as time } from 'component/time'
 import { reducer as weather } from 'component/weather'
 import { reducer as message } from 'component/message'
+import { reducer as worldObject } from 'component/world-object'
 
 import { reducer as login } from 'component/login'
 import { reducer as postLogin } from 'component/post-login'
@@ -31,6 +32,7 @@ export default combineReducers({
     time,
     weather,
     message,
+    worldObject,
 
     login,
     postLogin

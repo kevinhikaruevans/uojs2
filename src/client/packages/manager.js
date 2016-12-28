@@ -29,6 +29,7 @@ import _0x5B from './0x5B'
 import _0x65 from './0x65'
 import _0x1C from './0x1C'
 import _0xAE from './0xAE'
+import _0x78 from './0x78'
 
 const log = debug('app:package:manager');
 
@@ -66,7 +67,8 @@ class Manager {
             _0x5B,
             _0x65,
             _0x1C,
-            _0xAE
+            _0xAE,
+            _0x78
         ].forEach(this.registration);
     }
 

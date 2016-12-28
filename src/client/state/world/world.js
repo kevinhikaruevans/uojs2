@@ -11,7 +11,6 @@ export class WorldHandler
     register(registry) {
         super.register(registry);
 
-        registry.registerPacket(0x78, (packet) => this.store.dispatch(actions.receiveNewObject(this.socket, packet)));
         registry.registerPacket(0xF3, (packet) => this.store.dispatch(actions.receiveNewObjectSA(this.socket, packet)));
         registry.registerPacket(0x1D, (packet) => this.store.dispatch(actions.receiveDeleteObject(this.socket, packet)));
         registry.registerPacket(0x77, (packet) => this.store.dispatch(actions.receiveMobileUpdate(this.socket, packet)));
