@@ -1,7 +1,7 @@
 import PackageBase from 'core/package-base'
 import { Package } from 'component/helpers'
 
-class _0xBD extends PackageBase {
+class _0xBF extends PackageBase {
 
     constructor() {
         super(0xBF);
@@ -43,9 +43,11 @@ class _0xBD extends PackageBase {
                 }
                 console.log('MapDiff', count);
                 break;
+            default:
+                console.warn('Subcommand not parse %s', (command).toString(16));
         }
     }
 
 }
 
-export default _0xBD;
+export default _0xBF;
