@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import DevtoolsMap from 'component/devtools-map'
+import DevtoolsCursore from 'component/devtools-cursore'
 
 import style from './style'
 
@@ -97,7 +98,7 @@ class Devtools extends Component {
         if(this.state.sidebar) {
             return(
                 <ul className={style['devtools__sidebar']}>
-                    {this.elSidebarItem('Cursor corrector', 'cursor')}
+                    {this.elSidebarItem('Cursore corrector', 'cursore')}
                     {this.elSidebarItem('Map', 'map')}
                 </ul>
             )
@@ -108,6 +109,9 @@ class Devtools extends Component {
         switch(this.state.tool) {
             case 'map':
                 return <DevtoolsMap />;
+                break;
+            case 'cursore':
+                return <DevtoolsCursore />
                 break;
         }
     }
