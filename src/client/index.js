@@ -87,11 +87,11 @@ BrowserRouter
     .then(({ Router, routerProps, callback }) => {
         render(
             (
-                <Application>
-                    <Provider store={store}>
+                <Provider store={store}>
+                    <Application>
                         <Router {...routerProps} />
-                    </Provider>
-                </Application>
+                    </Application>
+                </Provider>
             ),
             document.getElementById('app'),
             callback
