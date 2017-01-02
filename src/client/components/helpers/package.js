@@ -229,7 +229,7 @@ export default class Packet {
      * Skips to the beginning of the data portion of the packet.
      */
     begin() {
-        if (this.expectedSize === -1) {
+        if (this.expectedSize === null) {
             this.position = 3;
         } else {
             this.position = 1;

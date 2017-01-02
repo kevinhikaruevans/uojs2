@@ -39,13 +39,10 @@ export default class HuffmanDecompression {
                 this.destination.append(value);
 
                 if (this.destination.position === 1 || this.destination.position === 3) {
-                    // console.log('HERE', this.destination.data[0], manager.getPackage(this.destination.data[0]));
                     const _package = manager.getPackage(this.destination.data[0]);
 
-                    console.log(_package !== undefined);
                     // completed the first byte
                     if (_package !== undefined) {
-                        console.log('HERE', _package.length, _package.length === -1 && this.destination.position === 3)
                         if (_package.length === null && this.destination.position === 3) {
                             this.destination.resize(this.destination.getShort(1));
                         } else if (_package.length > 0 && this.destination.position === 1) {
@@ -53,7 +50,6 @@ export default class HuffmanDecompression {
                         }
 
                     } else {
-                        console.log(data);
                         console.error('unknown packet');
                         /*console.error('unknown packet');
                         console.error(this.destination.clone());
@@ -82,7 +78,7 @@ export default class HuffmanDecompression {
     finish = () => {
         const dest = this.destination.clone();
         const _package = manager.getPackage(dest.getByte(0));
-        console.log(_package);
+
         console.log(`receive > 0x${dest.getByte(0).toString(16)} > ${_package && _package.description}`);
         this.receivePacket(dest);
 
