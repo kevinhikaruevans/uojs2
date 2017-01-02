@@ -29,7 +29,7 @@ if(global.webpack.development) {
 }
 
 module.exports = [{
-    test    : /\.(webm|cur)$/,
+    test    : /\.(webm|cur|gif)$/,
     loader  : 'file',
     query   : {
         name : global.webpack.production ? '[hash].[ext]' : '[name].[ext]'

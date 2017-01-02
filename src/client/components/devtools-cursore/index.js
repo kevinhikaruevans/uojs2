@@ -7,8 +7,24 @@ class DevtoolsCursore extends Component {
     static displayName = '[component] devtools-cursore';
 
     state = {
-        x : 150,
-        y : 150
+        x       : 150,
+        y       : 150,
+        cursor  : 'default',
+        list    : [
+            'col-resize',
+            'default',
+            'help',
+            'move',
+            'nesw-resize',
+            'not-allowed',
+            'nwse-resize',
+            'pen',
+            'row-resize',
+            'target',
+            'text',
+            'wait',
+            'war-mode'
+        ]
     };
 
     onMouseMove = e => {
@@ -23,13 +39,28 @@ class DevtoolsCursore extends Component {
         });
     };
 
+    onClick = cursor => {
+        return e => {
+            e.preventDefault();
+
+            this.setState({ cursor })
+        }
+    };
+
     render() {
         return(
-            <div className={style['devtools-cursore']} onMouseMove={this.onMouseMove}>
-                <div className={style['devtools-cursore__cross']} style={{
-                    left : `${this.state.x}px`,
-                    top  : `${this.state.y}px`
-                }} />
+            <div className={style['devtools-cursore']}>
+                <div className={style['devtools-cursore__list']}>
+                    {this.state.list.map((item, index) => {
+                        return <div key={index} className={style['devtools-cursore__list-item']} data-cursor={item} data-selected={this.state.cursor === item} onClick={this.onClick(item)} />
+                    })}
+                </div>
+                <div className={style['devtools-cursore__canvas']} data-cursor={this.state.cursor} onMouseMove={this.onMouseMove}>
+                    <div className={style['devtools-cursore__cross']} style={{
+                        left : `${this.state.x}px`,
+                        top  : `${this.state.y}px`
+                    }} />
+                </div>
             </div>
         )
     }
