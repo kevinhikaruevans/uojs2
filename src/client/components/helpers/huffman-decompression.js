@@ -1,5 +1,7 @@
-import { HuffmanTable, HuffmanEOF, PacketTypes } from './../../network/constants';
+import manager from 'package/manager'
 import Package from './package';
+
+import table from './huffman-table'
 
 export default class HuffmanDecompression {
     constructor(receivePacket) {
@@ -22,9 +24,9 @@ export default class HuffmanDecompression {
         }
         while (i < data.length) {
             const leaf = HuffmanDecompression.getBit(data[i], bit);
-            let leafValue = HuffmanTable[node][leaf];
+            let leafValue = table[node][leaf];
 
-            if (leafValue === HuffmanEOF) {
+            if (leafValue === -256) {
                 i++;
                 this.finish();
                 node = 0;
@@ -37,17 +39,17 @@ export default class HuffmanDecompression {
                 this.destination.append(value);
 
                 if (this.destination.position === 1 || this.destination.position === 3) {
-                    const packetType = PacketTypes[this.destination.data[0]];
+                    // console.log('HERE', this.destination.data[0], manager.getPackage(this.destination.data[0]));
+                    const _package = manager.getPackage(this.destination.data[0]);
 
+                    console.log(_package !== undefined);
                     // completed the first byte
-                    if (packetType !== undefined) {
-                        // it's a valid first packet
-                        const estimatedLength = packetType[1];
-
-                        if (estimatedLength === -1 && this.destination.position === 3) {
+                    if (_package !== undefined) {
+                        console.log('HERE', _package.length, _package.length === -1 && this.destination.position === 3)
+                        if (_package.length === null && this.destination.position === 3) {
                             this.destination.resize(this.destination.getShort(1));
-                        } else if (estimatedLength > 0 && this.destination.position === 1) {
-                            this.destination.resize(estimatedLength);
+                        } else if (_package.length > 0 && this.destination.position === 1) {
+                            this.destination.resize(_package.length);
                         }
 
                     } else {
@@ -79,8 +81,9 @@ export default class HuffmanDecompression {
 
     finish = () => {
         const dest = this.destination.clone();
-        const type = PacketTypes[dest.getByte(0)] || [];
-        console.log(`receive > 0x${dest.getByte(0).toString(16)} > ${type[0]}`);
+        const _package = manager.getPackage(dest.getByte(0));
+        console.log(_package);
+        console.log(`receive > 0x${dest.getByte(0).toString(16)} > ${_package && _package.description}`);
         this.receivePacket(dest);
 
         this.destination = new Package(3);
