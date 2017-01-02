@@ -1,5 +1,4 @@
 import { handleActions } from 'redux-actions-helpers'
-
 import { auth, error, confirm, complete, relogin } from './actions'
 
 const initialState = {

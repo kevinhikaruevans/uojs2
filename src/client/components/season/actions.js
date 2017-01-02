@@ -1,5 +1,4 @@
 import { createAction } from 'redux-actions-helpers'
-import { Package } from 'component/helpers'
 
 export const update = createAction('@@season/UPDATE', ({ season, sound }) => ({
     season,

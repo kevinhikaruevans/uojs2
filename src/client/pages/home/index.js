@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 
 import Login from 'component/login'
 import Connect from 'component/connect'

@@ -33,7 +33,7 @@ export default handleActions({
             last
         };
 
-        // @TODO: plss stop monkey code
+        // @TODO: plss stop monkey code :)
         switch(typeMsg) {
             case 0x00:
                 result.normal = [

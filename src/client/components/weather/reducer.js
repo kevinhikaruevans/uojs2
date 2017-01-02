@@ -1,5 +1,4 @@
 import { handleActions } from 'redux-actions-helpers'
-
 import { update } from './actions'
 
 const initialState = {

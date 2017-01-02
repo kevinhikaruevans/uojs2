@@ -30,10 +30,12 @@ export const disconnectMaster = payout => (dispatch, getState, transport) => {
         request
             .then(
                 result => {
+                    // @TODO: dispatch?
                     console.log('DISCONNECT OK')
                     resolve(result);
                 },
                 error => {
+                    // @TODO: dispatch?
                     console.log('DISCONNECT ERROR')
                     reject(error);
                 }

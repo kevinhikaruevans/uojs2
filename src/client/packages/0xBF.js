@@ -1,5 +1,4 @@
 import PackageBase from 'core/package-base'
-import { Package } from 'component/helpers'
 
 class _0xBF extends PackageBase {
 
@@ -8,21 +7,6 @@ class _0xBF extends PackageBase {
 
         this.description = 'Generic Command';
     }
-
-    create = version => {
-        const length = 4 + version.length;
-        const result = new Package(length);
-
-        result.append(
-            this.number,
-            0x00,
-            length,
-            version,
-            0
-        );
-
-        return result
-    };
 
     action = ({ dispatch }, _package) => {
         _package.begin();
