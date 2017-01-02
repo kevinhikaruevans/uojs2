@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "An online client for the popular game Ultima Online",
   "main": "dist/uojs2.js",
+  "engines" : {
+    "node": ">=6"
+  },
   "scripts": {
     "proxy:debug": "node src/server -d=*",
     "build:client:dev": "webpack --config=webpack",
@@ -23,13 +26,16 @@
     "mmorpg"
   ],
   "author": "Kevin Evans <evans.kevinh@gmail.com>",
+  "contributors": [
+    "Aleksey Novikov <lamo2k123@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kevinhikaruevans/uojs2/issues"
   },
   "homepage": "https://github.com/kevinhikaruevans/uojs2",
   "devDependencies": {
-    "babel-core": "6.20.0",
+    "babel-core": "6.21.0",
     "babel-loader": "6.2.10",
     "babel-plugin-react-transform": "2.0.2",
     "babel-plugin-transform-class-properties": "6.19.0",
@@ -47,12 +53,12 @@
     "redbox-react": "1.3.3",
     "redux-logger": "2.7.4",
     "style-loader": "0.13.1",
-    "stylelint": "7.7.0",
-    "webpack": "2.2.0-rc.2",
+    "stylelint": "7.7.1",
+    "webpack": "2.2.0-rc.3",
     "webpack-dev-server": "2.2.0-rc.0"
   },
   "dependencies": {
-    "debug": "2.5.1",
+    "debug": "2.6.0",
     "history": "4.5.0",
     "hook-redux": "0.0.4",
     "minimist": "1.2.0",
