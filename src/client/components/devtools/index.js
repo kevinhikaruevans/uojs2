@@ -111,7 +111,7 @@ class Devtools extends Component {
                 return <DevtoolsMap />;
                 break;
             case 'cursore':
-                return <DevtoolsCursore />
+                return <DevtoolsCursore />;
                 break;
         }
     }

@@ -1,8 +1,7 @@
 import PackageBase from 'core/package-base'
-import { Package, pad } from 'component/helpers'
 
-import { actions as actionsConnect } from 'component/connect'
-import { actions as actionsPostLogin } from 'component/post-login'
+import { actions as connect } from 'component/connect'
+import { actions as login } from 'component/login'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet8c.htm
 class _0x8C extends PackageBase {
@@ -19,23 +18,23 @@ class _0x8C extends PackageBase {
         const key       = [7, 8, 9, 10].map(offset => _package.getByte(offset));
 
         // @TODO: interation 2
-        dispatch(actionsConnect.disconnectMaster()).then(
+        dispatch(connect.disconnectMaster()).then(
             zaeb => {
-                const connect = dispatch(
-                    actionsConnect.connectMaster({
+                const result = dispatch(
+                    connect.connectMaster({
                         host : address.join('.'),
                         port
                     })
                 );
 
-                connect
+                result
                     .then(
                         result => {
                             dispatch(
-                                actionsConnect.compressionEnable()
+                                connect.compressionEnable()
                             );
                             dispatch(
-                                actionsPostLogin.loginMaster({
+                                    login.reloginMaster({
                                     key
                                 })
                             );

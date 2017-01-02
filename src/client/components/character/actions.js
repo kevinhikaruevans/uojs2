@@ -42,7 +42,7 @@ export const create = payload => (dispatch, getState, transport) => {
         _package.create({
             username: null,
             password: null,
-            key     : getState().postLogin.key
+            key     : getState().login.key
         })
     );
 };
@@ -54,7 +54,7 @@ export const selected = ({ name, password, slot }) => (dispatch, getState, trans
             name,
             password,
             slot,
-            key : getState().postLogin.key
+            key : getState().login.key
         })
     );
 };

@@ -15,9 +15,7 @@ import { reducer as weather } from 'component/weather'
 import { reducer as message } from 'component/message'
 import { reducer as worldObject } from 'component/world-object'
 import { reducer as map } from 'component/map'
-
 import { reducer as login } from 'component/login'
-import { reducer as postLogin } from 'component/post-login'
 
 export default combineReducers({
     connect,
@@ -35,7 +33,5 @@ export default combineReducers({
     message,
     worldObject,
     map,
-
-    login,
-    postLogin
+    login
 });
