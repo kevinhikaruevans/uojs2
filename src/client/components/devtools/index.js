@@ -118,7 +118,7 @@ class Devtools extends Component {
 
     get elToolContainer() {
         if(this.state.sidebar && this.state.tool) {
-            return <div className={style['devtools__tool']}>{this.elTool}</div>
+            return <div className={style['devtools__tool']} data-x={this.state.x}>{this.elTool}</div>
         }
     }
 
