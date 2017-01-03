@@ -7,11 +7,6 @@ node_js:
 cache:
   yarn: true
 
-addons:
-  code_climate:
-    repo_token: $REPO_TOKEN
-
-#script: "gulp coverage"
-
-after_success:
-  - codeclimate-test-reporter < lcov.info
+script:
+  - yarn run build:client:dev
+  - yarn run build:client:prod

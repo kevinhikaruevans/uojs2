@@ -60,7 +60,9 @@ module.exports = [{
     loader  : 'eslint',
     exclude : /node_modules/,
     query   : {
-        configFile: resolve(global.webpack.context, '.eslintrc')
+        failOnWarning   : global.webpack.production,
+        failOnError     : global.webpack.production,
+        configFile      : resolve(global.webpack.context, '.eslintrc')
     },
 }, {
     test    : /\.jsx?$/,

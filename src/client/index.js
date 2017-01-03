@@ -86,7 +86,7 @@ BrowserRouter
     .init({
         path    : history.location.pathname,
         hooks   : [
-            hookRedux({ dispatch: store.dispatch })
+            hookRedux({ dispatch : store.dispatch })
         ],
         routes,
         history
