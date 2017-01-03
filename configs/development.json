@@ -5,9 +5,9 @@
 
     "server.host" : "192.168.1.124",
 
-    "ws.host": "192.168.1.124",
-    "ws.port": 2594,
+    "net.timeout" : 5000,
 
-    "net.host": "192.168.1.139",
-    "net.port": 2593
+    "ws.client.host" : "192.168.1.124",
+    "ws.server.host" : "0.0.0.0",
+    "ws.port" : 2594
 }

@@ -1,0 +1,125 @@
+:local {
+
+    .devtools-cursore {
+
+        &__canvas {
+            display: block;
+            width: calc(44px * 7);
+            height: calc(44px * 7);
+            border: solid 1px #d1d9db;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+
+            &[data-cursor="default"] { cursor: url("./cursors/default.cur") 0 0, default; }
+
+            &[data-cursor="help"] { cursor: url("./cursors/help.cur") 0 0, help; }
+
+            &[data-cursor="col-resize"] { cursor: url("./cursors/col-resize.cur") 0 0, col-resize; }
+
+            &[data-cursor="move"] { cursor: url("./cursors/move.cur") 0 0, move; }
+
+            &[data-cursor="nesw-resize"] { cursor: url("./cursors/nesw-resize.cur") 0 0, nesw-resize; }
+
+            &[data-cursor="nwse-resize"] { cursor: url("./cursors/nwse-resize.cur") 0 0, nwse-resize; }
+
+            &[data-cursor="pen"] { cursor: url("./cursors/pen.cur") 0 0, default; }
+
+            &[data-cursor="target"] { cursor: url("./cursors/target.cur") 0 0, default; }
+
+            &[data-cursor="text"] { cursor: url("./cursors/text.cur") 0 0, text; }
+
+            &[data-cursor="not-allowed"] { cursor: url("./cursors/not-allowed.cur") 0 0, not-allowed; }
+
+            &[data-cursor="row-resize"] { cursor: url("./cursors/row-resize.cur") 0 0, row-resize; }
+
+            &[data-cursor="wait"] { cursor: url("./cursors/wait.gif") 0 0, wait; }
+
+            &[data-cursor="war-mode"] { cursor: url("./cursors/war-mode.cur") 0 0, default; }
+
+        }
+
+        &__list {
+            display: flex;
+            flex-wrap: wrap;
+            width: calc(44px * 7);
+            margin-bottom: 2px;
+        }
+
+        &__list-item {
+            width: 40px;
+            height: 40px;
+            margin: 1px;
+            border: solid 1px #d1d9db;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+
+            &[data-selected="true"] {
+                background-color: #616166;
+                border-color: #000;
+            }
+
+            &[data-cursor="default"] { background-image: url("./cursors/default.cur"); }
+
+            &[data-cursor="help"] { background-image: url("./cursors/help.cur"); }
+
+            &[data-cursor="col-resize"] { background-image: url("./cursors/col-resize.cur"); }
+
+            &[data-cursor="move"] { background-image: url("./cursors/move.cur"); }
+
+            &[data-cursor="nesw-resize"] { background-image: url("./cursors/nesw-resize.cur"); }
+
+            &[data-cursor="nwse-resize"] { background-image: url("./cursors/nwse-resize.cur"); }
+
+            &[data-cursor="pen"] { background-image: url("./cursors/pen.cur"); }
+
+            &[data-cursor="target"] { background-image: url("./cursors/target.cur"); }
+
+            &[data-cursor="text"] { background-image: url("./cursors/text.cur"); }
+
+            &[data-cursor="not-allowed"] { background-image: url("./cursors/not-allowed.cur"); }
+
+            &[data-cursor="row-resize"] { background-image: url("./cursors/row-resize.cur"); }
+
+            &[data-cursor="wait"] { background-image: url("./cursors/wait.gif"); }
+
+            &[data-cursor="war-mode"] { background-image: url("./cursors/war-mode.cur"); }
+
+        }
+
+        &__cross {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1px;
+            height: 1px;
+            background-color: #ff0000;
+
+            &::before {
+                content: "";
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                border: solid 1px #000;
+                border-radius: 50%;
+                top: -11px;
+                left: -11px;
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                border: solid 1px #000;
+                border-radius: 50%;
+                top: -6px;
+                left: -6px;
+            }
+
+        }
+
+    }
+
+}

@@ -54,3 +54,5 @@ Here are some ways you can contribute to this project!
 * Write tests
 
 ![ga](https://ga-beacon.appspot.com/UA-38326743-3/welcome-page?pixel)
+
+[SUO]: https://github.com/ServUO/ServUO

@@ -149,7 +149,8 @@
                 "flexbox",
                 "viewport-units",
                 "css-appearance",
-                "will-change"
+                "will-change",
+                "css3-cursors"
             ]
         }]
     }

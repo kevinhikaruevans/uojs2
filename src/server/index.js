@@ -3,58 +3,83 @@ require('./env');
 const config = require('./../../configs');
 const { connect } = require('net');
 const { Server } = require('ws');
-const debug = require('debug');
-const debugWS = debug('proxy:ws');
-const debugNET = debug('proxy:net');
+const debug = require('debug')('proxy:ws');
 
 const wss = new Server({
-    host : config['ws.host'],
+    host : config['ws.server.host'],
     port : config['ws.port']
 });
 
+const Proxy = require('./socket');
+
 wss.on('connection', ws => {
-  debugWS('connect protocol %s/%s', ws.protocolVersion, ws.protocol);
-
-  const proxy = connect({
-      host : config['net.host'],
-      port : config['net.port']
-  }, () => debugNET('connect %s:%s', config['net.host'], config['net.port']));
-
-    proxy.on('data', buffer => {
-        debugNET('data length %s', buffer.length);
-
-        ws.send(buffer, { binary: true });
-    });
-
-    proxy.on('end', () => {
-        debugNET('end connect');
-
-        ws.close()
-    });
-
-    proxy.on('error', error => {
-        debugNET('error: %s', error);
-
-        proxy.end();
-        ws.close();
-    });
+    debug('Connect protocol %s/%s', ws.protocolVersion, ws.protocol);
 
     ws.on('message', message => {
-        debugWS('message length %s', message.length);
+        debug('Message length %d, type %s', message.length, typeof message);
 
-        proxy.write(message);
+        switch(typeof message) {
+            case 'string':
+                const { event, payout, uid } = JSON.parse(message);
+
+                switch(event) {
+                    case 'connect:server':
+                        const server = Proxy.connect(payout);
+
+                        server.then(
+                            socket => {
+                                ws.send(JSON.stringify({
+                                    uid,
+                                    event,
+                                    error   : null,
+                                    payout  : {
+                                        ip : ws.upgradeReq.connection.remoteAddress
+                                    }
+                                }));
+
+                                socket.on('data', buffer => ws.send(buffer, { binary: true }));
+                                // @TODO: readyState error
+                                // socket.on('close', ws.close);
+                            },
+                            error => {
+                                ws.send(JSON.stringify({
+                                    uid,
+                                    event,
+                                    error
+                                }));
+                            }
+                        );
+                        break;
+                    case 'disconnect:server':
+                        if(Proxy) {
+                            Proxy.socket.on('close', hadError => {
+                                ws.send(JSON.stringify({
+                                    uid,
+                                    event,
+                                    hadError
+                                }));
+                            });
+                            Proxy.end();
+                        }
+                        break;
+                }
+                break;
+            case 'object':
+                Proxy.send(message);
+                break;
+        }
+
     });
 
     ws.on('close', () => {
-        debugWS('closed');
+        debug('closed');
 
-        proxy.end()
+        Proxy.end();
     });
 
     ws.on('error', error => {
-        debugWS('error: %s', error);
+        debug('error: %s', error);
 
-        proxy.end()
+        Proxy.end();
     });
-
 });
