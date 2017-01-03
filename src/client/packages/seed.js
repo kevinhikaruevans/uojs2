@@ -11,14 +11,14 @@ class Seed extends PackageBase {
         this.alias = 'seed';
     }
 
-    create = key => {
+    create = (key) => {
         let result = null;
 
         if(key) {
             if(typeof key === 'string') {
                 const parse = key.split('.');
 
-                result = parse.map(item => parseInt(item, 10))
+                result = parse.map((item) => parseInt(item, 10))
             } else if(Array.isArray(key)) {
                 result = key;
             }

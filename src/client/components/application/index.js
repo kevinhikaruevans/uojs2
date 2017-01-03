@@ -20,7 +20,7 @@ class Application extends Component {
     get elIntro() {
         if(!this.state.intro) {
             const props = {
-                onExit : e => {
+                onExit : () => {
                     this.setState({
                         intro : true
                     }, () => {

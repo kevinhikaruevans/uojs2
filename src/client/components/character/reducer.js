@@ -3,11 +3,11 @@ import { list, update, removeAction, removeError } from './actions'
 import { handleActions } from 'redux-actions-helpers'
 
 const initialState = {
-    list        : [],
-    cities      : [],
-    removeAction: null,
-    removeError : {},
-    status      : false
+    list         : [],
+    cities       : [],
+    removeAction : null,
+    removeError  : {},
+    status       : false
 };
 
 export default handleActions({
@@ -24,8 +24,7 @@ export default handleActions({
     [removeAction] : (state, { index }) => ({
         ...state,
         removeAction : index,
-        // @TODO: Can remove all errors? need discussion.
-        removeError : {
+        removeError  : { // @TODO: Can remove all errors? need discussion.
             ...state.removeError,
             [index] : null
         }

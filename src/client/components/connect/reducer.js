@@ -28,7 +28,7 @@ export default handleActions({
         ...state,
         port
     }),
-    [connect] : state => ({
+    [connect] : (state) => ({
         ...state,
         error : null
     }),
@@ -42,11 +42,11 @@ export default handleActions({
         error,
         status : false
     }),
-    [compressionEnable] : state => ({
+    [compressionEnable] : (state) => ({
         ...state,
         compression : true
     }),
-    [compressionDisable] : state => ({
+    [compressionDisable] : (state) => ({
         ...state,
         compression : false
     })

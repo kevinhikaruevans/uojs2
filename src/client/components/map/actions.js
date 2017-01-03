@@ -6,7 +6,7 @@ export const update = createAction('@@map/UPDATE', ({ x, y, tiles }) => ({
     tiles
 }));
 
-export const updateMaster = ({ x, y }) => (dispatch, getState, transport) => {
+export const updateMaster = ({ x, y }) => (dispatch) => {
     x = Math.round(x / 8);
     y = Math.round(y / 8);
 
@@ -14,11 +14,11 @@ export const updateMaster = ({ x, y }) => (dispatch, getState, transport) => {
 
     fetch
         .then(
-            result => result.json(),
-            error => console.error(error)
+            (result) => result.json(),
+            (error) => console.error(error)
         )
         .then(
-            tiles => {
+            (tiles) => {
                 dispatch(update({
                     x,
                     y,

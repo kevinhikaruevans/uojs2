@@ -5,7 +5,7 @@ import Character from 'component/character'
 
 import style from './style'
 
-@connect(store => ({
+@connect((store) => ({
     list : store.character.list
 }))
 class Characters extends Component {

@@ -55,6 +55,14 @@ module.exports = [{
         resolve(global.webpack.context, 'src', 'client')
     ]
 }, {
+    enforce : 'pre',
+    test    : /\.jsx?$/,
+    loader  : 'eslint',
+    exclude : /node_modules/,
+    query   : {
+        configFile: resolve(global.webpack.context, '.eslintrc')
+    },
+}, {
     test    : /\.jsx?$/,
     include : [
         resolve(global.webpack.context, 'src', 'client')

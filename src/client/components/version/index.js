@@ -6,25 +6,25 @@ import reducer from './reducer'
 
 import style from './style'
 
-@connect(store => ({
-    selected: store.version.selected,
-    list    : store.version.list
+@connect((store) => ({
+    selected : store.version.selected,
+    list     : store.version.list
 }))
 class Version extends Component {
 
     static displayName = '[component] version';
 
     static defaultProps = {
-        list    : [],
-        selected: 0
+        list     : [],
+        selected : 0
     };
 
     static propTypes = {
-        list    : PropTypes.array,
-        selected: PropTypes.number
+        list     : PropTypes.array,
+        selected : PropTypes.number
     };
 
-    onChange = e => {
+    onChange = (e) => {
         const index = parseInt(e.currentTarget.value, 10);
 
         this.props.dispatch(

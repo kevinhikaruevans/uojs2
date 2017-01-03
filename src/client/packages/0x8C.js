@@ -13,13 +13,13 @@ class _0x8C extends PackageBase {
     }
 
     action = ({ dispatch }, _package) => {
-        const address   = [1, 2, 3, 4].map(offset => _package.getByte(offset));
-        const port      = _package.getShort(5);
-        const key       = [7, 8, 9, 10].map(offset => _package.getByte(offset));
+        const address = [1, 2, 3, 4].map((offset) => _package.getByte(offset));
+        const port = _package.getShort(5);
+        const key = [7, 8, 9, 10].map((offset) => _package.getByte(offset));
 
         // @TODO: interation 2
         dispatch(connect.disconnectMaster()).then(
-            zaeb => {
+            () => {
                 const result = dispatch(
                     connect.connectMaster({
                         host : address.join('.'),
@@ -29,7 +29,7 @@ class _0x8C extends PackageBase {
 
                 result
                     .then(
-                        result => {
+                        () => {
                             dispatch(
                                 connect.compressionEnable()
                             );
@@ -39,8 +39,8 @@ class _0x8C extends PackageBase {
                                 })
                             );
                         },
-                        error => {
-                            console.log(22222)
+                        (error) => {
+                            console.log(22222, error)
                         }
                     );
             }

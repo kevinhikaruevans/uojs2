@@ -192,7 +192,7 @@ export default class Packet {
             return '[Packet: empty]';
         }
 
-        const asciiString = Array.prototype.map.call(this.data, x => {
+        const asciiString = Array.prototype.map.call(this.data, (x) => {
             if (x < 0x7F && x > 0x1F) {
                 return String.fromCharCode(x);
             }
@@ -207,7 +207,7 @@ export default class Packet {
             return '[Packet: empty]';
         }
 
-        const prettyString = Array.prototype.map.call(this.data, x => x.toString(16)).join(', ').toUpperCase();
+        const prettyString = Array.prototype.map.call(this.data, (x) => x.toString(16)).join(', ').toUpperCase();
         const _package = manager.getPackage(this.data[0]);
         if (_package) {
             return `[Packet(${_package.description}): ${prettyString}]`;

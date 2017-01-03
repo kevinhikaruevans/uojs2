@@ -16,19 +16,17 @@ class Devtools extends Component {
         tool    : null
     };
 
-    onClickChangePosition = (axis, value) => {
-        return e => {
-            e.preventDefault();
+    onClickChangePosition = (axis, value) => (e) => {
+        e.preventDefault();
 
-            this.setState({
-                [axis] : value
-            }, () => {
-                localStorage.setItem(`devtools-${axis}`, value);
-            })
-        }
+        this.setState({
+            [axis] : value
+        }, () => {
+            localStorage.setItem(`devtools-${axis}`, value);
+        })
     };
 
-    onClickSidebar = e => {
+    onClickSidebar = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -36,17 +34,15 @@ class Devtools extends Component {
         })
     };
 
-    onClickSelectTool = tool => {
-        return e => {
-            e.preventDefault();
+    onClickSelectTool = (tool) => (e) => {
+        e.preventDefault();
 
-            if(this.state.tool === tool) {
-                this.setState({
-                    tool : null
-                })
-            } else {
-                this.setState({ tool })
-            }
+        if(this.state.tool === tool) {
+            this.setState({
+                tool : null
+            })
+        } else {
+            this.setState({ tool })
         }
     };
 

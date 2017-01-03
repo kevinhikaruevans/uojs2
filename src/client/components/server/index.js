@@ -20,7 +20,7 @@ class Server extends Component {
         ip      : PropTypes.string
     };
 
-    onClick = e => {
+    onClick = (e) => {
         e.preventDefault();
 
         this.context.store.dispatch(

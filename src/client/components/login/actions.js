@@ -18,7 +18,7 @@ export const relogin = createAction('@@login/RELOGIN', ({ key }) => ({
     key
 }));
 
-export const reloginMaster = payload => (dispatch, getState, transport) => {
+export const reloginMaster = (payload) => (dispatch, getState, transport) => {
     dispatch(relogin(payload));
 
     const state = getState().login;
@@ -30,7 +30,7 @@ export const reloginMaster = payload => (dispatch, getState, transport) => {
     transport.sendPacket(packagePostLogin.create(state.username, state.password, payload.key));
 };
 
-export const authMaster = payout => (dispatch, getState, transport) => {
+export const authMaster = (payout) => (dispatch, getState, transport) => {
     dispatch(auth(payout));
 
     const packageSeed = manager.getPackage('seed');

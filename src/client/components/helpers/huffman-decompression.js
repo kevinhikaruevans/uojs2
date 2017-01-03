@@ -12,7 +12,7 @@ export default class HuffmanDecompression {
         return (buffer >> (bit - 1)) & 1;
     }
 
-    receive = data => {
+    receive = (data) => {
         // This was adapted from UltimaXNA's huffman decompression:
         // https://github.com/ZaneDubya/UltimaXNA/blob/master/dev/Core/Network/Compression/HuffmanDecompression.cs
         let node = 0;

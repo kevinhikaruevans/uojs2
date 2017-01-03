@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import style from './style'
 
-@connect(store => ({
+@connect((store) => ({
     tiles : store.map.tiles
 }))
 class DevtoolsMap extends Component {

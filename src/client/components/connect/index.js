@@ -10,12 +10,12 @@ class Connect extends Component {
     static displayName = '[component] connect';
 
     static contextTypes = {
-        store: PropTypes.object.isRequired
+        store : PropTypes.object.isRequired
     };
 
     state = {
-        host: localStorage.getItem('host'),
-        port: localStorage.getItem('port')
+        host : localStorage.getItem('host'),
+        port : localStorage.getItem('port')
     };
 
     componentWillMount() {
@@ -23,7 +23,7 @@ class Connect extends Component {
         this.setPort(this.state.port);
     }
 
-    setHost = host => {
+    setHost = (host) => {
         if(host) {
             this.context.store.dispatch(
                 setHost({ host })
@@ -31,7 +31,7 @@ class Connect extends Component {
         }
     };
 
-    setPort = port => {
+    setPort = (port) => {
         if(port) {
             this.context.store.dispatch(
                 setPort({ port })
@@ -39,7 +39,7 @@ class Connect extends Component {
         }
     };
 
-    onChangeHost = e => {
+    onChangeHost = (e) => {
         const $input = e.currentTarget;
 
         if($input.checkValidity()) {
@@ -53,7 +53,7 @@ class Connect extends Component {
         }
     };
 
-    onChangePort = e => {
+    onChangePort = (e) => {
         const $input = e.currentTarget;
 
         if($input.checkValidity()) {

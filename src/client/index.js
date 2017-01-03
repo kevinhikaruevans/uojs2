@@ -56,7 +56,7 @@ if(__DEVELOPMENT__ && module.hot) {
 
 // @TODO: GO to app HuffmanDecompression
 // need huffman return result
-const decompression = new HuffmanDecompression(_package => {
+const decompression = new HuffmanDecompression((_package) => {
     const item = manager.getPackage(_package.getId());
 
     if(item) {

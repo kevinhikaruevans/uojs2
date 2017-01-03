@@ -8,7 +8,7 @@ import reducer from './reducer'
 
 import style from './style'
 
-@connect(store => ({
+@connect((store) => ({
     error : store.login.error
 }))
 class Login extends Component {
@@ -20,16 +20,16 @@ class Login extends Component {
     };
 
     state = {
-        username: localStorage.getItem('username'),
-        password: localStorage.getItem('password')
+        username : localStorage.getItem('username'),
+        password : localStorage.getItem('password')
     };
 
-    onSubmit = e => {
+    onSubmit = (e) => {
         e.preventDefault();
 
-        const $form     = e.currentTarget;
-        const formData  = new FormData($form);
-        const params    = {};
+        const $form = e.currentTarget;
+        const formData = new FormData($form);
+        const params = {};
 
         // @TODO: FormData.forEach working only chrome :(
         formData.forEach((value, key) => {
@@ -45,7 +45,7 @@ class Login extends Component {
         );
 
         connect.then(
-            result => {
+            () => {
                 this.props.dispatch(
                     authMaster({
                         username : params['username'],

@@ -19,7 +19,7 @@ class Intro extends Component {
         document.removeEventListener('keyup', this.onExit);
     }
 
-    onExit = e => {
+    onExit = (e) => {
         e.preventDefault();
 
         this.props.onExit && this.props.onExit(e);

@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions-helpers'
 
-export const overall = createAction('@@light/OVERALL', overall => ({
+export const overall = createAction('@@light/OVERALL', (overall) => ({
     overall
 }));
 

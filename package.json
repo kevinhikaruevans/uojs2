@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "An online client for the popular game Ultima Online",
   "main": "dist/uojs2.js",
-  "engines" : {
+  "engines": {
     "node": ">=6"
   },
   "scripts": {
@@ -36,6 +36,7 @@
   "homepage": "https://github.com/kevinhikaruevans/uojs2",
   "devDependencies": {
     "babel-core": "6.21.0",
+    "babel-eslint": "7.1.1",
     "babel-loader": "6.2.10",
     "babel-plugin-react-transform": "2.0.2",
     "babel-plugin-transform-class-properties": "6.19.0",
@@ -44,6 +45,9 @@
     "babel-preset-latest": "6.16.0",
     "babel-preset-react": "6.16.0",
     "css-loader": "0.26.1",
+    "eslint": "3.12.2",
+    "eslint-loader": "1.6.1",
+    "eslint-plugin-react": "6.8.0",
     "extract-text-webpack-plugin": "2.0.0-beta.4",
     "file-loader": "0.9.0",
     "postcss-loader": "1.2.1",

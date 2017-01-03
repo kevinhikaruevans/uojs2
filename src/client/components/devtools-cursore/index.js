@@ -27,7 +27,7 @@ class DevtoolsCursore extends Component {
         ]
     };
 
-    onMouseMove = e => {
+    onMouseMove = (e) => {
         const offset = {
             left    : e.currentTarget.offsetLeft + 200,
             top     : e.currentTarget.offsetTop
@@ -39,12 +39,10 @@ class DevtoolsCursore extends Component {
         });
     };
 
-    onClick = cursor => {
-        return e => {
-            e.preventDefault();
+    onClick = (cursor) => (e) => {
+        e.preventDefault();
 
-            this.setState({ cursor })
-        }
+        this.setState({ cursor })
     };
 
     render() {

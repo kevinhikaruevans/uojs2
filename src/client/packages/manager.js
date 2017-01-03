@@ -74,7 +74,7 @@ class Manager {
         ].forEach(this.registration);
     }
 
-    getPackage = id => {
+    getPackage = (id) => {
         if(this.packages[id]) {
             return this.packages[id];
         } else {
@@ -84,7 +84,7 @@ class Manager {
         }
     };
 
-    registration = Package => {
+    registration = (Package) => {
         if(typeof Package === 'function') {
             const item = new Package();
 
@@ -94,7 +94,7 @@ class Manager {
             }
 
             if(item.alias) {
-                item.alias.forEach(key => {
+                item.alias.forEach((key) => {
                     if(typeof key !== 'undefined') {
                         log('Registration package alias %d -> %s', item.number, key);
                         this.packages[key] = item

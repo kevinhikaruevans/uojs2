@@ -55,25 +55,25 @@ class Transport {
         }
     };
 
-    handleOpen = event => {
+    handleOpen = (event) => {
         log('Socket open %o', event);
     };
 
-    handleMessage = event => {
+    handleMessage = (event) => {
         log('Socket message %o', event);
 
     };
 
-    handleClose = event => {
+    handleClose = (event) => {
         // @TODO: add decryption code message
         log('Socket close code: %d, %o', event.code, event);
     };
 
-    handleError = event => {
+    handleError = (event) => {
         log('Socket error %o', event);
     };
 
-    sendObject = data => {
+    sendObject = (data) => {
         return new Promise((resolve, reject) => {
             if(this._socket.readyState === 1) {
                 const uid = this.uid;
@@ -83,7 +83,7 @@ class Transport {
                     uid
                 };
 
-                const once = message => {
+                const once = (message) => {
                     // @TODO: check data not null
                     const data = JSON.parse(message.data);
 
@@ -107,7 +107,7 @@ class Transport {
         });
     };
 
-    sendPacket = data => {
+    sendPacket = (data) => {
         this._socket.send(data.toBuffer());
     }
 }

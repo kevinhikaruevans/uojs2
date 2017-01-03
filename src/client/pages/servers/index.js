@@ -5,7 +5,7 @@ import Server from 'component/server'
 
 import style from './style'
 
-@connect(store => ({
+@connect((store) => ({
     list : store.server.list
 }))
 class Servers extends Component {
