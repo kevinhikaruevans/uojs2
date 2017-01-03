@@ -11,7 +11,7 @@ class Game extends Component {
     render() {
         return(
             <div>
-                <Ping />
+                <Ping className={style['page-game__ping']} />
                 123 GAME
             </div>
         )

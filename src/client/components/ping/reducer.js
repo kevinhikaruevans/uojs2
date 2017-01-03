@@ -23,7 +23,7 @@ export default handleActions({
         return {
             ...state,
             timeReceive,
-            timeDiff    : timeReceive - state.timeSend
+            timeDiff : timeReceive - state.timeSend
         }
     }
 }, {
