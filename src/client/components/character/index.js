@@ -6,7 +6,7 @@ import reducer from './reducer'
 
 import style from './style'
 
-@connect(store => ({
+@connect((store) => ({
     removeError : store.character.removeError
 }))
 class Character extends Component {
@@ -47,26 +47,26 @@ class Character extends Component {
         return result;
     }
 
-    onClickDelete = e => {
+    onClickDelete = (e) => {
         e.preventDefault();
 
         this.props.dispatch(
             remove({
-                index   : this.props.index,
-                password: this.props.password
+                index    : this.props.index,
+                password : this.props.password
             })
         )
     };
 
-    onClickSelected = e => {
+    onClickSelected = (e) => {
         e.preventDefault();
 
         if(!this.isDisabled) {
             this.props.dispatch(
                 selected({
-                    name    : this.props.name,
-                    password: this.props.password,
-                    slot    : this.props.index
+                    name     : this.props.name,
+                    password : this.props.password,
+                    slot     : this.props.index
                 })
             )
         } else {

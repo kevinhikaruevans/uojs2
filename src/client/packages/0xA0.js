@@ -10,7 +10,7 @@ class _0xA0 extends PackageBase {
         this.description = 'Server Select';
     }
 
-    create = index => {
+    create = (index) => {
         const result = new Package(this.length);
         // @TODO: need fix first 8 bit
         // shard.id is technically a short, but I'm saying it's a byte

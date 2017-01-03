@@ -1,6 +1,5 @@
-import { list, setSelected } from './actions'
-
 import { handleActions } from 'redux-actions-helpers'
+import { list, setSelected } from './actions'
 
 const initialState = {
     list        : [],

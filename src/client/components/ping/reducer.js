@@ -12,12 +12,12 @@ const initialState = {
 };
 
 export default handleActions({
-    [send] : state => ({
+    [send] : (state) => ({
         ...state,
         iteration   : state.iteration + 1,
         timeSend    : Date.now()
     }),
-    [receive] : state => {
+    [receive] : (state) => {
         const timeReceive = Date.now();
 
         return {

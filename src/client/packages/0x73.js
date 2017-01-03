@@ -20,7 +20,7 @@ class _0x73 extends PackageBase {
         return result
     };
 
-    action = ({ dispatch, getState }, _package) => {
+    action = ({ dispatch, getState }) => {
         dispatch(ping.receive());
 
         setTimeout(() => dispatch(ping.sendMaster()), getState().ping.interval || 30000);

@@ -6,11 +6,11 @@ export const list = createAction('@@server/LIST', ({ list }) => ({
     list
 }));
 
-export const setSelected = createAction('@@server/SET_SELECTED', index => ({
+export const setSelected = createAction('@@server/SET_SELECTED', (index) => ({
     index
 }));
 
-export const select = index => (dispatch, getState, transport) => {
+export const select = (index) => (dispatch, getState, transport) => {
     dispatch(setSelected(index));
 
     const packageServerSelect = manager.getPackage(0xA0);

@@ -11,15 +11,15 @@ class _0xA8 extends PackageBase {
     }
 
     action = ({ dispatch }, _package) => {
-        const list  = [];
-        const step  = 40 + 6;
-        const qty   = _package.getShort(4);
+        const list = [];
+        const step = 40 + 6;
+        const qty = _package.getShort(4);
 
         for(let i = 0; qty > i; i++) {
             const offset= i * step;
-            const id    = _package.getShort(offset);
-            const name  = _package.getString(offset + 4, 32);
-            const ip    = [39, 38, 37, 36].map(key => _package.getByte(offset + key));
+            const id = _package.getShort(offset);
+            const name = _package.getString(offset + 4, 32);
+            const ip = [39, 38, 37, 36].map((key) => _package.getByte(offset + key));
 
             // @TODO: need Full & timezone
 

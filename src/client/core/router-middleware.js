@@ -2,7 +2,8 @@ import { actions as server } from 'component/server'
 import { actions as character } from 'component/character'
 import { actions as login } from 'component/login'
 
-const middleware = history => ({ dispatch, getState }) => next => action => {
+// history => ({ dispatch, getState }) => next => action =>
+const middleware = (history) => () => (next) => (action) => {
     switch(action.type) {
         case server.list.toString():
             history.push('/servers');

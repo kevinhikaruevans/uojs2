@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import Intro from 'component/intro'
+import Devtools from 'component/devtools';
 
 import style from './style'
 
@@ -19,7 +20,7 @@ class Application extends Component {
     get elIntro() {
         if(!this.state.intro) {
             const props = {
-                onExit : e => {
+                onExit : () => {
                     this.setState({
                         intro : true
                     }, () => {
@@ -32,9 +33,16 @@ class Application extends Component {
         }
     }
 
+    get elDevtools() {
+        if(__DEVELOPMENT__) {
+            return <Devtools />
+        }
+    }
+
     render() {
         return(
             <div className={style['app']}>
+                {this.elDevtools}
                 {this.elIntro}
                 {/* reserve sound manager component */}
                 {this.props.children}

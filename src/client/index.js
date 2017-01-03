@@ -47,9 +47,16 @@ const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 
 const store = createStoreWithMiddleware(reducers);
 
+if(__DEVELOPMENT__ && module.hot) {
+    module.hot.accept('./reducers', () => {
+        store.replaceReducer(require('./reducers').default);
+    });
+}
+
+
 // @TODO: GO to app HuffmanDecompression
 // need huffman return result
-const decompression = new HuffmanDecompression(_package => {
+const decompression = new HuffmanDecompression((_package) => {
     const item = manager.getPackage(_package.getId());
 
     if(item) {
@@ -87,11 +94,11 @@ BrowserRouter
     .then(({ Router, routerProps, callback }) => {
         render(
             (
-                <Application>
-                    <Provider store={store}>
+                <Provider store={store}>
+                    <Application>
                         <Router {...routerProps} />
-                    </Provider>
-                </Application>
+                    </Application>
+                </Provider>
             ),
             document.getElementById('app'),
             callback

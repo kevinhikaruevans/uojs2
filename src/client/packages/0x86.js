@@ -16,8 +16,8 @@ class _0x86 extends PackageBase {
 
         for(let i = 0; i < qty; i++) {
             list.push({
-                name    : _package.getString(4 + i * 60, 30),
-                password: _package.getString(34 + i * 60, 30)
+                name     : _package.getString(4 + i * 60, 30),
+                password : _package.getString(34 + i * 60, 30)
             });
         }
 

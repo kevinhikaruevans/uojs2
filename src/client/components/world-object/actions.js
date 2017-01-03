@@ -13,6 +13,12 @@ export const update = createAction('@@world-object/UPDATE', ({ serial, model, x,
     equipment
 }));
 
+export const hash = createAction('@@world-object/HASH', ({ serial, hash }) => ({
+    serial,
+    hash
+}));
+
 export default {
-    update
+    update,
+    hash
 }

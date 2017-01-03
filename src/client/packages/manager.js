@@ -30,6 +30,7 @@ import _0x65 from './0x65'
 import _0x1C from './0x1C'
 import _0xAE from './0xAE'
 import _0x78 from './0x78'
+import _0xDC from './0xDC'
 
 const log = debug('app:package:manager');
 
@@ -68,34 +69,36 @@ class Manager {
             _0x65,
             _0x1C,
             _0xAE,
-            _0x78
+            _0x78,
+            _0xDC
         ].forEach(this.registration);
     }
 
-    getPackage = id => {
+    getPackage = (id) => {
         if(this.packages[id]) {
             return this.packages[id];
         } else {
-            // @TODO: Normal message error
-            console.warn('package not found', id)
+            const number = id.toString(16).toUpperCase();
+
+            console.warn('Package not found: 0x%s', number);
         }
     };
 
-    registration = Package => {
+    registration = (Package) => {
         if(typeof Package === 'function') {
             const item = new Package();
 
             if(typeof item.number === 'number') {
-                // @TODO: check number
                 log('Registration package number %s', item.number);
                 this.packages[item.number] = item;
             }
 
             if(item.alias) {
-                item.alias.forEach(key => {
-                    // @TODO: check key
-                    log('Registration package alias %d -> %s', item.number, key);
-                    this.packages[key] = item
+                item.alias.forEach((key) => {
+                    if(typeof key !== 'undefined') {
+                        log('Registration package alias %d -> %s', item.number, key);
+                        this.packages[key] = item
+                    }
                 });
             }
         }

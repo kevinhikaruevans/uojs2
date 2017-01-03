@@ -10,8 +10,6 @@ An unfinished web-based client for the game Ultima Online.
 
 ## Overview
 
-:point_right: Taking a short break from this project to review 3D concepts & Three.js. :point_left:
-
 This project is aiming to emulate the game Ultima Online (ver 7.x.x.x) in a web enviroment. It uses websockets (with websockify) to connect to servers that utilize the Ultima Online protocol. It then uses Redux to manage the global state and uses React coupled with three.js for the interface.
 
 
@@ -21,15 +19,14 @@ Also! Please know that this is completely a work in progress and it doesn't do a
 
 ## Current Status
 
-Networking, decompression, global state, React (sorta) works. Three.js still needs to be integrated within the React component.
+Networking, decompression, global state, React works.
 
-There also needs to be an art server and a way to quickly transfer art between the server and client. WebP + http2? maybe? no idea. Will research ideal image formats: gif is small, has a single alpha channel, and has limited colors... so this might be ideal.
+Graphics are currently being worked on. We're using [react-three-renderer](https://github.com/toxicFork/react-three-renderer) for this.
 
 ## Requirements
 
 ### Browser requirements
 
-* Modern browser
 * WebGL support
 * Websocket support
 
@@ -41,25 +38,20 @@ There also needs to be an art server and a way to quickly transfer art between t
 
 ## Getting Started
 
-0. Start your [ServUO][SUO] server.
-1. Clone the repository. Edit `src/server/config.js` if needed.
-2. Install dependencies: `npm install`
-3. In a terminal window, Build the project: `gulp build-server && gulp dev`
-4. In a different terminal window, start websockify: `npm start` (this might not work)
-5. Open http://localhost:4000/
-6. Eat sandwich
+0. Start your ServUO server.
+1. Clone the repository. Edit `configs/development.js` as needed.
+2. Install dependencies: `yarn install` or `npm install`
+3. In a terminal window, start the websocket proxy and server: `yarn run development`
+4. Open http://localhost:8080/
 
 ## Contributing
 
 Here are some ways you can contribute to this project!
 
-* Implement more of the packets. Check out the `state` directory for examples.
-* Create a UI. I'm thinking if the state has an 'invalidate' flag, so that when set to true, it'll call a redraw in the redux subscribe method, which just rerenders the viewport. Does that make sense? I have no idea.
-* Code review it! If you're a hardcore javascripter (is that a word?), I really want you to tell me what can be improved on here.
-* Add in pages in the [Wiki](https://github.com/kevinhikaruevans/uojs2/wiki/A-general-overview-of-everything)
-* Write tests (these are like the last thing on my todo list)
-* Migrate everything into web workers (particularly networking, redux stuff, and decompression). Then on the redux subscribe callback, transfer the data into the main UI thread?
-* If you live in Seattle, buy me some more beer. pls :beer:
+* Check out the issues tab and look for things to work on.
+* Implement more of the packets. Check out the `state` directory for examples. 
+* Add in pages in the [Wiki](https://github.com/kevinhikaruevans/uojs2/wiki)
+* Write tests
 
 ![ga](https://ga-beacon.appspot.com/UA-38326743-3/welcome-page?pixel)
 

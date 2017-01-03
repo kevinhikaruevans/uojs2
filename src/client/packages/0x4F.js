@@ -1,5 +1,4 @@
 import PackageBase from 'core/package-base'
-import { Package } from 'component/helpers'
 
 import { actions as light } from 'component/light'
 

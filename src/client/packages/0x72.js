@@ -11,7 +11,7 @@ class _0x72 extends PackageBase {
         this.description = 'Combat';
     }
 
-    create = status => {
+    create = (status) => {
         const result = new Package(length);
 
         result.append(

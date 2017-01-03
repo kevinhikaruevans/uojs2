@@ -19,6 +19,8 @@ class _0x00 extends PackageBase {
         result.append(0x00);
         result.writeCHAR('testedS', 30);
         result.writeCHAR('password', 30);
+
+        console.log(username, password, key);
         /*result.append(
             0x00,
             pad.right('testedS', 30),

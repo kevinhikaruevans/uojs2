@@ -11,7 +11,7 @@ class _0xBD extends PackageBase {
         this.description = 'Client Version';
     }
 
-    create = version => {
+    create = (version) => {
         const length = 4 + version.length;
         const result = new Package(length);
 
@@ -26,7 +26,7 @@ class _0xBD extends PackageBase {
         return result
     };
 
-    action = ({ dispatch }, _package) => {
+    action = ({ dispatch }) => {
         dispatch(
             version.send()
         );

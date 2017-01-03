@@ -29,7 +29,7 @@ if(global.webpack.development) {
 }
 
 module.exports = [{
-    test    : /\.(webm|cur)$/,
+    test    : /\.(webm|cur|gif)$/,
     loader  : 'file',
     query   : {
         name : global.webpack.production ? '[hash].[ext]' : '[name].[ext]'
@@ -54,6 +54,14 @@ module.exports = [{
     include : [
         resolve(global.webpack.context, 'src', 'client')
     ]
+}, {
+    enforce : 'pre',
+    test    : /\.jsx?$/,
+    loader  : 'eslint',
+    exclude : /node_modules/,
+    query   : {
+        configFile: resolve(global.webpack.context, '.eslintrc')
+    },
 }, {
     test    : /\.jsx?$/,
     include : [

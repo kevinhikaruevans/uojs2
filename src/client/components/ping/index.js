@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import actions, { sendMaster } from './actions'
@@ -6,7 +6,7 @@ import reducer from './reducer'
 
 import style from './style'
 
-@connect(store => ({
+@connect((store) => ({
     iteration   : store.ping.iteration,
     timeSend    : store.ping.timeSend,
     timeReceive : store.ping.timeReceive,

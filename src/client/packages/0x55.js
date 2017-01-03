@@ -10,7 +10,7 @@ class _0x55 extends PackageBase {
         this.description = 'Login Complete';
     }
 
-    action = ({ dispatch }, _package) => {
+    action = ({ dispatch }) => {
         dispatch(
             login.complete()
         );

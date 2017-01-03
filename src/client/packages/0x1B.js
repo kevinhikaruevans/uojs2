@@ -25,10 +25,12 @@ class _0x1B extends PackageBase {
         _package.nextByte();
         _package.nextInt();
 
+/*
         const serverBoundX = _package.nextShort();
         const serverBoundY = _package.nextShort();
         const serverBoundWidth = _package.nextShort();
         const serverBoundHeight = _package.nextShort();
+*/
 
         dispatch(login.confirm());
         dispatch(

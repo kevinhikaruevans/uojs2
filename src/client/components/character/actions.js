@@ -29,20 +29,23 @@ export const remove = ({ index, password }) => (dispatch, getState, transport) =
 
     transport.sendPacket(
         _package.create({
-            index   : index,
-            password: password,
-            ip      : getState().connect.ip
+            index,
+            password,
+            ip : getState().connect.ip
         })
     );
 };
 
-export const create = payload => (dispatch, getState, transport) => {
+export const create = (payload) => (dispatch, getState, transport) => {
     const _package = manager.getPackage(0x00);
+
+    console.log(payload);
+
     transport.sendPacket(
         _package.create({
-            username: null,
-            password: null,
-            key     : getState().postLogin.key
+            username : null,
+            password : null,
+            key      : getState().login.key
         })
     );
 };
@@ -54,7 +57,7 @@ export const selected = ({ name, password, slot }) => (dispatch, getState, trans
             name,
             password,
             slot,
-            key : getState().postLogin.key
+            key : getState().login.key
         })
     );
 };

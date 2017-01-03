@@ -28,7 +28,7 @@ class _0x11 extends PackageBase {
             payload.sex = _package.nextByte();
             payload.strength = _package.nextShort();
             payload.dexterity = _package.nextShort();
-            payload.intelligence  = _package.nextShort();
+            payload.intelligence = _package.nextShort();
             payload.stamina = {
                 current : _package.nextShort(),
                 max     : _package.nextShort()

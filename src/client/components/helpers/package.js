@@ -1,4 +1,4 @@
-import { types, maxSize } from 'datapack/packet';
+import manager from 'package/manager';
 import { trim } from './pad';
 
 export default class Packet {
@@ -9,7 +9,7 @@ export default class Packet {
     }
 
     resize(newSize) {
-        newSize = Math.min(newSize, maxSize);
+        newSize = Math.min(newSize, 4096);
         const newBuffer = new Uint8Array(newSize);
 
         for(let i = 0; i < newSize /*this.data.length*/; i++) {
@@ -179,10 +179,10 @@ export default class Packet {
             return '[Packet: empty]';
         }
 
-        const initialByte = this.data[0];
+        const _package = manager.getPackage(this.data[0]);
 
-        if (types[initialByte]) {
-            return `[Packet: ${types[initialByte][0]}]`;
+        if (_package) {
+            return `[Packet: ${_package.description}]`;
         }
         return `[Packet: Unknown 0x${this.data[0].toString(16)}]`;
     }
@@ -192,7 +192,7 @@ export default class Packet {
             return '[Packet: empty]';
         }
 
-        const asciiString = Array.prototype.map.call(this.data, x => {
+        const asciiString = Array.prototype.map.call(this.data, (x) => {
             if (x < 0x7F && x > 0x1F) {
                 return String.fromCharCode(x);
             }
@@ -207,17 +207,17 @@ export default class Packet {
             return '[Packet: empty]';
         }
 
-        const prettyString = Array.prototype.map.call(this.data, x => x.toString(16)).join(', ').toUpperCase();
-        const initialByte = this.data[0];
-        if (types[initialByte]) {
-            return `[Packet(${types[initialByte][0]}): ${prettyString}]`;
+        const prettyString = Array.prototype.map.call(this.data, (x) => x.toString(16)).join(', ').toUpperCase();
+        const _package = manager.getPackage(this.data[0]);
+        if (_package) {
+            return `[Packet(${_package.description}): ${prettyString}]`;
         }
         return `[Packet: ${prettyString}]`;
     }
 
     get expectedSize() {
-        const initialByte = this.data[0];
-        return types[initialByte][1];
+        const _package = manager.getPackage(this.data[0]);
+        return _package.length;
     }
 
     get variableSize() {
@@ -229,7 +229,7 @@ export default class Packet {
      * Skips to the beginning of the data portion of the packet.
      */
     begin() {
-        if (this.expectedSize === -1) {
+        if (this.expectedSize === null) {
             this.position = 3;
         } else {
             this.position = 1;

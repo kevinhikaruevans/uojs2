@@ -3,10 +3,10 @@ import { handleActions } from 'redux-actions-helpers'
 import { overall, personal } from './actions'
 
 const initialState = {
-    overall : null,
-    personal: {
-        level : null,
-        object: null
+    overall     : null,
+    personal    : {
+        level   : null,
+        object  : null
     }
 };
 
