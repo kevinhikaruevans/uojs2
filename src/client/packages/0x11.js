@@ -21,10 +21,9 @@ class _0x11 extends PackageBase {
             max     : _package.nextShort()
         };
         payload.canChangeName = !_package.nextByte();
+        payload.flag = _package.nextByte();
 
-        const typeFlag = _package.nextByte();
-
-        if(typeFlag > 0) {
+        if(payload.flag > 0) {
             payload.sex = _package.nextByte();
             payload.strength = _package.nextShort();
             payload.dexterity = _package.nextShort();
@@ -39,14 +38,16 @@ class _0x11 extends PackageBase {
             };
             payload.gold = _package.nextInt();
             payload.armorRating = _package.nextShort();
-            payload.weight = _package.nextShort();
+            payload.weight = {
+                current : _package.nextShort()
+            };
 
-            if (typeFlag >= 0x05) {
-                payload.maxWeight = _package.nextShort();
+            if (payload.flag >= 0x05) {
+                payload.weight.max = _package.nextShort();
                 payload.race = _package.nextByte();
             }
 
-            if (typeFlag >= 0x03) {
+            if (payload.flag >= 0x03) {
                 payload.statCap = _package.nextShort();
                 payload.followers = {
                     current : _package.nextByte(),
@@ -54,7 +55,7 @@ class _0x11 extends PackageBase {
                 };
             }
 
-            if (typeFlag >= 0x04) {
+            if (payload.flag >= 0x04) {
                 payload.resist = {
                     fire    : _package.nextShort(),
                     cold    : _package.nextShort(),
@@ -66,10 +67,34 @@ class _0x11 extends PackageBase {
                     min : _package.nextShort(),
                     max : _package.nextShort()
                 };
+                payload.tithingPoints = _package.nextInt()
             }
 
-            if (typeFlag >= 0x06) {
+            if (payload.flag >= 0x06) {
                 //TODO http://docs.polserver.com/packets/index.php?Packet=0x11
+                payload.hitChanceIncrease = _package.nextShort();
+                payload.swingSpeedIncrease = _package.nextShort();
+                payload.damageChanceIncrease = _package.nextShort();
+                payload.lowerReagentCost = _package.nextShort();
+                payload.hitPointsRegeneration = _package.nextShort();
+                payload.staminaRegeneration = _package.nextShort();
+                payload.manaRegeneration = _package.nextShort();
+                payload.reflectPhysicalDamage = _package.nextShort();
+                payload.enhancePotions = _package.nextShort();
+                payload.defenseChanceIncrease = _package.nextShort();
+                payload.spellDamageIncrease = _package.nextShort();
+                payload.fasterCastRecovery = _package.nextShort();
+                payload.fasterCasting = _package.nextShort();
+                payload.lowerManaCost = _package.nextShort();
+                payload.strengthIncrease = _package.nextShort();
+                payload.dexterityIncrease = _package.nextShort();
+                payload.intelligenceIncrease = _package.nextShort();
+                payload.hitPointsIncrease = _package.nextShort();
+                payload.staminaIncrease = _package.nextShort();
+                payload.manaIncrease = _package.nextShort();
+                payload.maximumHitPointsIncrease = _package.nextShort();
+                payload.maximumStaminaIncrease = _package.nextShort();
+                payload.maximumManaIncrease = _package.nextShort();
             }
         }
 

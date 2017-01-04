@@ -6,6 +6,8 @@
             display: flex;
             flex-direction: column;
             padding: 0 2px;
+            box-sizing: border-box;
+            max-width: 200px;
         }
 
         &__bar-block {
@@ -16,11 +18,12 @@
             &::before {
                 content: attr(data-label);
                 display: block;
-                width: 60px;
+                width: 20px;
                 font-size: 12px;
                 font-weight: 600;
                 font-family: monospace;
                 height: 14px;
+                text-align: center;
             }
 
         }
@@ -32,6 +35,17 @@
             border: solid 1px #000;
             overflow: hidden;
             width: 100%;
+
+            &::-webkit-progress-bar { background-color: #a4a1a4; }
+
+            &::-webkit-progress-value { background-color: #5072dd; }
+
+            &_health {
+
+                &::-webkit-progress-bar { background-color: #8a2409; }
+
+            }
+
         }
 
     }
