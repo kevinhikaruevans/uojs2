@@ -5,6 +5,10 @@ export const send = createAction('@@ping/SEND');
 
 export const receive = createAction('@@ping/RECEIVE');
 
+export const changeInterval = createAction('@@ping/CHANGE_INTERVAL', ({ index }) => ({
+    index
+}));
+
 export const sendMaster = () => (dispatch, getState, transport) => {
     dispatch(send());
 
@@ -15,5 +19,6 @@ export const sendMaster = () => (dispatch, getState, transport) => {
 
 export default {
     sendMaster,
-    receive
+    receive,
+    changeInterval
 }

@@ -1,17 +1,18 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import actions, { sendMaster } from './actions'
+import actions, { sendMaster, changeInterval } from './actions'
 import reducer from './reducer'
 
 import style from './style'
 
 @connect((store) => ({
-    iteration   : store.ping.iteration,
-    timeSend    : store.ping.timeSend,
-    timeReceive : store.ping.timeReceive,
-    timeDiff    : store.ping.timeDiff,
-    interval    : store.ping.interval
+    iteration        : store.ping.iteration,
+    timeSend         : store.ping.timeSend,
+    timeReceive      : store.ping.timeReceive,
+    timeDiff         : store.ping.timeDiff,
+    intervalList     : store.ping.intervalList,
+    intervalSelected : store.ping.intervalSelected
 }))
 class Ping extends Component {
 
@@ -32,15 +33,8 @@ class Ping extends Component {
             result = 0;
         }
 
+        // @TODO: i18n
         return `${result}ms`
-    }
-
-    get interval() {
-        if(this.props.interval) {
-            const interval = this.props.interval / 1000;
-
-            return `${interval}s`;
-        }
     }
 
     get className() {
@@ -53,12 +47,31 @@ class Ping extends Component {
         return result;
     }
 
+    onChangeInterval = (e) => {
+        const index = parseInt(e.currentTarget.value, 10);
+
+        this.props.dispatch(changeInterval({
+            index
+        }))
+    };
+
+    get intervalList() {
+        return(
+            <select defaultValue={this.props.intervalSelected} className={style['ping__interval']} onChange={this.onChangeInterval}>
+                {this.props.intervalList.map((interval, index) => {
+                    // @TODO: i18n
+                    return <option key={index} value={index}>{interval / 1000}s</option>
+                })}
+            </select>
+        )
+    }
+
     render() {
         return(
             <div className={this.className}>
                 <strong className={style['ping__value']}>{this.diff}</strong>
                 <span className={style['ping__iteration']}>{this.props.iteration}</span>
-                <span className={style['ping__interval']}>{this.interval}</span>
+                {this.intervalList}
             </div>
         )
     }

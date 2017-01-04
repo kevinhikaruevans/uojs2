@@ -1,14 +1,15 @@
 import { handleActions } from 'redux-actions-helpers'
 
-import { send, receive } from './actions'
+import config from 'config'
+import { send, receive, changeInterval } from './actions'
 
 const initialState = {
-    iteration   : 0,
-    timeSend    : null,
-    timeReceive : null,
-    timeDiff    : null,
-    // @TODO: param go config
-    interval    : 30000
+    iteration        : 0,
+    timeSend         : null,
+    timeReceive      : null,
+    timeDiff         : null,
+    intervalList     : config['component.ping.interval-list'] || [30000],
+    intervalSelected : config['component.ping.interval-default'] || 0
 };
 
 export default handleActions({
@@ -25,7 +26,11 @@ export default handleActions({
             timeReceive,
             timeDiff : timeReceive - state.timeSend
         }
-    }
+    },
+    [changeInterval] : (state, { index }) => ({
+        ...state,
+        intervalSelected : index
+    })
 }, {
     initialState
 })

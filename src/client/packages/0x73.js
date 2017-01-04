@@ -21,9 +21,10 @@ class _0x73 extends PackageBase {
     };
 
     action = ({ dispatch, getState }) => {
+        const state = getState().ping;
         dispatch(ping.receive());
 
-        setTimeout(() => dispatch(ping.sendMaster()), getState().ping.interval || 30000);
+        setTimeout(() => dispatch(ping.sendMaster()), state.intervalList[state.intervalSelected]);
     }
 
 }

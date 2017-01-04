@@ -17,8 +17,7 @@
             border-bottom: solid 1px rgba(0, 0, 0, 0.5);
         }
 
-        &__iteration,
-        &__interval {
+        &__iteration {
             width: 50%;
             text-align: center;
             line-height: 12px;
@@ -27,9 +26,17 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             padding: 0 2px;
+        }
 
-            &:last-child { border-left: solid 1px rgba(0, 0, 0, 0.5); }
-
+        &__interval {
+            width: 50%;
+            height: 12px;
+            box-sizing: border-box;
+            font-size: 10px;
+            outline: none;
+            border: none;
+            background-color: transparent;
+            border-left: solid 1px rgba(0, 0, 0, 0.5);
         }
 
     }
