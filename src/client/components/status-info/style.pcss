@@ -1,0 +1,39 @@
+:local {
+
+    .status-info {
+
+        &__minimize {
+            display: flex;
+            flex-direction: column;
+            padding: 0 2px;
+        }
+
+        &__bar-block {
+            display: flex;
+            align-items: center;
+            padding: 2px 0;
+
+            &::before {
+                content: attr(data-label);
+                display: block;
+                width: 60px;
+                font-size: 12px;
+                font-weight: 600;
+                font-family: monospace;
+                height: 14px;
+            }
+
+        }
+
+        &__bar {
+            display: block;
+            height: 10px;
+            border-radius: 3px;
+            border: solid 1px #000;
+            overflow: hidden;
+            width: 100%;
+        }
+
+    }
+
+}
