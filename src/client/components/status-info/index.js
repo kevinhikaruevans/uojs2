@@ -10,7 +10,7 @@ import style from './style'
     id              : state.statusInfo.serial,
     health          : state.statusInfo.health,
     mana            : state.statusInfo.mana,
-    weight          : state.statusInfo.mana,
+    weight          : state.statusInfo.weight,
     stamina         : state.statusInfo.stamina,
     playerName      : state.statusInfo.playerName,
     strength        : state.statusInfo.strength,
@@ -69,7 +69,9 @@ class StatusInfo extends Component {
     };
 
     state = {
-        minimize : localStorage.getItem(`status-info-minimize-${this.props.id}`) === 'true'
+        minimize : localStorage.getItem(`status-info-minimize-${this.props.id}`) === 'true',
+        x : 0,
+        y : 0
     };
 
     onToggleMinimize = (e) => {
@@ -100,65 +102,54 @@ class StatusInfo extends Component {
 
     get elFull() {
         return(
-            <div>
-                <strong>{this.props.playerName}</strong>
-                <div>
-                    <ul>
-                        <li>{this.props.strength}</li>
-                        <li>{this.props.dexterity}</li>
-                        <li>{this.props.intelligence}</li>
-                        <li>0??</li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <span>{this.props.health.current}</span>
-                            <span>{this.props.health.max}</span>
-                        </li>
-                        <li>
-                            <span>{this.props.stamina.current}</span>
-                            <span>{this.props.stamina.max}</span>
-                        </li>
-                        <li>
-                            <span>{this.props.mana.current}</span>
-                            <span>{this.props.mana.max}</span>
-                        </li>
-                        <li>0/45??</li>
-                    </ul>
-                    <ul>
-                        <li>{this.props.statCap}</li>
-                        <li>{this.props.luck}</li>
-                        <li>
-                            <span>{this.props.weight.current}</span>
-                            <span>{this.props.weight.max}</span>
-                        </li>
-                        <li>0</li>
-                    </ul>
-                    <ul>
-                        <li>{this.props.damage.min} - {this.props.damage.max}</li>
-                        <li>0</li>
-                        <li>
-                            <span>{this.props.followers.current}</span>
-                            <span>{this.props.followers.max}</span>
-                        </li>
-                        <li>0</li>
-                    </ul>
-                    <ul>
-                        <li>0</li>
-                        <li>0</li>
-                        <li>0</li>
-                        <li>0</li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <span>{this.props.resist.fire}/70</span>
-                            <span>{this.props.resist.cold}/70</span>
-                            <span>{this.props.resist.poison}/70</span>
-                            <span>{this.props.resist.energy}/70</span>
-                        </li>
-                        <li>{this.props.gold}</li>
-                    </ul>
+            <div className={style['status-info__full']}>
+                <div className={style['status-info__header']}>
+                    <strong className={style['status-info__player-name']}>{this.props.playerName}</strong>
+                    <div onClick={this.onToggleMinimize}>minimize</div>
                 </div>
-                <div onClick={this.onToggleMinimize}>minimize</div>
+                <ul className={style['status-info__list']}>
+                    <li className={style['status-info__list-item']}>str: {this.props.strength}</li>
+                    <li className={style['status-info__list-item']}>dex: {this.props.dexterity}</li>
+                    <li className={style['status-info__list-item']}>int: {this.props.intelligence}</li>
+                </ul>
+                <ul className={style['status-info__list']}>
+                    <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>
+                        <span className={style['status-info__points']}>{this.props.health.current}</span>
+                        <span className={style['status-info__points']}>{this.props.health.max}</span>
+                    </li>
+                    <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>
+                        <span className={style['status-info__points']}>{this.props.stamina.current}</span>
+                        <span className={style['status-info__points']}>{this.props.stamina.max}</span>
+                    </li>
+                    <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>
+                        <span className={style['status-info__points']}>{this.props.mana.current}</span>
+                        <span className={style['status-info__points']}>{this.props.mana.max}</span>
+                    </li>
+                </ul>
+                <ul className={style['status-info__list']}>
+                    <li className={style['status-info__list-item']}>cap: {this.props.statCap}</li>
+                    <li className={style['status-info__list-item']}>lck: {this.props.luck}</li>
+                    <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>
+                        <span className={style['status-info__points']}>{this.props.weight.current}</span>
+                        <span className={style['status-info__points']}>{this.props.weight.max}</span>
+                    </li>
+                </ul>
+                <ul className={style['status-info__list']}>
+                    <li className={style['status-info__list-item']}>dmg: {this.props.damage.min} - {this.props.damage.max}</li>
+                    <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>
+                        <span className={style['status-info__points']}>{this.props.followers.current}</span>
+                        <span className={style['status-info__points']}>{this.props.followers.max}</span>
+                    </li>
+                </ul>
+                <ul className={style['status-info__list']}>
+                    <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>
+                        <span className={style['status-info__points']}>fir: {this.props.resist.fire}/70</span>
+                        <span className={style['status-info__points']}>cld: {this.props.resist.cold}/70</span>
+                        <span className={style['status-info__points']}>psn: {this.props.resist.poison}/70</span>
+                        <span className={style['status-info__points']}>nrg: {this.props.resist.energy}/70</span>
+                    </li>
+                    <li className={style['status-info__list-item']}>gold: {this.props.gold}</li>
+                </ul>
             </div>
         )
     }
@@ -171,9 +162,42 @@ class StatusInfo extends Component {
         }
     }
 
+    // @TODO: go base class method
+    get className() {
+        let result = style['status-info'];
+
+        if(this.props.className) {
+            result = `${result} ${this.props.className}`;
+        }
+
+        return result;
+    }
+
+    onDrag = (e) => {
+        if(e.clientX > 0 || e.clientY > 0) {
+            let x = e.clientX;
+            let y = e.clientY;
+
+            if(x + e.currentTarget.offsetWidth > window.innerWidth) {
+                x = window.innerWidth - e.currentTarget.offsetWidth;
+            }
+
+            if(y + e.currentTarget.offsetHeight > window.innerHeight) {
+                y = window.innerHeight - e.currentTarget.offsetHeight;
+            }
+
+            this.setState({
+                x,
+                y
+            }, () => {
+                console.log(this.state)
+            });
+        }
+    };
+
     render() {
         return(
-            <div>
+            <div className={this.className} onDrag={this.onDrag} style={{top: this.state.y, left: this.state.x}}>
                 {this.content}
             </div>
         )

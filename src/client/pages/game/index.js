@@ -13,7 +13,7 @@ class Game extends Component {
         return(
             <div>
                 <Ping className={style['page-game__ping']} />
-                <StatusInfo />
+                <StatusInfo className={style['page-game__status-info']} />
                 123 GAME
             </div>
         )
