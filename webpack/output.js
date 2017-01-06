@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const config = require(`./../configs/${global.webpack.env}.js`);
+const config = require('./../configs');
 
 const result = {
     development : {

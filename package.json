@@ -11,7 +11,7 @@
     "build:client:dev": "webpack --config=webpack",
     "build:client:prod": "webpack --env.production --config=webpack",
     "development:client": "webpack-dev-server --config webpack --hot --inline",
-    "development": "yarn run proxy:debug & yarn run development:client & wait"
+    "development": "concurrently -k -c 'blue,green' -p [{name}] -n 'proxy,dev-server' 'yarn run proxy:debug' 'yarn run development:client'"
   },
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
     "babel-plugin-transform-object-rest-spread": "6.20.2",
     "babel-preset-latest": "6.16.0",
     "babel-preset-react": "6.16.0",
+    "concurrently": "3.1.0",
     "css-loader": "0.26.1",
     "eslint": "3.12.2",
     "eslint-loader": "1.6.1",
