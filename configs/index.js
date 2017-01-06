@@ -3,9 +3,13 @@ let config = {};
 
 if(env) {
     try {
-        config = require(`./${env}.json`);
+        config = require(`./local_${env}.js`);
     } catch(error) {
-        throw `Do you have ${env} config? View sample 'development.json.sample'`;
+        try {
+            config = require(`./${env}.js`);
+        } catch(error) {
+            throw `Do you have ${env} config?`;
+        }
     }
 }
 
