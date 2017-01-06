@@ -1,4 +1,4 @@
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || (global.webpack && global.webpack.env) || 'development';
 let config = {};
 
 if(env) {
