@@ -5,7 +5,7 @@ if(env) {
     try {
         config = require(`./${env}.json`);
     } catch(error) {
-        console.error(`Do you have ${env} config?`, error);
+        throw `Do you have ${env} config? View sample 'development.json.sample'`;
     }
 }
 
