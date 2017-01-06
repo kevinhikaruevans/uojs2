@@ -1,0 +1,17 @@
+environment:
+  matrix:
+    - nodejs_version: "6.9.4"
+    - nodejs_version: "7.4.0"
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install yarn
+  - yarn install
+
+test_script:
+  - node --version
+  - npm --version
+  - yarn run build:client:dev
+  - yarn run build:client:prod
+
+build: off
