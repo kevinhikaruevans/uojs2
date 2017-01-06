@@ -35,6 +35,8 @@ class StatusInfo extends Component {
         statCap         : PropTypes.number,
         luck            : PropTypes.number,
         playerName      : PropTypes.string,
+        gold            : PropTypes.number,
+        className       : PropTypes.string,
 
         health : PropTypes.shape({
             current : PropTypes.number,

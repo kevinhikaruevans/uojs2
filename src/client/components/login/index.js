@@ -16,7 +16,8 @@ class Login extends Component {
     static displayName = '[component] login';
 
     static propTypes = {
-        error : PropTypes.string
+        error    : PropTypes.string,
+        dispatch : PropTypes.func
     };
 
     state = {
