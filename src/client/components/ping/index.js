@@ -8,8 +8,6 @@ import style from './style'
 
 @connect((store) => ({
     iteration        : store.ping.iteration,
-    timeSend         : store.ping.timeSend,
-    timeReceive      : store.ping.timeReceive,
     timeDiff         : store.ping.timeDiff,
     intervalList     : store.ping.intervalList,
     intervalSelected : store.ping.intervalSelected
@@ -19,7 +17,12 @@ class Ping extends Component {
     static displayName = '[component] ping';
 
     static propTypes = {
-        className : PropTypes.string
+        className        : PropTypes.string,
+        iteration        : PropTypes.number,
+        timeDiff         : PropTypes.number,
+        intervalList     : PropTypes.arrayOf(PropTypes.number),
+        intervalSelected : PropTypes.number,
+        dispatch         : PropTypes.func
     };
 
     componentWillMount() {

@@ -17,7 +17,8 @@ class Character extends Component {
         index       : PropTypes.number.isRequired,
         name        : PropTypes.string,
         password    : PropTypes.string,
-        removeError : PropTypes.object
+        removeError : PropTypes.object,
+        dispatch    : PropTypes.func
     };
 
     get isDisabled() {

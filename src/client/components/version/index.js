@@ -21,7 +21,8 @@ class Version extends Component {
 
     static propTypes = {
         list     : PropTypes.array,
-        selected : PropTypes.number
+        selected : PropTypes.number,
+        dispatch : PropTypes.func
     };
 
     onChange = (e) => {

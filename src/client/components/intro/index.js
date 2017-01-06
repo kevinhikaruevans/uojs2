@@ -8,7 +8,7 @@ class Intro extends Component {
     static displayName = '[component] intro';
 
     static propTypes = {
-        status : PropTypes.bool.isRequired
+        onExit : PropTypes.func
     };
 
     componentDidMount() {
