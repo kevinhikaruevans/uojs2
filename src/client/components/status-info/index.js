@@ -70,8 +70,8 @@ class StatusInfo extends Component {
 
     state = {
         minimize : localStorage.getItem(`status-info-minimize-${this.props.id}`) === 'true',
-        x : 0,
-        y : 0
+        x        : 0,
+        y        : 0
     };
 
     onToggleMinimize = (e) => {
@@ -196,8 +196,13 @@ class StatusInfo extends Component {
     };
 
     render() {
+        const style = {
+            top  : this.state.y,
+            left : this.state.x
+        };
+
         return(
-            <div className={this.className} onDrag={this.onDrag} style={{top: this.state.y, left: this.state.x}}>
+            <div className={this.className} onDrag={this.onDrag} style={style}>
                 {this.content}
             </div>
         )
