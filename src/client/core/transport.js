@@ -84,17 +84,18 @@ class Transport {
                 };
 
                 const once = (message) => {
-                    // @TODO: check data not null
-                    const data = JSON.parse(message.data);
+                    if(typeof message.data === 'string') {
+                        const data = JSON.parse(message.data);
 
-                    if(uid === data.uid) {
-                        if(data.error) {
-                            reject(data.error);
-                        } else {
-                            resolve(data.payout);
+                        if(uid === data.uid) {
+                            if(data.error) {
+                                reject(data.error);
+                            } else {
+                                resolve(data.payout);
+                            }
+
+                            this._socket.removeEventListener('message', once);
                         }
-
-                        this._socket.removeEventListener('message', once);
                     }
                 };
 

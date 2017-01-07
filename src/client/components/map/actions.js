@@ -51,12 +51,9 @@ export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) =>
 
         request
             .then(
-                (response) => {
-                    updateTiles(response);
-                },
-                (error) => {
-                    console.error(error);
-                });
+                (tiles) => dispatch(updateTiles({ tiles })),
+                console.error
+            );
     }
 };
 
