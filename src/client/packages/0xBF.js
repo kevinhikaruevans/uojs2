@@ -10,21 +10,22 @@ class _0xBF extends PackageBase {
     }
 
     create = (command, payload) => {
-        let result = new Package(5);
+        let result = null;
 
         switch(command) {
-            case 0x1A:
+            case 0x0F:
+                result = new Package(10);
                 result.append(this.number);
+                result.appendShort(10);
                 result.appendShort(command);
                 result.append([
-                    payload.stat,
-                    payload.state
+                    0x0A,
+                    payload.flag
                 ]);
 
                 break;
         }
 
-        console.log(result, command);
         return result
     };
 

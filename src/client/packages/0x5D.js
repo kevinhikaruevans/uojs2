@@ -16,7 +16,7 @@ class _0x5D extends PackageBase {
         result.append(this.number);
         result.writeUINT32(0xEDEDEDED);
         result.writeCHAR(name, 30);
-        result.writeCHAR(password, 30);
+        result.writeCHAR(password, 30); // @TODO: HERE not password http://docs.polserver.com/packets/index.php?Packet=0x5D
         result.writeUINT32(slot);
         result.writeUINT32(key);
 

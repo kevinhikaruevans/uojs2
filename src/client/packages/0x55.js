@@ -1,6 +1,7 @@
 import PackageBase from 'core/package-base'
 
 import { actions as login } from 'component/login'
+import { actions as statusInfo } from 'component/status-info'
 
 class _0x55 extends PackageBase {
 
@@ -14,6 +15,7 @@ class _0x55 extends PackageBase {
         dispatch(
             login.complete()
         );
+        dispatch(statusInfo.requestMaster())
     }
 
 }

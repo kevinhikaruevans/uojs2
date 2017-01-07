@@ -2,6 +2,9 @@ import PackageBase from 'core/package-base'
 import { actions as player } from 'component/player'
 import { actions as login } from 'component/login'
 import { actions as map } from 'component/map'
+import { actions as skills } from 'component/skills'
+import { actions as statusInfo } from 'component/status-info'
+import { actions as version } from 'component/version'
 
 // http://necrotoolz.sourceforge.net/kairpacketguide/packet1b.htm
 class _0x1B extends PackageBase {
@@ -33,6 +36,10 @@ class _0x1B extends PackageBase {
 */
 
         dispatch(login.confirm());
+        dispatch(skills.requestMaster());
+        dispatch(version.send());
+        // @TODO: &
+        dispatch(statusInfo.typeMaster());
         dispatch(
             player.setInfo({
                 serial,

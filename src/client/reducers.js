@@ -16,6 +16,7 @@ import { reducer as message } from 'component/message'
 import { reducer as worldObject } from 'component/world-object'
 import { reducer as map } from 'component/map'
 import { reducer as login } from 'component/login'
+import { reducer as skills } from 'component/skills'
 
 export default combineReducers({
     connect,
@@ -33,5 +34,6 @@ export default combineReducers({
     message,
     worldObject,
     map,
-    login
+    login,
+    skills
 });
