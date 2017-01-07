@@ -1,33 +1,67 @@
 import { createAction } from 'redux-actions-helpers'
 
-export const update = createAction('@@map/UPDATE', ({ x, y, tiles }) => ({
-    x,
-    y,
+export const updateTiles = createAction('@@map/UPDATE_TILES', ({ tiles }) => ({
     tiles
 }));
 
-export const updateMaster = ({ x, y }) => (dispatch) => {
-    x = Math.round(x / 8);
-    y = Math.round(y / 8);
+export const updateMap = createAction('@@map/UPDATE_MAP', ({ id }) => ({
+    id
+}));
 
-    const fetch = window.fetch(`http://107.161.24.129:2590/map?y=${y}&x=${x}`);
+export const updateCoordinates = createAction('@@map/UPDATE_COORDINATES', ({ x, y }) => ({
+    x,
+    y
+}));
 
-    fetch
-        .then(
-            (result) => result.json(),
-            (error) => console.error(error)
-        )
-        .then(
-            (tiles) => {
-                dispatch(update({
-                    x,
-                    y,
-                    tiles
-                }))
-            }
-        );
+export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) => {
+    if (id) {
+        dispatch(updateMap({ id }));
+    }
+    if (x && y) {
+        dispatch(updateCoordinates({ x, y }));
+    }
+
+    const state = getState().map;
+
+    x = x || state.x;
+    y = y || state.y;
+    id = id === undefined ? state.id : id;
+
+    if (x && y && id !== null && id !== undefined) {
+        /*
+        TODO:
+            - detect if new position != old position (is refreshing tiles needed?)
+            - detect if needs new tiles
+            - get multiple blocks
+         */
+         console.log({
+             x  : ~~(x / 8),
+             y  : ~~(y / 8),
+             id
+         });
+        const request = transport
+            .sendObject({
+                event  : 'map:block',
+                payout : {
+                    x  : ~~(x / 8),
+                    y  : ~~(y / 8),
+                    id
+                }
+            });
+
+        request
+            .then(
+                (response) => {
+                    updateTiles(response);
+                },
+                (error) => {
+                    console.error(error);
+                });
+    }
 };
 
 export default {
+    updateCoordinates,
+    updateMap,
     updateMaster
 }

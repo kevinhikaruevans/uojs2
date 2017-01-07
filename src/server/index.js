@@ -4,7 +4,11 @@ const config = require('./../../configs');
 const { connect } = require('net');
 const { Server } = require('ws');
 const debug = require('debug')('proxy:ws');
-
+const uodatareader = require('uodatareader')({
+    baseDirectory: config['uo.directory'],
+    // TODO: preload maps in uodatareader instead of in here
+    maps: [{id: 0}, {id: 1}]
+});
 const wss = new Server({
     host : config['ws.server.host'],
     port : config['ws.port']
@@ -61,6 +65,17 @@ wss.on('connection', ws => {
                             });
                             Proxy.end();
                         }
+                        break;
+
+                    case 'map:block':
+                        const { x, y, id } = payout;
+                        const block = map ? map.getLandBlock(x, y) : [];
+                        debug('Map block request (%d, %d) -> length: %d', x, y, block.length);
+
+                        ws.send(JSON.stringify({
+                            uid,
+                            event,
+                        }));
                         break;
                 }
                 break;

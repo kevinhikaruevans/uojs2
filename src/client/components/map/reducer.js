@@ -1,17 +1,26 @@
 import { handleActions } from 'redux-actions-helpers'
 
-import { update } from './actions'
+import { updateMap, updateCoordinates, updateTiles } from './actions'
 
 const initialState = {
     x       : null,
     y       : null,
+    id      : null,
     tiles   : []
 };
 
 export default handleActions({
-    [update] : (state, { x, y, tiles }) => ({
+    [updateMap] : (state, { id }) => ({
+        ...state,
+        id
+    }),
+    [updateCoordinates] : (state, { x, y }) => ({
+        ...state,
         x,
-        y,
+        y
+    }),
+    [updateTiles] : (state, { tiles }) => ({
+        ...state,
         tiles
     })
 }, {
