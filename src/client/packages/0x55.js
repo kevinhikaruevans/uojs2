@@ -15,7 +15,7 @@ class _0x55 extends PackageBase {
         dispatch(
             login.complete()
         );
-        dispatch(statusInfo.requestMaster())
+        dispatch(statusInfo.requestStateMaster())
     }
 
 }

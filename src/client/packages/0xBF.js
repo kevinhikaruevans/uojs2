@@ -26,17 +26,6 @@ class _0xBF extends PackageBase {
                 ]);
 
                 break;
-            case 0x0F:
-                result = new Package(10);
-                result.append(this.number);
-                result.appendShort(10);
-                result.appendShort(command);
-                result.append([
-                    0x0A,
-                    payload.flag
-                ]);
-
-                break;
         }
 
         return result

@@ -31,9 +31,9 @@ class StatusInfo extends Component {
 
     static propTypes = {
         id              : PropTypes.number,
-        strength        : PropTypes.number,
-        dexterity       : PropTypes.number,
-        intelligence    : PropTypes.number,
+        strength        : PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+        dexterity       : PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+        intelligence    : PropTypes.number, // eslint-disable-line react/no-unused-prop-types
         statCap         : PropTypes.number,
         luck            : PropTypes.number,
         playerName      : PropTypes.string,
@@ -155,30 +155,8 @@ class StatusInfo extends Component {
         this.move = false;
     };
 
-    get elShort() {
-        return(
-            <div className={style['status-info__minimize']} onDoubleClick={this.onToggleMinimize}>
-                <div className={style['status-info__bar-block']} data-label="H">
-                    <progress className={`${style['status-info__bar']} ${style['status-info__bar_health']}`} value={this.props.health.current} max={this.props.health.max} />
-                </div>
-                <div className={style['status-info__bar-block']} data-label="M">
-                    <progress className={style['status-info__bar']} value={this.props.mana.current} max={this.props.mana.max} />
-                </div>
-                <div className={style['status-info__bar-block']} data-label="S">
-                    <progress className={style['status-info__bar']} value={this.props.stamina.current} max={this.props.stamina.max} />
-                </div>
-            </div>
-        )
-    }
-
     onClickChangeState = (stat) => {
-        const map = {
-            0 : 'strength',
-            1 : 'dexterity',
-            2 : 'intelligence'
-        };
-
-        let state = this.props.state[map[stat]];
+        let state = this.props.state[stat];
 
         ++state;
 
@@ -190,11 +168,28 @@ class StatusInfo extends Component {
             e.preventDefault();
 
             this.props.dispatch(changeStateMaster({
-                stat,
+                stat : map.number[stat],
                 state
             }))
         };
     };
+
+    get elStats() {
+        const stats = Object.keys(map.number);
+
+        return stats.map((stat, index) => {
+            const props = {
+                key          : index,
+                className    : style['status-info__list-item'],
+                onClick      : this.onClickChangeState(stat),
+                // @TODO: i18n
+                children     : `str: ${this.props[stat]}`,
+                'data-state' : map.symbol[this.props.state[stat]]
+            };
+
+            return <li {...props} />
+        })
+    }
 
     get elFull() {
         return(
@@ -204,9 +199,7 @@ class StatusInfo extends Component {
                     <div onClick={this.onToggleMinimize}>minimize</div>
                 </div>
                 <ul className={style['status-info__list']}>
-                    <li className={style['status-info__list-item']} onClick={this.onClickChangeState(0)}>str: {this.props.strength} {this.props.state.strength} {map.symbol[this.props.state.strength]}</li>
-                    <li className={style['status-info__list-item']} onClick={this.onClickChangeState(1)}>dex: {this.props.dexterity} {map.symbol[this.props.state.dexterity]}</li>
-                    <li className={style['status-info__list-item']} onClick={this.onClickChangeState(2)}>int: {this.props.intelligence} {map.symbol[this.props.state.intelligence]}</li>
+                    {this.elStats}
                 </ul>
                 <ul className={style['status-info__list']}>
                     <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>
@@ -246,6 +239,22 @@ class StatusInfo extends Component {
                     </li>
                     <li className={style['status-info__list-item']}>gold: {this.props.gold}</li>
                 </ul>
+            </div>
+        )
+    }
+
+    get elShort() {
+        return(
+            <div className={style['status-info__minimize']} onDoubleClick={this.onToggleMinimize}>
+                <div className={style['status-info__bar-block']} data-label="H">
+                    <progress className={`${style['status-info__bar']} ${style['status-info__bar_health']}`} value={this.props.health.current} max={this.props.health.max} />
+                </div>
+                <div className={style['status-info__bar-block']} data-label="M">
+                    <progress className={style['status-info__bar']} value={this.props.mana.current} max={this.props.mana.max} />
+                </div>
+                <div className={style['status-info__bar-block']} data-label="S">
+                    <progress className={style['status-info__bar']} value={this.props.stamina.current} max={this.props.stamina.max} />
+                </div>
             </div>
         )
     }

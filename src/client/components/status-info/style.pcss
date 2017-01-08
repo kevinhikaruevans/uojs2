@@ -6,7 +6,7 @@
         padding: 0 4px;
         user-select: none;
         position: absolute;
-        max-width: 380px;
+        max-width: 404px;
 
         &__minimize {
             display: flex;
@@ -60,7 +60,7 @@
             line-height: 26px;
             font-size: 14px;
             font-family: monospace;
-            min-width: 380px;
+            min-width: 404px;
             margin-bottom: 4px;
         }
 
@@ -93,6 +93,19 @@
             padding: 0 4px;
 
             &:first-child { border-top: none; }
+
+            &[data-state] {
+                display: flex;
+
+                &::after {
+                    content: attr(data-state);
+                    display: block;
+                    width: 20px;
+                    text-align: center;
+                    margin-left: 4px;
+                }
+
+            }
 
             &_split {
                 line-height: 12px;
