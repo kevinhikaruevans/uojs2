@@ -57,6 +57,7 @@ if(__DEVELOPMENT__ && module.hot) {
 // @TODO: GO to app HuffmanDecompression
 // need huffman return result
 const decompression = new HuffmanDecompression((_package) => {
+    console.info('SERVER <-', (_package.getId()).toString(16))
     const item = manager.getPackage(_package.getId());
 
     if(item) {
@@ -72,6 +73,8 @@ transport.on('message', ({ data }) => {
             decompression.receive(data);
         } else {
             data = new Package(data);
+
+            console.info('SERVER <-', (data.getId()).toString(16))
 
             const item = manager.getPackage(data.getId());
 

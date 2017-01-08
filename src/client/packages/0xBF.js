@@ -1,4 +1,7 @@
 import PackageBase from 'core/package-base'
+import { Package } from 'component/helpers'
+
+import { actions as statusInfo } from 'component/status-info'
 
 class _0xBF extends PackageBase {
 
@@ -7,6 +10,26 @@ class _0xBF extends PackageBase {
 
         this.description = 'Generic Command';
     }
+
+    create = (command, payload) => {
+        let result = null;
+
+        switch(command) {
+            case 0x1A:
+                result = new Package(7);
+                result.append(this.number);
+                result.appendShort(7);
+                result.appendShort(command);
+                result.append([
+                    payload.stat,
+                    payload.state
+                ]);
+
+                break;
+        }
+
+        return result
+    };
 
     action = ({ dispatch }, _package) => {
         _package.begin();
@@ -26,6 +49,29 @@ class _0xBF extends PackageBase {
                     console.log('MapDiff Map', _package.getInt());
                 }
                 console.log('MapDiff', count);
+                break;
+            case 0x19:
+                const client = _package.nextByte();
+
+                switch(client) {
+                    case 0x2:
+                        _package.nextInt(); // Serial (ID)
+                        _package.nextByte(); // Always 0
+
+                        const state = _package.nextByte();
+
+                        if(state !== 0xFF) {
+                            dispatch(statusInfo.updateState({
+                                strength     : (state >> 4) & 0x03,
+                                dexterity    : (state >> 2) & 0x03,
+                                intelligence : (state) & 0x03
+                            }))
+                        }
+                        break;
+                    case 0x5:
+                        console.warn('GeneralInfoPacket ExtendedStats 0x19. This is not a KR client.');
+                        break;
+                }
                 break;
             default:
                 console.warn('Subcommand not parse %s', (command).toString(16));
