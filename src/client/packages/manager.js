@@ -32,6 +32,7 @@ import _0xAE from './0xAE'
 import _0x78 from './0x78'
 import _0xDC from './0xDC'
 import _0x34 from './0x34'
+import _0x3A from './0x3A'
 
 const log = debug('app:package:manager');
 
@@ -72,7 +73,8 @@ class Manager {
             _0xAE,
             _0x78,
             _0xDC,
-            _0x34
+            _0x34,
+            _0x3A
         ].forEach(this.registration);
     }
 

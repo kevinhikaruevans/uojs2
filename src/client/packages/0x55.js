@@ -2,6 +2,7 @@ import PackageBase from 'core/package-base'
 
 import { actions as login } from 'component/login'
 import { actions as statusInfo } from 'component/status-info'
+import { actions as skills } from 'component/skills'
 
 class _0x55 extends PackageBase {
 
@@ -16,6 +17,7 @@ class _0x55 extends PackageBase {
             login.complete()
         );
         dispatch(statusInfo.requestStateMaster())
+        dispatch(skills.requestMaster())
     }
 
 }

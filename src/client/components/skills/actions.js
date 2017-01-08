@@ -19,6 +19,5 @@ export const requestMaster = () => (dispatch, getState, transport) => {
 
 
 export default {
-    requestMaster,
-    request
+    requestMaster
 }
