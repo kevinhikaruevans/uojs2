@@ -1,6 +1,8 @@
 import PackageBase from 'core/package-base'
 import { Package } from 'component/helpers'
 
+import { actions as statusInfo } from 'component/status-info'
+
 class _0xBF extends PackageBase {
 
     constructor() {
@@ -13,6 +15,17 @@ class _0xBF extends PackageBase {
         let result = null;
 
         switch(command) {
+            case 0x1A:
+                result = new Package(7);
+                result.append(this.number);
+                result.appendShort(7);
+                result.appendShort(command);
+                result.append([
+                    payload.stat,
+                    payload.state
+                ]);
+
+                break;
             case 0x0F:
                 result = new Package(10);
                 result.append(this.number);
@@ -33,7 +46,6 @@ class _0xBF extends PackageBase {
         _package.begin();
         const command = _package.nextShort();
 
-        console.log('HERE', command);
         switch(command) {
             // (SetMap) Subcommand 0x08: The index of the map the player is located within.
             case 0x08:
@@ -50,7 +62,27 @@ class _0xBF extends PackageBase {
                 console.log('MapDiff', count);
                 break;
             case 0x19:
-                console.log('HERE');
+                const client = _package.nextByte();
+
+                switch(client) {
+                    case 0x2:
+                        _package.nextInt(); // Serial (ID)
+                        _package.nextByte(); // Always 0
+
+                        const state = _package.nextByte();
+
+                        if(state !== 0xFF) {
+                            dispatch(statusInfo.updateState({
+                                strength     : (state >> 4) & 0x03,
+                                dexterity    : (state >> 2) & 0x03,
+                                intelligence : (state) & 0x03
+                            }))
+                        }
+                        break;
+                    case 0x5:
+                        console.warn('GeneralInfoPacket ExtendedStats 0x19. This is not a KR client.');
+                        break;
+                }
                 break;
             default:
                 console.warn('Subcommand not parse %s', (command).toString(16));

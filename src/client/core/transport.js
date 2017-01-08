@@ -108,7 +108,6 @@ class Transport {
     };
 
     sendPacket = (data) => {
-        console.info('CLIENT ->', (data.data[0]).toString(16))
         this._socket.send(data.toBuffer());
     }
 }

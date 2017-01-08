@@ -36,10 +36,9 @@ class _0x1B extends PackageBase {
 */
 
         dispatch(login.confirm());
-        dispatch(skills.requestMaster());
-        dispatch(version.send());
+        // dispatch(version.send());
         // @TODO: &
-        dispatch(statusInfo.typeMaster());
+        // dispatch(statusInfo.typeMaster());
         dispatch(
             player.setInfo({
                 serial,
@@ -50,6 +49,8 @@ class _0x1B extends PackageBase {
                 direction
             })
         );
+        // dispatch(skills.requestMaster());
+
         dispatch(
             map.updateMaster({
                 x,

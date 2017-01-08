@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import actions, { statControl } from './actions'
+import actions, { changeStateMaster } from './actions'
 import reducer from './reducer'
+import map from './map'
 
 import style from './style'
 
@@ -21,7 +22,8 @@ import style from './style'
     damage          : state.statusInfo.damage,
     followers       : state.statusInfo.followers,
     gold            : state.statusInfo.gold,
-    resist          : state.statusInfo.resist
+    resist          : state.statusInfo.resist,
+    state           : state.statusInfo.state
 }))
 class StatusInfo extends Component {
 
@@ -68,6 +70,11 @@ class StatusInfo extends Component {
             energy  : PropTypes.number,
             fire    : PropTypes.number,
             poison  : PropTypes.number
+        }),
+        state : PropTypes.shape({
+            strength     : PropTypes.oneOf([0, 1, 2]),
+            dexterity    : PropTypes.oneOf([0, 1, 2]),
+            intelligence : PropTypes.oneOf([0, 1, 2])
         })
     };
 
@@ -164,14 +171,29 @@ class StatusInfo extends Component {
         )
     }
 
-    onClickTest = (e) => {
-        e.preventDefault();
-        console.log(111)
+    onClickChangeState = (stat) => {
+        const map = {
+            0 : 'strength',
+            1 : 'dexterity',
+            2 : 'intelligence'
+        };
 
-        this.props.dispatch(statControl({
-            stat  : 1,
-            state : 1
-        }))
+        let state = this.props.state[map[stat]];
+
+        ++state;
+
+        if(state > 2) {
+            state = 0;
+        }
+
+        return (e) => {
+            e.preventDefault();
+
+            this.props.dispatch(changeStateMaster({
+                stat,
+                state
+            }))
+        };
     };
 
     get elFull() {
@@ -182,9 +204,9 @@ class StatusInfo extends Component {
                     <div onClick={this.onToggleMinimize}>minimize</div>
                 </div>
                 <ul className={style['status-info__list']}>
-                    <li className={style['status-info__list-item']} onClick={this.onClickTest}>str: {this.props.strength}</li>
-                    <li className={style['status-info__list-item']}>dex: {this.props.dexterity}</li>
-                    <li className={style['status-info__list-item']}>int: {this.props.intelligence}</li>
+                    <li className={style['status-info__list-item']} onClick={this.onClickChangeState(0)}>str: {this.props.strength} {this.props.state.strength} {map.symbol[this.props.state.strength]}</li>
+                    <li className={style['status-info__list-item']} onClick={this.onClickChangeState(1)}>dex: {this.props.dexterity} {map.symbol[this.props.state.dexterity]}</li>
+                    <li className={style['status-info__list-item']} onClick={this.onClickChangeState(2)}>int: {this.props.intelligence} {map.symbol[this.props.state.intelligence]}</li>
                 </ul>
                 <ul className={style['status-info__list']}>
                     <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>

@@ -32,18 +32,27 @@ export const requestMaster = () => (dispatch, getState, transport) => {
     );
 };
 
+export const updateState = createAction('@@status-info/UPDATE_STATE', (payload) => ({
+    payload
+}));
 
-export const statControl = ({ stat, state }) => (dispatch, getState, transport) => {
+export const changeState = createAction('@@status-info/CHANGE_STATE', (payload) => ({
+    payload
+}));
+
+export const changeStateMaster = (payload) => (dispatch, getState, transport) => {
+    dispatch(changeState(payload));
+
     const _package = manager.getPackage(0xBF);
-    transport.sendPacket(_package.create(0x1A, {
-        stat,
-        state
-    }));
+    transport.sendPacket(
+        _package.create(0x1A, payload)
+    );
 };
 
 export default {
     update,
-    statControl,
+    changeStateMaster,
+    updateState,
     typeMaster,
     requestMaster
 }
