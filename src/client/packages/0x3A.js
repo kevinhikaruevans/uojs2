@@ -13,17 +13,16 @@ class _0x3A extends PackageBase {
         console.log(_package.size());
         _package.begin();
 
-        const size = _package.nextShort();
         const type = _package.nextByte();
+        const hasSkillCap = (type === 0x02 || type === 0xDF);
 
 /*
         bool hasSkillCap = (PacketType == 0x02 || PacketType == 0xDF);
         int numSkills = (reader.Size - reader.Index - (PacketType == 0x00 ? 2 : 0)) / (hasSkillCap ? 9 : 7);
         Skills = new SendSkillsPacket_SkillEntry[numSkills];
   */
-        console.log(_package.size())
-        const count = ((_package.size() - 2) - (type === 0x00 ? 2 : 0)) / ((type === 0x02 || type === 0xDF) ? 9 : 7)
-        console.warn(size, type, count)
+        const count = (_package.size() - 4 - (type === 0x00 ? 2 : 0)) / (hasSkillCap ? 9 : 7)
+        console.warn(type, count)
 
         /*
 
