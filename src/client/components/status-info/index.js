@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import actions from './actions'
+import actions, { changeStateMaster } from './actions'
 import reducer from './reducer'
+import map from './map'
 
 import style from './style'
 
@@ -21,7 +22,8 @@ import style from './style'
     damage          : state.statusInfo.damage,
     followers       : state.statusInfo.followers,
     gold            : state.statusInfo.gold,
-    resist          : state.statusInfo.resist
+    resist          : state.statusInfo.resist,
+    state           : state.statusInfo.state
 }))
 class StatusInfo extends Component {
 
@@ -29,14 +31,15 @@ class StatusInfo extends Component {
 
     static propTypes = {
         id              : PropTypes.number,
-        strength        : PropTypes.number,
-        dexterity       : PropTypes.number,
-        intelligence    : PropTypes.number,
+        strength        : PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+        dexterity       : PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+        intelligence    : PropTypes.number, // eslint-disable-line react/no-unused-prop-types
         statCap         : PropTypes.number,
         luck            : PropTypes.number,
         playerName      : PropTypes.string,
         gold            : PropTypes.number,
         className       : PropTypes.string,
+        dispatch        : PropTypes.func,
 
         health : PropTypes.shape({
             current : PropTypes.number,
@@ -67,13 +70,18 @@ class StatusInfo extends Component {
             energy  : PropTypes.number,
             fire    : PropTypes.number,
             poison  : PropTypes.number
+        }),
+        state : PropTypes.shape({
+            strength     : PropTypes.oneOf([0, 1, 2]),
+            dexterity    : PropTypes.oneOf([0, 1, 2]),
+            intelligence : PropTypes.oneOf([0, 1, 2])
         })
     };
 
     state = {
         minimize : localStorage.getItem(`status-info-minimize-${this.props.id}`) === 'true',
-        x        : 0,
-        y        : 0
+        x        : parseInt(localStorage.getItem(`status-info-x-${this.props.id}`), 10) || '50%',
+        y        : parseInt(localStorage.getItem(`status-info-y-${this.props.id}`), 10) || '50%'
     };
 
     onToggleMinimize = (e) => {
@@ -86,20 +94,101 @@ class StatusInfo extends Component {
         })
     };
 
-    get elShort() {
-        return(
-            <div className={style['status-info__minimize']} onDoubleClick={this.onToggleMinimize}>
-                <div className={style['status-info__bar-block']} data-label="H">
-                    <progress className={`${style['status-info__bar']} ${style['status-info__bar_health']}`} value={this.props.health.current} max={this.props.health.max} />
-                </div>
-                <div className={style['status-info__bar-block']} data-label="M">
-                    <progress className={style['status-info__bar']} value={this.props.mana.current} max={this.props.mana.max} />
-                </div>
-                <div className={style['status-info__bar-block']} data-label="S">
-                    <progress className={style['status-info__bar']} value={this.props.stamina.current} max={this.props.stamina.max} />
-                </div>
-            </div>
-        )
+    // @TODO: go base class method
+    get className() {
+        let result = style['status-info'];
+
+        if(this.props.className) {
+            result = `${result} ${this.props.className}`;
+        }
+
+        return result;
+    }
+
+    onMove = (e) => {
+        if(this.move) {
+            let x = e.clientX;
+            let y = e.clientY;
+
+            const offsetWidth = e.currentTarget.offsetWidth / 2;
+            const offsetHeight = e.currentTarget.offsetHeight / 2;
+
+            if(e.clientX > offsetWidth) {
+                if(x + offsetWidth > window.innerWidth) {
+                    x = window.innerWidth - offsetWidth;
+                }
+
+                x = x - offsetWidth;
+            } else {
+                x = 0;
+            }
+
+            if(e.clientY > offsetHeight) {
+                if(y + offsetHeight > window.innerHeight) {
+                    y = window.innerHeight - offsetHeight;
+                }
+
+                y = y - offsetHeight;
+            } else {
+                y = 0;
+            }
+
+            this.setState({
+                x,
+                y
+            }, () => {
+                localStorage.setItem(`status-info-x-${this.props.id}`, x);
+                localStorage.setItem(`status-info-y-${this.props.id}`, y);
+            });
+        }
+    };
+
+    onMoveStart = (e) => {
+        e.preventDefault();
+
+        this.move = true;
+    };
+
+    onMoveStop = (e) => {
+        e.preventDefault();
+
+        this.move = false;
+    };
+
+    onClickChangeState = (stat) => {
+        let state = this.props.state[stat];
+
+        ++state;
+
+        if(state > 2) {
+            state = 0;
+        }
+
+        return (e) => {
+            e.preventDefault();
+
+            this.props.dispatch(changeStateMaster({
+                stat : map.number[stat],
+                state
+            }))
+        };
+    };
+
+    get elStats() {
+        const stats = Object.keys(map.number);
+
+        return stats.map((stat, index) => {
+            const props = {
+                key          : index,
+                className    : style['status-info__list-item'],
+                onClick      : this.onClickChangeState(stat),
+                // @TODO: i18n
+                children     : `str: ${this.props[stat]}`,
+                'data-state' : map.symbol[this.props.state[stat]]
+            };
+
+            return <li {...props} />
+        })
     }
 
     get elFull() {
@@ -110,9 +199,7 @@ class StatusInfo extends Component {
                     <div onClick={this.onToggleMinimize}>minimize</div>
                 </div>
                 <ul className={style['status-info__list']}>
-                    <li className={style['status-info__list-item']}>str: {this.props.strength}</li>
-                    <li className={style['status-info__list-item']}>dex: {this.props.dexterity}</li>
-                    <li className={style['status-info__list-item']}>int: {this.props.intelligence}</li>
+                    {this.elStats}
                 </ul>
                 <ul className={style['status-info__list']}>
                     <li className={`${style['status-info__list-item']} ${style['status-info__list-item_split']}`}>
@@ -156,6 +243,22 @@ class StatusInfo extends Component {
         )
     }
 
+    get elShort() {
+        return(
+            <div className={style['status-info__minimize']} onDoubleClick={this.onToggleMinimize}>
+                <div className={style['status-info__bar-block']} data-label="H">
+                    <progress className={`${style['status-info__bar']} ${style['status-info__bar_health']}`} value={this.props.health.current} max={this.props.health.max} />
+                </div>
+                <div className={style['status-info__bar-block']} data-label="M">
+                    <progress className={style['status-info__bar']} value={this.props.mana.current} max={this.props.mana.max} />
+                </div>
+                <div className={style['status-info__bar-block']} data-label="S">
+                    <progress className={style['status-info__bar']} value={this.props.stamina.current} max={this.props.stamina.max} />
+                </div>
+            </div>
+        )
+    }
+
     get content() {
         if(this.state.minimize) {
             return this.elShort
@@ -164,47 +267,21 @@ class StatusInfo extends Component {
         }
     }
 
-    // @TODO: go base class method
-    get className() {
-        let result = style['status-info'];
-
-        if(this.props.className) {
-            result = `${result} ${this.props.className}`;
-        }
-
-        return result;
-    }
-
-    onDrag = (e) => {
-        if(e.clientX > 0 || e.clientY > 0) {
-            let x = e.clientX;
-            let y = e.clientY;
-
-            if(x + e.currentTarget.offsetWidth > window.innerWidth) {
-                x = window.innerWidth - e.currentTarget.offsetWidth;
-            }
-
-            if(y + e.currentTarget.offsetHeight > window.innerHeight) {
-                y = window.innerHeight - e.currentTarget.offsetHeight;
-            }
-
-            this.setState({
-                x,
-                y
-            }, () => {
-                console.log(this.state)
-            });
-        }
-    };
-
     render() {
-        const style = {
-            top  : this.state.y,
-            left : this.state.x
+        const props = {
+            className    : this.className,
+            onMouseMove  : this.onMove,
+            onMouseDown  : this.onMoveStart,
+            onMouseUp    : this.onMoveStop,
+            onMouseLeave : this.onMoveStop,
+            style        : {
+                top  : this.state.y,
+                left : this.state.x
+            }
         };
 
         return(
-            <div className={this.className} onDrag={this.onDrag} style={style}>
+            <div {...props}>
                 {this.content}
             </div>
         )

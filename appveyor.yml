@@ -5,13 +5,15 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version
-  - npm install yarn
   - yarn install
 
 test_script:
-  - node --version
   - npm --version
   - yarn run build:client:dev
   - yarn run build:client:prod
+
+cache:
+ - node_modules
+ - "%LOCALAPPDATA%\\Yarn"
 
 build: off

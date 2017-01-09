@@ -1,0 +1,17 @@
+{
+    "symbol": {
+        "0" : "⇑",
+        "1" : "⇓",
+        "2" : "🔒"
+    },
+    "name": {
+        "0" : "strength",
+        "1" : "dexterity",
+        "2" : "intelligence"
+    },
+    "number" : {
+        "strength" : 0,
+        "dexterity" : 1,
+        "intelligence" : 2
+    }
+}
