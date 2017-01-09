@@ -8,6 +8,11 @@ import reducer from './reducer'
 
 import MapTile from 'component/maptile'
 
+//import style from './style'
+
+@connect((store) => ({
+    tiles : store.map.tiles
+}))
 class Map extends Component {
     static displayName = '[component] map';
     static propTypes = {

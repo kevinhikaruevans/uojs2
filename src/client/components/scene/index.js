@@ -5,9 +5,6 @@ import * as THREE from 'three';
 import { connect } from 'react-redux';
 import Map from 'component/map';
 
-@connect((store) => ({
-    tiles : store.map.tiles
-}))
 class Scene extends Component {
 
     static displayName = '[component] scene';
