@@ -1973,6 +1973,17 @@ faye-websocket@~0.11.0:
   dependencies:
     websocket-driver ">=0.5.1"
 
+fbjs@0.8.6:
+  version "0.8.6"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.6.tgz#7eb67d6986b2d5007a9b6e92e0e7cb6f75cad290"
+  dependencies:
+    core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    ua-parser-js "^0.7.9"
+
 fbjs@^0.8.1, fbjs@^0.8.4:
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.8.tgz#02f1b6e0ea0d46c24e0b51a2d24df069563a5ad6"
@@ -3845,6 +3856,12 @@ react-router-async@0.5.3:
     react "15.x.x"
     router-async "0.2.x"
 
+react-three-renderer@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-three-renderer/-/react-three-renderer-3.0.2.tgz#57951fc0cd41308f3289699abddeb6b07f92be3f"
+  dependencies:
+    fbjs "0.8.6"
+
 react-transform-catch-errors@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-transform-catch-errors/-/react-transform-catch-errors-1.0.2.tgz#1b4d4a76e97271896fc16fe3086c793ec88a9eeb"
@@ -4656,6 +4673,10 @@ text-table@^0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
+three@^0.83.0:
+  version "0.83.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.83.0.tgz#3b7f94790af3e021dac1f44a2617569ca2032b0b"
+
 through2@^0.6.1, through2@^0.6.3, through2@~0.6.1:
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/through2/-/through2-0.6.5.tgz#41ab9c67b29d57209071410e1d7a7a968cd3ad48"
@@ -4779,7 +4800,7 @@ unzip-response@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/unzip-response/-/unzip-response-2.0.1.tgz#d2f0f737d16b0615e72a6935ed04214572d56f97"
 
-uodatareader@^1.0.3:
+uodatareader@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/uodatareader/-/uodatareader-1.0.3.tgz#5240e3f2f5ad3f852879956cd862639f7fba3d58"
   dependencies:

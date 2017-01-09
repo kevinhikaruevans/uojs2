@@ -71,7 +71,7 @@ wss.on('connection', ws => {
                         const { x, y, id } = payout;
                         const map = uodatareader.maps[id];
                         const block = map ? map.getLandBlock(x, y) : [];
-                        console.log('block', block);
+                        //console.log('block', block);
                         debug('Map block request (%d, %d) -> length: %d', x, y, block.length);
 
                         ws.send(JSON.stringify({
