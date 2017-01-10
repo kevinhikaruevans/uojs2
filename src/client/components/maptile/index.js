@@ -14,6 +14,10 @@ class MapTile extends Component {
         id: 1
     };
 
+    constructor(...args) {
+        super(args)
+    }
+
     componentDidMount() {
         const geometry = this.refs.geo;
 
@@ -49,9 +53,12 @@ class MapTile extends Component {
     onProgress = (...args) => {
         console.log('Progress', args)
     }
+    onError = (...args) => {
+        console.log('onError', args)
+    }
 
     render() {
-        console.log(this.props)
+        console.log('123123123');
         return (
             <mesh
                 position={this.props.position}
@@ -67,6 +74,8 @@ class MapTile extends Component {
                         minFilter={THREE.NearestFilter}
                         url={`http://107.161.24.129:2590/land?id=${this.props.id}`}
                         onLoad={this.onLoad}
+                        onProgress={this.onProgress}
+                        onError={this.onError}
                     />
                 </meshBasicMaterial>
             </mesh>
