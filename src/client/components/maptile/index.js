@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import * as THREE from 'three';
 
 class MapTile extends Component {
     static propTypes = {
@@ -40,7 +41,17 @@ class MapTile extends Component {
         geometry.verticesNeedUpdate = true;
         geometry.dynamic = true;
     }
+
+    onLoad = (...args) => {
+        console.log('load', args);
+    }
+
+    onProgress = (...args) => {
+        console.log('Progress', args)
+    }
+
     render() {
+        console.log(this.props)
         return (
             <mesh
                 position={this.props.position}
@@ -55,6 +66,7 @@ class MapTile extends Component {
                         magFilter={THREE.NearestFilter}
                         minFilter={THREE.NearestFilter}
                         url={`http://107.161.24.129:2590/land?id=${this.props.id}`}
+                        onLoad={this.onLoad}
                     />
                 </meshBasicMaterial>
             </mesh>
