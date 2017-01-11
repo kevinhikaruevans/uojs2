@@ -13,7 +13,7 @@ export default handleActions({
     [updateMap] : (state, { id }) => ({
         ...state,
         id,
-        tiles : state.id !== id ? [] : state.tiles
+        //tiles : state.id !== id ? [] : state.tiles
     }),
     [updateCoordinates] : (state, { x, y }) => ({
         ...state,
@@ -21,7 +21,7 @@ export default handleActions({
         y
     }),
     [updateTiles] : (state, { blockX, blockY, tiles }) => {
-        const origTiles = state.tiles;
+        const origTiles = state.tiles.slice();
         tiles.forEach((tile, index) => {
             const x = blockX * 8 + index % 8; // the % and / might be backwards for (x, y)
             const y = blockY * 8 + ~~(index / 8);
@@ -32,7 +32,7 @@ export default handleActions({
 
             origTiles[x][y] = tile;
         });
-        console.log('tiles', origTiles);
+        console.log('update tiles', origTiles);
         return {
             ...state,
             tiles : origTiles

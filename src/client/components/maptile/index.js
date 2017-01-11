@@ -14,9 +14,6 @@ class MapTile extends Component {
         id: 1
     };
 
-    constructor(...args) {
-        super(args)
-    }
 
     componentDidMount() {
         const geometry = this.refs.geo;
@@ -58,7 +55,6 @@ class MapTile extends Component {
     }
 
     render() {
-        console.log('123123123');
         return (
             <mesh
                 position={this.props.position}
@@ -68,7 +64,8 @@ class MapTile extends Component {
                     height={1}
                     ref="geo"
                 />
-                <meshBasicMaterial>
+                <meshBasicMaterial
+                    >
                     <texture
                         magFilter={THREE.NearestFilter}
                         minFilter={THREE.NearestFilter}

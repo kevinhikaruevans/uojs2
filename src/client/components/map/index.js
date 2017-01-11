@@ -34,9 +34,11 @@ class Map extends Component {
                 - use range attribute? store this in redux store
                     - look for packet that sets range
          */
+         console.info('tiles', tiles);
         return (
             <object3d>
                 {tiles.map((tile, index) => {
+                    console.log(index);
                     const x = ~~(index / 8);
                     //const y = tile.Z; // index % 8;
                     const z = (tile.Z) / 10;

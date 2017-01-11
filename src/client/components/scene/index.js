@@ -8,7 +8,9 @@ import MapTile from 'component/maptile'
 
 
 @connect((store) => ({
-    tiles : store.map.tiles
+    tiles : store.map.tiles,
+    x     : store.map.x,
+    y     : store.map.y
 }))
 class Scene extends Component {
 
@@ -26,8 +28,8 @@ class Scene extends Component {
     get content() {
         return null;
     }
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.cameraPosition = new THREE.Vector3(10, 10, 10);
         this.cameraRotation = new THREE.Euler(Math.PI / 2, Math.PI / 2, Math.PI / 2);
@@ -37,7 +39,10 @@ class Scene extends Component {
     state = {
         test : 0
     }
-
+    shouldComponentUpdate(nextState, nextProps) {
+        console.log(nextState, nextProps);
+        return true;
+    }
     onLoad = (...args) => {
         console.log('load', args);
     }
@@ -80,24 +85,43 @@ class Scene extends Component {
 */
     }
 
-    _animate = () => {
-        this.setState({
-            test : this.state.test + 1
-        })
-    }
-
     render() {
         const width = window.innerWidth;
         const height = window.innerHeight;
+        //const { x, y, tiles } = this.props;
+        const tiles = this.props.tiles || [];
+        const selfX = this.props.x;
+        const selfY = this.props.y;
 
+        const renderedTiles = tiles.reduce((arr, row, _x) => {
+            return arr.concat(
+                row.map((tile, _y) => {
+                    const x = selfX - _x;
+                    const y = selfY - _y;
+                    //const x = ~~(index / 8);
+                    //const y = tile.Z; // index % 8;
+                    const z = (tile.z) / 10;
+                    //const y = (index % 8); // mapTile.Z;
+                    const position = new THREE.Vector3(x, y, z);
+                    const corners = [
+                        tiles[_x][_y - 1],
+                        tiles[_x - 1] ? tiles[_x - 1][_y] : null,
+                        tiles[_x + 1] ? tiles[_x + 1][_y] : null,
+                        tiles[_x][_y + 1],
+                    ];
+
+                    return (
+                        <MapTile id={tile.id} position={position} corners={corners} />
+                    );
+                })
+            );
+        }, []);
         return (<React3
                     alpha
                     antialias
                     mainCamera="camera"
                     width={width}
                     height={height}
-
-                    onAnimate={this._animate}
                 >
                     <scene>
                         <perspectiveCamera
@@ -113,48 +137,7 @@ class Scene extends Component {
                         />
                         <axisHelper size={10} />
                         <object3D>
-                            {this.props.tiles.map((tile, index) => {
-                                const x = ~~(index / 8);
-                                //const y = tile.Z; // index % 8;
-                                const z = (tile.z) / 10;
-                                const y = (index % 8); // mapTile.Z;
-                                const position = new THREE.Vector3(x, y, z);
-                                const corners = [
-                                    this.props.tiles[index - 4],
-                                    this.props.tiles[index - 2],
-                                    this.props.tiles[index + 2],
-                                    this.props.tiles[index + 4]
-                                ];
-
-                                // @TODO: maybe :))
-                                {tile.map((item, index) => {
-                                    const props = {
-                                        key : index + '-' + item.id,
-                                        id  : item.id,
-                                        corners,
-                                        position
-                                    };
-
-                                    return (
-                                            <mesh position={position}>
-                                                <planeBufferGeometry
-                                                        width={10}
-                                                        height={10}
-                                                />
-                                                <meshBasicMaterial>
-                                                    <texture
-                                                            magFilter={THREE.NearestFilter}
-                                                            minFilter={THREE.NearestFilter}
-                                                            url={`http://107.161.24.129:2590/land?id=${props.id}`}
-                                                            onLoad={this.onLoad}
-                                                            onProgress={this.onProgress}
-                                                            onError={this.onError}
-                                                    />
-                                                </meshBasicMaterial>
-                                            </mesh>
-                                    )
-                                })}
-                            })}
+                            {renderedTiles}
                         </object3D>
                     </scene>
                 </React3>
