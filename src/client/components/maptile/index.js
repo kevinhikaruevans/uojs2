@@ -18,11 +18,16 @@ class MapTile extends Component {
     componentDidMount() {
         const geometry = this.refs.geo;
 
+        // the value is the approx. distance between each tile
+        // since the "square" on the diamond is only an approximation, we need
+        // expand the texture past the transparent pixels...
+        // set it to 0.0 if you'd like to see what I mean...
+        const delta = 0.05;
         // map to vertices on the "diamond" tile:
-        geometry.attributes.uv.setXY( 0, 1.0, 0.5 );
-        geometry.attributes.uv.setXY( 1, 0.5, 0.0 );
-        geometry.attributes.uv.setXY( 2, 0.5, 1.0 );
-        geometry.attributes.uv.setXY( 3, 0.0, 0.5 );
+        geometry.attributes.uv.setXY( 0, 1.0 - delta, 0.5         );
+        geometry.attributes.uv.setXY( 1, 0.5,         0.0 + delta );
+        geometry.attributes.uv.setXY( 2, 0.5,         1.0 - delta );
+        geometry.attributes.uv.setXY( 3, 0.0 + delta, 0.5         );
 
         const tileZ = this.props.position.z;
         const corners = this.props.corners;
@@ -38,9 +43,9 @@ class MapTile extends Component {
         vertices.forEach((value, index) => geometry.attributes.position.array[index] = value);
 
         // TODO: these might not be needed:
-        geometry.attributes.position.needsUpdate = true;
-        geometry.verticesNeedUpdate = true;
-        geometry.dynamic = true;
+        //geometry.attributes.position.needsUpdate = true;
+        //geometry.verticesNeedUpdate = true;
+        //geometry.dynamic = true;
     }
 
     onLoad = (...args) => {
