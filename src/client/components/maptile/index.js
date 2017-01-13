@@ -48,17 +48,6 @@ class MapTile extends Component {
         //geometry.dynamic = true;
     }
 
-    onLoad = (...args) => {
-        console.log('load', args);
-    }
-
-    onProgress = (...args) => {
-        console.log('Progress', args)
-    }
-    onError = (...args) => {
-        console.log('onError', args)
-    }
-
     render() {
         return (
             <mesh
@@ -69,15 +58,11 @@ class MapTile extends Component {
                     height={1}
                     ref="geo"
                 />
-                <meshBasicMaterial
-                    >
+                <meshBasicMaterial>
                     <texture
                         magFilter={THREE.NearestFilter}
                         minFilter={THREE.NearestFilter}
                         url={`http://107.161.24.129:2590/land?id=${this.props.id}`}
-                        onLoad={this.onLoad}
-                        onProgress={this.onProgress}
-                        onError={this.onError}
                     />
                 </meshBasicMaterial>
             </mesh>

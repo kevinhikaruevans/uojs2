@@ -25,9 +25,6 @@ class Scene extends Component {
     };
 
 
-    get content() {
-        return null;
-    }
     constructor(props) {
         super(props);
 
@@ -36,86 +33,14 @@ class Scene extends Component {
         this.origin         = new THREE.Vector3(0, 0, 0);
     }
 
-    state = {
-        test : 0
-    }
     shouldComponentUpdate(nextState, nextProps) {
-        console.log(nextState, nextProps);
         return true;
-    }
-    onLoad = (...args) => {
-        console.log('load', args);
-    }
-
-    onProgress = (...args) => {
-        console.log('Progress', args)
-    }
-    onError = (...args) => {
-        console.log('onError', args)
-    }
-
-
-    componentDidMount() {
-/*
-        const geometry = this.refs.geo;
-
-        // map to vertices on the "diamond" tile:
-        geometry.attributes.uv.setXY( 0, 1.0, 0.5 );
-        geometry.attributes.uv.setXY( 1, 0.5, 0.0 );
-        geometry.attributes.uv.setXY( 2, 0.5, 1.0 );
-        geometry.attributes.uv.setXY( 3, 0.0, 0.5 );
-
-        const tileZ = this.props.position.z;
-        const corners = this.props.corners;
-
-        // TODO: calculate Zs based on corner[...n].Z
-        const vertices = [
-            -0.5,  0.5, 0.0,
-            0.5,  0.5, 0.0,
-            -0.5, -0.5, 0.0,
-            0.5, -0.5, 0.0
-        ];
-
-        vertices.forEach((value, index) => geometry.attributes.position.array[index] = value);
-
-        // TODO: these might not be needed:
-        geometry.attributes.position.needsUpdate = true;
-        geometry.verticesNeedUpdate = true;
-        geometry.dynamic = true;
-*/
     }
 
     render() {
         const width = window.innerWidth;
         const height = window.innerHeight;
-        //const { x, y, tiles } = this.props;
-        const tiles = this.props.tiles || [];
-        const selfX = this.props.x;
-        const selfY = this.props.y;
 
-        const renderedTiles = tiles.reduce((arr, row, _x) => {
-            return arr.concat(
-                row.map((tile, _y) => {
-                    const x = selfX - _x;
-                    const y = selfY - _y;
-                    //const x = ~~(index / 8);
-                    //const y = tile.Z; // index % 8;
-                    const z = (tile.z) / 10;
-                    //const y = (index % 8); // mapTile.Z;
-                    const position = new THREE.Vector3(x, y, z);
-                    const corners = [
-                        tiles[_x][_y - 1],
-                        tiles[_x - 1] ? tiles[_x - 1][_y] : null,
-                        tiles[_x + 1] ? tiles[_x + 1][_y] : null,
-                        tiles[_x][_y + 1],
-                    ];
-
-                    return (
-                        <MapTile id={tile.id} position={position} corners={corners} />
-                    );
-                })
-            );
-        }, []);
         return (<React3
                     alpha
                     antialias
@@ -136,9 +61,7 @@ class Scene extends Component {
                             position={this.cameraPosition}
                         />
                         <axisHelper size={10} />
-                        <object3D>
-                            {renderedTiles}
-                        </object3D>
+                        <Map tiles={this.props.tiles} x={this.props.x} y={this.props.y} />
                     </scene>
                 </React3>
         );

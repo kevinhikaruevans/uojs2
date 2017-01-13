@@ -5,27 +5,58 @@ import * as THREE from 'three';
 import { connect } from 'react-redux';
 import actions from './actions'
 import reducer from './reducer'
-
 import MapTile from 'component/maptile'
 
-//import style from './style'
-
-@connect((store) => ({
-    tiles : store.map.tiles
-}))
 class Map extends Component {
     static displayName = '[component] map';
     static propTypes = {
-        tiles : PropTypes.array
+        tiles : PropTypes.array,
+        x     : PropTypes.number,
+        y     : PropTypes.number
     };
 
     static defaultProps = {
-        tiles : []
+        tiles : [],
+        x     : 0,
+        y     : 0
     };
 
-
-    render() {
+    get mapTiles() {
         const tiles = this.props.tiles;
+        const selfX = this.props.x;
+        const selfY = this.props.y;
+
+        return tiles.reduce((arr, row, _x) => {
+            return arr.concat(
+                row.map((tile, _y) => {
+                    const x = selfX - _x;
+                    const y = selfY - _y;
+                    //const x = ~~(index / 8);
+                    //const y = tile.Z; // index % 8;
+                    const z = (tile.z) / 10;
+                    //const y = (index % 8); // mapTile.Z;
+                    const position = new THREE.Vector3(x, y, z);
+                    const corners = [
+                        tiles[_x][_y - 1],
+                        tiles[_x - 1] ? tiles[_x - 1][_y] : null,
+                        tiles[_x + 1] ? tiles[_x + 1][_y] : null,
+                        tiles[_x][_y + 1],
+                    ];
+
+                    return (
+                        <MapTile
+                            corners={corners}
+                            id={tile.id}
+                            key={`${x}.${y}`}
+                            position={position}
+                        />
+                    );
+                })
+            );
+        }, []);
+    }
+    render() {
+
         /*
             TODO:
                 - orthogonal camera
@@ -34,28 +65,11 @@ class Map extends Component {
                 - use range attribute? store this in redux store
                     - look for packet that sets range
          */
-         console.info('tiles', tiles);
-        return (
-            <object3d>
-                {tiles.map((tile, index) => {
-                    console.log(index);
-                    const x = ~~(index / 8);
-                    //const y = tile.Z; // index % 8;
-                    const z = (tile.Z) / 10;
-                    const y = (index % 8); // mapTile.Z;
-                    const position = new THREE.Vector3(x, y, z);
-                    const corners = [
-                        tiles[index - 4],
-                        tiles[index - 2],
-                        tiles[index + 2],
-                        tiles[index + 4]
-                    ];
 
-                    return (
-                        <MapTile corners={corners} id={tile.ID} key={index} position={position} />
-                    );
-                })}
-            </object3d>
+        return (
+            <object3D>
+                {this.mapTiles}
+            </object3D>
         );
     }
 }
