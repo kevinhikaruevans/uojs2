@@ -57,6 +57,7 @@ const requestBlock = ({ blockX, blockY, id, dispatch, getState, transport }) => 
             );
     }
 };
+let lastBlockRequest = {};
 
 export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) => {
     if (id) {
@@ -75,7 +76,71 @@ export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) =>
         const blockX = ~~(x / 8);
         const blockY = ~~(y / 8);
 
-        requestBlock({blockX, blockY, id, dispatch, getState, transport});
+        if (lastBlockRequest.x === blockX
+            && lastBlockRequest.y === blockY) {
+            return;
+        } else {
+            lastBlockRequest = {
+                x : blockX,
+                y : blockY
+            };
+        }
+        requestBlock({
+            blockX : blockX,
+            blockY : blockY,
+            id,
+            dispatch,
+            getState,
+            transport
+        });
+        requestBlock({
+            blockX : blockX - 1,
+            blockY : blockY,
+            id,
+            dispatch,
+            getState,
+            transport
+        });
+        requestBlock({
+            blockX : blockX + 1,
+            blockY : blockY,
+            id,
+            dispatch,
+            getState,
+            transport
+        });
+        requestBlock({
+            blockX : blockX,
+            blockY : blockY - 1,
+            id,
+            dispatch,
+            getState,
+            transport
+        });
+        requestBlock({
+            blockX : blockX,
+            blockY : blockY + 1,
+            id,
+            dispatch,
+            getState,
+            transport
+        });
+        requestBlock({
+            blockX : blockX + 1,
+            blockY : blockY + 1,
+            id,
+            dispatch,
+            getState,
+            transport
+        });
+        requestBlock({
+            blockX : blockX - 1,
+            blockY : blockY - 1,
+            id,
+            dispatch,
+            getState,
+            transport
+        });
     }
 };
 

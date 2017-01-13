@@ -70,7 +70,9 @@ wss.on('connection', ws => {
                     case 'map:block':
                         const { x, y, id } = payout;
                         const map = uodatareader.maps[id];
+                        console.time('Request' + id);
                         const block = map ? map.getLandBlock(x, y) : [];
+                        console.timeEnd('Request' + id);
                         //console.log('block', block);
                         debug('Map block request (%d, %d) -> length: %d', x, y, block.length);
 

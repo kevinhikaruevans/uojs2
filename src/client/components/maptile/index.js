@@ -4,7 +4,7 @@ import * as THREE from 'three';
 
 class MapTile extends Component {
     static propTypes = {
-        id       : PropTypes.number.isRequired,
+        id       : PropTypes.number,
         position : PropTypes.object,
         corners  : PropTypes.array.isRequired
     }
@@ -22,7 +22,7 @@ class MapTile extends Component {
         // since the "square" on the diamond is only an approximation, we need
         // expand the texture past the transparent pixels...
         // set it to 0.0 if you'd like to see what I mean...
-        const delta = 0.05;
+        const delta = 0.04;
         // map to vertices on the "diamond" tile:
         geometry.attributes.uv.setXY( 0, 1.0 - delta, 0.5         );
         geometry.attributes.uv.setXY( 1, 0.5,         0.0 + delta );
@@ -62,7 +62,7 @@ class MapTile extends Component {
                     <texture
                         magFilter={THREE.NearestFilter}
                         minFilter={THREE.NearestFilter}
-                        url={`http://107.161.24.129:2590/land?id=${this.props.id}`}
+                        url={`http://107.161.24.129:2590/land?id=${~~this.props.id}`}
                     />
                 </meshBasicMaterial>
             </mesh>
