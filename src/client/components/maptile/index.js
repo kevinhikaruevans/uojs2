@@ -60,8 +60,8 @@ class MapTile extends Component {
                 />
                 <meshBasicMaterial>
                     <texture
-                        magFilter={THREE.NearestFilter}
-                        minFilter={THREE.NearestFilter}
+                        magFilter={THREE.LinearFilter}
+                        minFilter={THREE.LinearFilter}
                         url={`http://107.161.24.129:2590/land?id=${~~this.props.id}`}
                     />
                 </meshBasicMaterial>

@@ -6,8 +6,10 @@ const { Server } = require('ws');
 const debug = require('debug')('proxy:ws');
 const uodatareader = require('uodatareader')({
     baseDirectory: config['uo.directory'],
-    // TODO: preload maps in uodatareader instead of in here
-    maps: [{id: 0}, {id: 1}]
+    maps: [
+        {fileIndex: 0, mapId: 0, width: 6144, height: 4096},
+        {fileIndex: 0, mapId: 1, width: 6144, height: 4096}
+    ]
 });
 const wss = new Server({
     host : config['ws.server.host'],
