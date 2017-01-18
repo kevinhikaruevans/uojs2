@@ -4,7 +4,7 @@
 An unfinished web-based client for the game Ultima Online.
 
 [![Join the chat at https://gitter.im/uojs2/Lobby](https://badges.gitter.im/uojs2/Lobby.svg)](https://gitter.im/uojs2/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Travis build status](http://img.shields.io/travis/kevinhikaruevans/uojs2.svg?style=flat)](https://travis-ci.org/kevinhikaruevans/uojs2)
+[![Travis build status](https://travis-ci.org/kevinhikaruevans/uojs2.svg?branch=master)](https://travis-ci.org/kevinhikaruevans/uojs2)
 [![Dependency Status](https://david-dm.org/kevinhikaruevans/uojs2.svg)](https://david-dm.org/kevinhikaruevans/uojs2)
 [![devDependency Status](https://david-dm.org/kevinhikaruevans/uojs2/dev-status.svg)](https://david-dm.org/kevinhikaruevans/uojs2#info=devDependencies)
 [![Build status](https://ci.appveyor.com/api/projects/status/o36x2d6fef7b282a/branch/master?svg=true)](https://ci.appveyor.com/project/kevinhikaruevans/uojs2/branch/master)
