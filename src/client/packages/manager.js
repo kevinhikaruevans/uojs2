@@ -7,6 +7,8 @@ import ServerRedirect from './0x8C.server-redirect'
 import PostLogin from './0x91.post-login'
 import Features from './0xB9.features'
 import CharacterList from './0xA9.character-list'
+import CharacterDelete from './0x83.character-delete'
+import _0x85 from './0x85'
 
 class Manager {
 
@@ -20,7 +22,8 @@ class Manager {
             Seed,
             LoginRequest,
             ServerSelect,
-            PostLogin
+            PostLogin,
+            CharacterDelete
         ];
 
         const server = [
@@ -28,7 +31,8 @@ class Manager {
             ServerList,
             ServerRedirect,
             Features,
-            CharacterList
+            CharacterList,
+            _0x85
         ];
 
         client.forEach(this.registration);

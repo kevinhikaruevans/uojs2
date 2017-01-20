@@ -2,7 +2,7 @@ import { createAction } from 'redux-actions-helpers';
 
 import manager from 'package/manager'
 
-export const characterList = createAction('@@character-list/SET', ({ list, cities }) => ({
+export const characterList = createAction('@@character-delete/UPDATE', ({ list, cities }) => ({
     list,
     cities
 }));

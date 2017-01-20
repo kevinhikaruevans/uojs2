@@ -20,6 +20,7 @@ class Login extends Component {
 
     state = {
         username: localStorage.getItem('username'),
+        password: localStorage.getItem('password'),
         host    : localStorage.getItem('host'),
         port    : localStorage.getItem('port')
     };
@@ -38,9 +39,9 @@ class Login extends Component {
         formData.forEach((value, key) => {
             params[key] = value;
 
-            if(key !== 'password') {
+            // if(key !== 'password') {
                 localStorage.setItem(key, value);
-            }
+            // }
         });
 
         const connect = this.props.dispatch(
@@ -73,7 +74,7 @@ class Login extends Component {
             <form className={style['login']} onSubmit={this.onSubmit}>
                 {this.elError}
                 <input name="username" type="text" placeholder="Your username" defaultValue={this.state.username} autoFocus={!this.state.username} />
-                <input name="password" type="password" placeholder="Your password" autoFocus={this.state.username} />
+                <input name="password" type="password" placeholder="Your password" defaultValue={this.state.password} autoFocus={this.state.username} />
                 <input name="host" type="text" placeholder="Your game server ip" defaultValue={this.state.host} />
                 <input name="port" type="number" min="1" max="65535" placeholder="Your game server port" defaultValue={this.state.port} />
                 <button type="submit">Login</button>
