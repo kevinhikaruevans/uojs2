@@ -29,6 +29,27 @@ const hasFullBlock = ({blockX, blockY, getState}) => {
     return true;
 };
 
+const requestTiles = ({ x, y, id, size, transport, dispatch }) => {
+    const request = transport.sendObject({
+        event  : 'map:tiles',
+        payout : {
+            x,
+            y,
+            id,
+            size
+        }
+    });
+
+    request
+        .then(
+            (tiles) => dispatch(updateTiles({
+                tiles
+            })),
+            console.error
+        );
+
+};
+
 const requestBlock = ({ blockX, blockY, id, dispatch, getState, transport }) => {
     if (!hasFullBlock({blockX, blockY, getState})) {
         //console.log(`get map for (${x}, ${y})`);
@@ -73,73 +94,13 @@ export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) =>
     y = y || state.y;
     id = id === undefined ? state.id : id;
     if (x && y && id !== null && id !== undefined) {
-        const blockX = ~~(x / 8);
-        const blockY = ~~(y / 8);
-
-        if (lastBlockRequest.x === blockX
-            && lastBlockRequest.y === blockY) {
-            return;
-        } else {
-            lastBlockRequest = {
-                x : blockX,
-                y : blockY
-            };
-        }
-        requestBlock({
-            blockX : blockX,
-            blockY : blockY,
+        requestTiles({
+            x,
+            y,
             id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX - 1,
-            blockY : blockY,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX + 1,
-            blockY : blockY,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX,
-            blockY : blockY - 1,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX,
-            blockY : blockY + 1,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX + 1,
-            blockY : blockY + 1,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX - 1,
-            blockY : blockY - 1,
-            id,
-            dispatch,
-            getState,
-            transport
+            size : 30,
+            transport,
+            dispatch
         });
     }
 };

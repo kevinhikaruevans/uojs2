@@ -23,7 +23,7 @@ export default handleActions({
     [updateTiles] : (state, { blockX, blockY, tiles }) => {
         const origTiles = state.tiles.slice();
         // this can be faster
-        tiles.forEach((tile, index) => {
+        /*tiles.forEach((tile, index) => {
             const x = blockX * 8 + index % 8; // the % and / might be backwards for (x, y)
             const y = blockY * 8 + ~~(index / 8);
 
@@ -33,10 +33,10 @@ export default handleActions({
 
             origTiles[x][y] = tile;
         });
-
+*/
         return {
             ...state,
-            tiles : origTiles
+            tiles
         };
     }
 }, {

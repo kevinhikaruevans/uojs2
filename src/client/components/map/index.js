@@ -26,6 +26,28 @@ class Map extends Component {
         const selfX = this.props.x;
         const selfY = this.props.y;
 
+        return tiles.map((row, _y) => {
+            return row.map((tile, _x) => {
+                const x = selfX - _x;
+                const y = selfY - _y;
+                const z = (tile.z) / 10;
+
+                const props = {
+                    position : new THREE.Vector3(x, y, z),
+                    corners : [/*
+                        tiles[_x][_y - 1],
+                        tiles[_x - 1] ? tiles[_x - 1][_y] : null,
+                        tiles[_x + 1] ? tiles[_x + 1][_y] : null,
+                        tiles[_x][_y + 1],
+                    */],
+                    id: tile.id,
+                    key : `${x}.${y}`
+                };
+
+                return <MapTile {...props} />
+            })
+        });
+/*
         return tiles.reduce((arr, row, _x) => {
             return arr.concat(
                 row.map((tile, _y) => {
@@ -54,6 +76,7 @@ class Map extends Component {
                 })
             );
         }, []);
+*/
     }
     render() {
 

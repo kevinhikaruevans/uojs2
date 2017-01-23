@@ -19,7 +19,6 @@ module.exports = [
         __DEVELOPMENT__         : global.webpack.development,
         'process.env.NODE_ENV'  : JSON.stringify(global.webpack.env)
     }),
-    new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin({
         filename    : '[name]-[contenthash].css',
         allChunks   : true,
