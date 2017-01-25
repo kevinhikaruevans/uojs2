@@ -27,19 +27,15 @@ class Scene extends Component {
 
     constructor(props) {
         super(props);
-
-        this.cameraPosition = new THREE.Vector3(10, 10, 10);
-        this.cameraRotation = new THREE.Euler(Math.PI / 2, Math.PI / 2, Math.PI / 2);
-        this.origin         = new THREE.Vector3(0, 0, 0);
-    }
-
-    shouldComponentUpdate(nextState, nextProps) {
-        return true;
+        this.cameraRotation = new THREE.Euler(0.05, 0, Math.PI / 4);
     }
 
     render() {
         const width = window.innerWidth;
         const height = window.innerHeight;
+        const aspect = width / height;
+        const level = 100;
+        const viewportSize = 15; // radius
 
         return (<React3
                     alpha
@@ -49,16 +45,15 @@ class Scene extends Component {
                     height={height}
                 >
                     <scene>
-                        <perspectiveCamera
+                        <orthographicCamera
                             name="camera"
-                            ref="camera"
-                            fov={60}
-                            aspect={width / height}
-                            near={0.1}
-                            far={1000}
-                            lookAt={this.origin}
+                            left={-1 * viewportSize * aspect}
+                            right={viewportSize * aspect}
+                            top={viewportSize}
+                            bottom={-1 * viewportSize}
+                            near={-100}
+                            far={100}
                             rotation={this.cameraRotation}
-                            position={this.cameraPosition}
                         />
                         <axisHelper size={10} />
                         <Map tiles={this.props.tiles} x={this.props.x} y={this.props.y} />

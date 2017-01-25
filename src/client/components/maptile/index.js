@@ -14,7 +14,32 @@ class MapTile extends Component {
         id: 1
     };
 
+    componentWillReceiveProps(nextProps) {
+        const geometry = this.refs.geo;
 
+        const tileZ = nextProps.position.z;
+        const corners = nextProps.corners;
+        const sides = nextProps.sides;
+
+        const zDeltas = [
+            0,
+            sides[3] ? sides[3].z - tileZ : 0,
+            sides[2] ? sides[2].z - tileZ : 0,
+            corners[3] ? corners[3].z - tileZ : 0,
+        ];
+
+        const vertices = [
+            -0.5,  0.5, zDeltas[0],
+             0.5,  0.5, zDeltas[1],
+            -0.5, -0.5, zDeltas[2],
+             0.5, -0.5, zDeltas[3],
+        ];
+
+        vertices.forEach((value, index) => geometry.attributes.position.array[index] = value);
+
+        //do we need to force an update here?
+        //geometry.verticesNeedUpdate = true;
+    }
     componentDidMount() {
         const geometry = this.refs.geo;
 
@@ -24,28 +49,10 @@ class MapTile extends Component {
         // set it to 0.0 if you'd like to see what I mean...
         const delta = 0.04;
         // map to vertices on the "diamond" tile:
-        geometry.attributes.uv.setXY( 0, 1.0 - delta, 0.5         );
-        geometry.attributes.uv.setXY( 1, 0.5,         0.0 + delta );
-        geometry.attributes.uv.setXY( 2, 0.5,         1.0 - delta );
-        geometry.attributes.uv.setXY( 3, 0.0 + delta, 0.5         );
-
-        const tileZ = this.props.position.z;
-        const corners = this.props.corners;
-
-        // TODO: calculate Zs based on corner[...n].Z
-        const vertices = [
-            -0.5,  0.5, 0.0,
-             0.5,  0.5, 0.0,
-            -0.5, -0.5, 0.0,
-             0.5, -0.5, 0.0
-        ];
-
-        vertices.forEach((value, index) => geometry.attributes.position.array[index] = value);
-
-        // TODO: these might not be needed:
-        //geometry.attributes.position.needsUpdate = true;
-        //geometry.verticesNeedUpdate = true;
-        //geometry.dynamic = true;
+        geometry.attributes.uv.setXY( 0, 0.5,         0.0 + delta );
+        geometry.attributes.uv.setXY( 1, 0.0 + delta, 0.5         );
+        geometry.attributes.uv.setXY( 2, 1.0 - delta, 0.5         );
+        geometry.attributes.uv.setXY( 3, 0.5,         1.0 - delta );
     }
 
     render() {
@@ -58,7 +65,7 @@ class MapTile extends Component {
                     height={1}
                     ref="geo"
                 />
-                <meshBasicMaterial>
+                <meshBasicMaterial wireframe={this.props.wireframe}>
                     <texture
                         magFilter={THREE.LinearFilter}
                         minFilter={THREE.LinearFilter}

@@ -29,23 +29,27 @@ class Map extends Component {
         return tiles.reduce((arr, row, _x) => {
             return arr.concat(
                 row.map((tile, _y) => {
-                    const x = selfX - _x;
+                    const x = _x - selfX;
                     const y = selfY - _y;
-                    //const x = ~~(index / 8);
-                    //const y = tile.Z; // index % 8;
-                    const z = (tile.z) / 10;
-                    //const y = (index % 8); // mapTile.Z;
+                    const z = tile.z;
                     const position = new THREE.Vector3(x, y, z);
-                    const corners = [
-                        tiles[_x][_y - 1],
+                    const sides = [
                         tiles[_x - 1] ? tiles[_x - 1][_y] : null,
-                        tiles[_x + 1] ? tiles[_x + 1][_y] : null,
+                        tiles[_x][_y - 1],
                         tiles[_x][_y + 1],
+                        tiles[_x + 1] ? tiles[_x + 1][_y] : null
+                    ]
+                    const corners = [
+                        tiles[_x - 1] ? tiles[_x - 1][_y - 1] : null,
+                        tiles[_x - 1] ? tiles[_x - 1][_y + 1] : null,
+                        tiles[_x + 1] ? tiles[_x + 1][_y - 1] : null,
+                        tiles[_x + 1] ? tiles[_x + 1][_y + 1] : null
                     ];
 
                     return (
                         <MapTile
                             corners={corners}
+                            sides={sides}
                             id={tile.id}
                             key={`${x}.${y}`}
                             position={position}
