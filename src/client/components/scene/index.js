@@ -35,11 +35,12 @@ class Scene extends Component {
     }
 
     componentDidMount() {
-        this.init();
+        requestAnimationFrame(this.init)
     }
 
     componentDidUpdate() {
         this.init();
+
     }
 
     textureCache = {};
@@ -50,7 +51,7 @@ class Scene extends Component {
         if(!result) {
             result = new Image();
             result.src = `http://107.161.24.129:2590/land?id=${id}`;
-            result.addEventListener('load', () => this.init);
+            // result.addEventListener('load', () => this.init);
             this.textureCache[id] = result;
         }
 
@@ -69,6 +70,8 @@ class Scene extends Component {
                 ctx.drawImage(this.textureLoad(this.props.tiles[y][x].id), (coordinateX - (y * 22)) + correctX, ((y * 22) + coordinateX) - correctY);
             }
         }
+
+        requestAnimationFrame(this.init)
     };
 
     render() {
