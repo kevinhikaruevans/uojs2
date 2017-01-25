@@ -38,7 +38,7 @@ class MapTile extends Component {
         vertices.forEach((value, index) => geometry.attributes.position.array[index] = value);
 
         //do we need to force an update here?
-        //geometry.verticesNeedUpdate = true;
+        geometry.verticesNeedUpdate = true;
     }
     componentDidMount() {
         const geometry = this.refs.geo;

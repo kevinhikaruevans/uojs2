@@ -39,7 +39,7 @@ class Scene extends Component {
 
         return (<React3
                     alpha
-                    antialias
+                    antialias={false}
                     mainCamera="camera"
                     width={width}
                     height={height}
