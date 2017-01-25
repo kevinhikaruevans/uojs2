@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import React3 from 'react-three-renderer';
-import * as THREE from 'three';
+// import React3 from 'react-three-renderer';
+// import * as THREE from 'three';
 
 import { connect } from 'react-redux';
-import Map from 'component/map';
-import MapTile from 'component/maptile'
+// import Map from 'component/map';
+// import MapTile from 'component/maptile'
 
+import style from './style'
 
 @connect((store) => ({
     tiles : store.map.tiles,
@@ -27,16 +28,49 @@ class Scene extends Component {
 
     constructor(props) {
         super(props);
-
+/*
         this.cameraPosition = new THREE.Vector3(10, 10, 10);
         this.cameraRotation = new THREE.Euler(Math.PI / 2, Math.PI / 2, Math.PI / 2);
-        this.origin         = new THREE.Vector3(0, 0, 0);
+        this.origin         = new THREE.Vector3(0, 0, 0);*/
     }
 
-    shouldComponentUpdate(nextState, nextProps) {
-        return true;
+    componentDidMount() {
+        this.init();
     }
 
+    componentDidUpdate() {
+        this.init();
+    }
+
+    textureCache = {};
+
+    textureLoad = (id) => {
+        let result = this.textureCache[id];
+
+        if(!result) {
+            result = new Image();
+            result.src = `http://107.161.24.129:2590/land?id=${id}`;
+            result.addEventListener('load', () => this.init);
+            this.textureCache[id] = result;
+        }
+
+        return result;
+    };
+
+    init = () => {
+        var ctx = this.refs.canvas.getContext('2d');
+
+        for(let y in this.props.tiles) {
+            for(let x in this.props.tiles[y]) {
+                ctx.drawImage(this.textureLoad(this.props.tiles[y][x].id), y * 44, x * 44, 44, 44);
+            }
+        }
+    };
+
+    render() {
+        return <canvas ref="canvas" className={style['scene__canvas']} width="800" height="600" />
+    }
+/*
     render() {
         const width = window.innerWidth;
         const height = window.innerHeight;
@@ -65,7 +99,7 @@ class Scene extends Component {
                     </scene>
                 </React3>
         );
-    }
+    }*/
 }
 
 export { Scene as default }

@@ -5,18 +5,18 @@ module.exports = {
     "dev-server.proxy"  : [],
 
     // Output publicPath development mode
-    "server.host"       : "0.0.0.0",
+    "server.host"       : "he-lapp-43.tech-ses.com",
 
     // TCP socket config
     "net.timeout"       : 5000,
 
     // WebSocket config (used client & server)
-    "ws.client.host"    : "localhost",
+    "ws.client.host"    : "he-lapp-43.tech-ses.com",
     "ws.server.host"    : "0.0.0.0",
     "ws.port"           : 2594,
 
     // Directory to UO
-    "uo.directory"      : "../tmp/uo/",
+    "uo.directory"      : "./uo/",
 
     // Components
     "component.ping.interval-default"   : 5,

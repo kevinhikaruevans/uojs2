@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import * as THREE from 'three';
+// import * as THREE from 'three';
 
 class MapTile extends Component {
     static propTypes = {

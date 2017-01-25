@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import React3 from 'react-three-renderer';
-import * as THREE from 'three';
+// import React3 from 'react-three-renderer';
+// import * as THREE from 'three';
 
 import { connect } from 'react-redux';
 import actions from './actions'
@@ -88,12 +88,16 @@ class Map extends Component {
                 - use range attribute? store this in redux store
                     - look for packet that sets range
          */
-
+/*
         return (
             <object3D>
                 {this.mapTiles}
             </object3D>
-        );
+        );*/
+
+        return(
+            <div />
+        )
     }
 }
 

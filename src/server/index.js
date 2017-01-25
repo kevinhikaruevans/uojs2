@@ -7,7 +7,7 @@ const debug = require('debug')('proxy:ws');
 const uodatareader = require('uodatareader')({
     baseDirectory: config['uo.directory'],
     maps: [
-//        {fileIndex: 0, mapId: 0, width: 6144, height: 4096},
+        // {fileIndex: 0, mapId: 0, width: 6144, height: 4096},
         {fileIndex: 0, mapId: 1, width: 6144, height: 4096}
     ]
 });
@@ -72,8 +72,7 @@ wss.on('connection', ws => {
                     case 'map:tiles':
                         const { x, y, id, size } = payout;
                         const map = uodatareader.maps[id];
-                        console.time('Request' + id);
-                        console.log(map, id, x, y, size);
+                        console.time('Request' + id, map);
                         const block = map ? map.getTiles(x, y, size) : [];
                         console.timeEnd('Request' + id);
                         //console.log('block', block);
