@@ -58,17 +58,25 @@ class Scene extends Component {
     };
 
     init = () => {
-        var ctx = this.refs.canvas.getContext('2d');
+        const ctx = this.refs.canvas.getContext('2d');
 
         for(let y in this.props.tiles) {
             for(let x in this.props.tiles[y]) {
-                ctx.drawImage(this.textureLoad(this.props.tiles[y][x].id), y * 44, x * 44, 44, 44);
+                const coordinateX = x * 22;
+                const correctX = (this.props.tiles[x].length * 22) - 394; // @TODO: pls normal calc correct X
+                const correctY = (this.props.tiles.length * 22) - 600 / 2;
+
+                ctx.drawImage(this.textureLoad(this.props.tiles[y][x].id), (coordinateX - (y * 22)) + correctX, ((y * 22) + coordinateX) - correctY);
             }
         }
     };
 
     render() {
-        return <canvas ref="canvas" className={style['scene__canvas']} width="800" height="600" />
+        return(
+            <div className={style['scene__root']}>
+                <canvas ref="canvas" className={style['scene__canvas']} width="800" height="600" />
+            </div>
+        )
     }
 /*
     render() {

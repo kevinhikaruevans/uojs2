@@ -98,7 +98,7 @@ export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) =>
             x,
             y,
             id,
-            size : 30,
+            size : 17,
             transport,
             dispatch
         });

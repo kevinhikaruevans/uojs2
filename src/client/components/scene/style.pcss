@@ -2,6 +2,35 @@
 
     .scene {
 
+        &__root {
+            position: relative;
+            width: 800px;
+            height: 600px;
+
+            &::before {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                bottom: 0;
+                content: "";
+                display: block;
+                width: 1px;
+                background-color: red;
+            }
+
+            &::after {
+                position: absolute;
+                left: 0;
+                top: 50%;
+                right: 0;
+                height: 1px;
+                background-color: red;
+                content: "";
+                display: block;
+            }
+
+        }
+
         &__canvas {
             width: 800px;
             height: 600px;
