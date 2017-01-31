@@ -49,10 +49,10 @@ class MapTile extends Component {
         // set it to 0.0 if you'd like to see what I mean...
         const delta = 0.04;
         // map to vertices on the "diamond" tile:
-        geometry.attributes.uv.setXY( 0, 0.5,         0.0 + delta );
-        geometry.attributes.uv.setXY( 1, 0.0 + delta, 0.5         );
-        geometry.attributes.uv.setXY( 2, 1.0 - delta, 0.5         );
-        geometry.attributes.uv.setXY( 3, 0.5,         1.0 - delta );
+        geometry.attributes.uv.setXY( 3, 0.5,         0.0 + delta );
+        geometry.attributes.uv.setXY( 2, 0.0 + delta, 0.5         );
+        geometry.attributes.uv.setXY( 1, 1.0 - delta, 0.5         );
+        geometry.attributes.uv.setXY( 0, 0.5,         1.0 - delta );
     }
 
     render() {

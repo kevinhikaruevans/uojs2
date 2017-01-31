@@ -85,62 +85,19 @@ export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) =>
                 y : blockY
             };
         }
-        requestBlock({
-            blockX : blockX,
-            blockY : blockY,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX - 1,
-            blockY : blockY,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX + 1,
-            blockY : blockY,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX,
-            blockY : blockY - 1,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX,
-            blockY : blockY + 1,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX + 1,
-            blockY : blockY + 1,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
-        requestBlock({
-            blockX : blockX - 1,
-            blockY : blockY - 1,
-            id,
-            dispatch,
-            getState,
-            transport
-        });
+        const range = 2;
+        for(let x = -1 * range; x <= range; x++) {
+            for(let y = -1 * range; y <= range; y++) {
+                requestBlock({
+                    blockX : blockX + x,
+                    blockY : blockY + y,
+                    id,
+                    dispatch,
+                    getState,
+                    transport
+                });
+            }
+        }
     }
 };
 
