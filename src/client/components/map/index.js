@@ -1,8 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import React3 from 'react-three-renderer';
 import * as THREE from 'three';
-
-import { connect } from 'react-redux';
 import actions from './actions'
 import reducer from './reducer'
 import MapTile from 'component/maptile'
@@ -47,8 +44,7 @@ class Map extends Component {
                     ];
 
                     return (
-                        <MapTile
-                            corners={corners}
+                        <MapTile corners={corners}
                             sides={sides}
                             id={tile.id}
                             key={`${x}.${y}`}

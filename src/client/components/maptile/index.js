@@ -1,21 +1,22 @@
+/* eslint react/no-unused-prop-types: 0, react/no-string-refs: 0 */
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import * as THREE from 'three';
 
 class MapTile extends Component {
     static propTypes = {
-        id       : PropTypes.number,
-        position : PropTypes.object,
-        corners  : PropTypes.array.isRequired,
-        sides    : PropTypes.array.isRequired
+        id        : PropTypes.number,
+        position  : PropTypes.object,
+        corners   : PropTypes.array.isRequired,
+        sides     : PropTypes.array.isRequired,
+        wireframe : PropTypes.boolean
     }
     static displayName = '[component] maptile';
 
     static defaultProps = {
-        id: 1
+        id : 1
     };
     updateVertices = (nextProps) => {
-        const geometry = this.refs.geo;
+        const geometry = this.geo;
         const props    = nextProps || this.props;
 
         if (!geometry || !props) {
@@ -40,14 +41,14 @@ class MapTile extends Component {
              0.5, -0.5, zDeltas[3],
         ];
 
-        vertices.forEach((value, index) => geometry.attributes.position.array[index] = value);
+        vertices.forEach((value, index) => { geometry.attributes.position.array[index] = value });
 
         //do we need to force an update here?
         geometry.verticesNeedUpdate = true;
         geometry.attributes.position.needsUpdate = true;
     }
     updateUVs = () => {
-        const geometry = this.refs.geo;
+        const geometry = this.geo;
 
         // the value is the approx. distance between each tile
         // since the "square" on the diamond is only an approximation, we need
@@ -65,21 +66,16 @@ class MapTile extends Component {
     componentDidMount = () => this.updateUVs()
 
     render() {
-        if (this.refs.geo) {
-            this.updateVertices();
-        }
         return (
-            <mesh
-                position={this.props.position}
+            <mesh position={this.props.position}
+                onAnimate={this.animate}
             >
-                <planeBufferGeometry
+                <planeBufferGeometry ref={(geo) => { this.geo = geo; }}
                     width={1}
                     height={1}
-                    ref="geo"
                 />
                 <meshBasicMaterial wireframe={this.props.wireframe}>
-                    <texture
-                        magFilter={THREE.LinearFilter}
+                    <texture magFilter={THREE.LinearFilter}
                         minFilter={THREE.LinearFilter}
                         url={`http://107.161.24.129:2590/land?id=${~~this.props.id}`}
                     />
