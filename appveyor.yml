@@ -8,6 +8,7 @@ install:
   - yarn install
 
 test_script:
+  - python --version
   - npm --version
   - yarn run build:client:dev
   - yarn run build:client:prod
