@@ -6,25 +6,30 @@ class MapTile extends Component {
     static propTypes = {
         id       : PropTypes.number,
         position : PropTypes.object,
-        corners  : PropTypes.array.isRequired
+        corners  : PropTypes.array.isRequired,
+        sides    : PropTypes.array.isRequired
     }
     static displayName = '[component] maptile';
 
     static defaultProps = {
         id: 1
     };
-
-    componentWillReceiveProps(nextProps) {
+    updateVertices = (nextProps) => {
         const geometry = this.refs.geo;
+        const props    = nextProps || this.props;
 
-        const tileZ = nextProps.position.z;
-        const corners = nextProps.corners;
-        const sides = nextProps.sides;
+        if (!geometry || !props) {
+            return;
+        }
+
+        const tileZ    = props.position.z;
+        const corners  = props.corners;
+        const sides    = props.sides;
 
         const zDeltas = [
             0,
-            sides[3] ? sides[3].z - tileZ : 0,
-            sides[2] ? sides[2].z - tileZ : 0,
+            sides[3]   ? sides[3].z - tileZ   : 0,
+            sides[2]   ? sides[2].z - tileZ   : 0,
             corners[3] ? corners[3].z - tileZ : 0,
         ];
 
@@ -39,8 +44,9 @@ class MapTile extends Component {
 
         //do we need to force an update here?
         geometry.verticesNeedUpdate = true;
+        geometry.attributes.position.needsUpdate = true;
     }
-    componentDidMount() {
+    updateUVs = () => {
         const geometry = this.refs.geo;
 
         // the value is the approx. distance between each tile
@@ -54,8 +60,14 @@ class MapTile extends Component {
         geometry.attributes.uv.setXY( 1, 1.0 - delta, 0.5         );
         geometry.attributes.uv.setXY( 0, 0.5,         1.0 - delta );
     }
+    componentWillReceiveProps = (nextProps) => this.updateVertices(nextProps)
+
+    componentDidMount = () => this.updateUVs()
 
     render() {
+        if (this.refs.geo) {
+            this.updateVertices();
+        }
         return (
             <mesh
                 position={this.props.position}
