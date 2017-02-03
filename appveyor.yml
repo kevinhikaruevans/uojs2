@@ -4,12 +4,12 @@ environment:
   - nodejs_version: "6"
 
 install:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:nodejs_version x64
+  - python --version
+  - npm --version
   - yarn install
 
 test_script:
-  - python --version
-  - npm --version
   - yarn run build:client:dev
   - yarn run build:client:prod
 
