@@ -17,8 +17,56 @@ class Map extends Component {
         x     : 0,
         y     : 0
     };
-
     get mapTiles() {
+        const tiles = this.props.tiles;
+        const selfX = this.props.x;
+        const selfY = this.props.y;
+        console.log('tiles', tiles);
+        return tiles.map((row, _y) => {
+            return row.map((tile, _x) => {
+                //const x = _x - selfX;
+                //const y = selfY - _y;
+                const x = _x - selfX;
+                const y = selfY - _y;
+                const z = tile.z;
+                const sides = [
+                    tiles[_y][_x - 1],
+                    tiles[_y - 1] ? tiles[_y - 1][_x] : null,
+                    tiles[_y + 1] ? tiles[_y + 1][_x] : null,
+                    tiles[_y][_x + 1]
+                ];
+                const corners = [
+                    tiles[_y - 1] ? tiles[_y - 1][_x - 1] : null,
+                    tiles[_y + 1] ? tiles[_y + 1][_x - 1] : null,
+                    tiles[_y - 1] ? tiles[_y - 1][_x + 1] : null,
+                    tiles[_y + 1] ? tiles[_y + 1][_x + 1] : null
+                ];
+                /*
+                const sides = [
+                    tiles[_x - 1] ? tiles[_x - 1][_y] : null,
+                    tiles[_x][_y - 1],
+                    tiles[_x][_y + 1],
+                    tiles[_x + 1] ? tiles[_x + 1][_y] : null
+                ]
+                const corners = [
+                    tiles[_x - 1] ? tiles[_x - 1][_y - 1] : null,
+                    tiles[_x - 1] ? tiles[_x - 1][_y + 1] : null,
+                    tiles[_x + 1] ? tiles[_x + 1][_y - 1] : null,
+                    tiles[_x + 1] ? tiles[_x + 1][_y + 1] : null
+                ];*/
+                const props = {
+                    position : new THREE.Vector3(x, y, z),
+                    corners,
+                    sides,
+                    id: tile.id,
+                    key : `${x}.${y}`
+                };
+
+                return <MapTile {...props} />
+            })
+        });
+    }
+    get mapTiles_old() {
         const tiles = this.props.tiles;
         const selfX = this.props.x;
         const selfY = this.props.y;

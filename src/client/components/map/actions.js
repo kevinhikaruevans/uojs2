@@ -15,28 +15,35 @@ export const updateCoordinates = createAction('@@map/UPDATE_COORDINATES', ({ x, 
     y
 }));
 
-const requestTiles = ({ x, y, id, dispatch, getState, transport }) => {
-    console.log('req', x, y, id);
-    transport
-        .sendObject({
-            event  : 'map:tiles',
-            payout : {
-                x,
-                y,
-                id
-            }
-        })
+const requestTiles = ({ x, y, id, size, transport, dispatch }) => {
+    let range = ~~(size / 2);
+    let requestX = x - range;
+    let requestY = y - range;
+    const request = transport.sendObject({
+        event  : 'map:tiles',
+        payout : {
+            x : requestX,
+            y : requestY,
+            id,
+            size
+        }
+    });
+
+    request
         .then(
-            (tiles) => {
-                console.log('gettiles', tiles);
-                dispatch(updateTiles({ x, y, tiles }))
-            },
+            (tiles) => dispatch(updateTiles({
+                x : requestX,
+                y : requestY,
+                tiles
+            })),
             console.error
         );
+
 };
 
 let lastMapRequest = {};
 
+/*
 export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) => {
     if (id) {
         dispatch(updateMap({ id }));
@@ -69,6 +76,31 @@ export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) =>
             dispatch,
             getState,
             transport
+        });
+    }
+};*/
+
+export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) => {
+    if (id) {
+        dispatch(updateMap({ id }));
+    }
+    if (x && y) {
+        dispatch(updateCoordinates({ x, y }));
+    }
+
+    const state = getState().map;
+
+    x = x || state.x;
+    y = y || state.y;
+    id = id === undefined ? state.id : id;
+    if (x && y && id !== null && id !== undefined) {
+        requestTiles({
+            x,
+            y,
+            id,
+            size : 17,
+            transport,
+            dispatch
         });
     }
 };

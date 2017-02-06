@@ -70,12 +70,12 @@ wss.on('connection', ws => {
                         break;
 
                     case 'map:tiles':
-                        const { x, y, id } = payout;
+                        const { x, y, id, size } = payout;
                         const map = uodatareader.maps[id];
-                        console.time('Request' + id);
-
-                        const block = map ? map.getTiles(x, y, 64) : [];
+                        console.time('Request' + id, map);
+                        const block = map ? map.getTiles(x, y, size) : [];
                         console.timeEnd('Request' + id);
+                        //console.log('block', block);
                         debug('Map block request (%d, %d) -> length: %d', x, y, block.length);
 
                         ws.send(JSON.stringify({

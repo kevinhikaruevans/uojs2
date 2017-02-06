@@ -21,21 +21,29 @@ export default handleActions({
         y
     }),
     [updateTiles] : (state, { x, y, tiles }) => {
-        const origTiles = state.tiles.slice(0);
-        const length = Math.sqrt(tiles.length);
-
-        for(let _x = 0; _x < length; _x++) {
-            for(let _y = 0; _y < length; _y++) {
-                if (!origTiles[x + _x]) {
-                    origTiles[x + _x] = [];
-                }
-                origTiles[x + _x][y + _y] = tiles[_x][_y]
+        // const origTiles = state.tiles.slice(0);
+        // const length = Math.sqrt(tiles.length);
+        //
+        // for(let _x = 0; _x < length; _x++) {
+        //     for(let _y = 0; _y < length; _y++) {
+        //         if (!origTiles[x + _x]) {
+        //             origTiles[x + _x] = [];
+        //         }
+        //         origTiles[x + _x][y + _y] = tiles[_x][_y]
+        //     }
+        // }
+        // console.log('origtiles', origTiles);
+        const newTiles = [];
+        console.log('updateTiles', x, y);
+        for(let i = 0; i < tiles.length; i++) {
+            newTiles[y + i] = [];
+            for(let j = 0; j < tiles[i].length; j++) {
+                newTiles[y + i][x + j] = tiles[i][j];
             }
         }
-        console.log('origtiles', origTiles);
         return {
             ...state,
-            tiles : origTiles
+            tiles : newTiles
         };
     }
 }, {
