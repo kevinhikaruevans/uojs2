@@ -20,20 +20,19 @@ export default handleActions({
         x,
         y
     }),
-    [updateTiles] : (state, { blockX, blockY, tiles }) => {
-        const origTiles = state.tiles.slice();
-        // this can be faster
-        tiles.forEach((tile, index) => {
-            const x = blockX * 8 + index % 8; // the % and / might be backwards for (x, y)
-            const y = blockY * 8 + ~~(index / 8);
+    [updateTiles] : (state, { x, y, tiles }) => {
+        const origTiles = state.tiles.slice(0);
+        const length = Math.sqrt(tiles.length);
 
-            if (origTiles[x] === undefined) {
-                origTiles[x] = [];
+        for(let _x = 0; _x < length; _x++) {
+            for(let _y = 0; _y < length; _y++) {
+                if (!origTiles[x + _x]) {
+                    origTiles[x + _x] = [];
+                }
+                origTiles[x + _x][y + _y] = tiles[_x][_y]
             }
-
-            origTiles[x][y] = tile;
-        });
-
+        }
+        console.log('origtiles', origTiles);
         return {
             ...state,
             tiles : origTiles

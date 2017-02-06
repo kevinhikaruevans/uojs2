@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import * as THREE from 'three';
+import React, { Component, PropTypes } from 'react'
+import * as THREE from 'three'
 import actions from './actions'
 import reducer from './reducer'
 import MapTile from 'component/maptile'
@@ -22,6 +22,7 @@ class Map extends Component {
         const tiles = this.props.tiles;
         const selfX = this.props.x;
         const selfY = this.props.y;
+        console.log('tiles', tiles);
 
         return tiles.reduce((arr, row, _x) => {
             return arr.concat(

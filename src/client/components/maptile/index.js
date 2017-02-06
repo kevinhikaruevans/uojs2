@@ -7,8 +7,7 @@ class MapTile extends Component {
         id        : PropTypes.number,
         position  : PropTypes.object,
         corners   : PropTypes.array.isRequired,
-        sides     : PropTypes.array.isRequired,
-        wireframe : PropTypes.boolean
+        sides     : PropTypes.array.isRequired
     }
     static displayName = '[component] maptile';
 
@@ -67,14 +66,12 @@ class MapTile extends Component {
 
     render() {
         return (
-            <mesh position={this.props.position}
-                onAnimate={this.animate}
-            >
+            <mesh position={this.props.position}>
                 <planeBufferGeometry ref={(geo) => { this.geo = geo; }}
                     width={1}
                     height={1}
                 />
-                <meshBasicMaterial wireframe={this.props.wireframe}>
+                <meshBasicMaterial>
                     <texture magFilter={THREE.LinearFilter}
                         minFilter={THREE.LinearFilter}
                         url={`http://107.161.24.129:2590/land?id=${~~this.props.id}`}
