@@ -41,8 +41,6 @@ const requestTiles = ({ x, y, id, size, transport, dispatch }) => {
 
 };
 
-let lastMapRequest = {};
-
 /*
 export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) => {
     if (id) {

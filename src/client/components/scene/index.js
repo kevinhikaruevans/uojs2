@@ -27,7 +27,7 @@ class Scene extends Component {
     constructor(props) {
         super(props);
 
-        this.cameraRotation = new THREE.Euler(0.2, 0, 0);
+        this.cameraRotation = new THREE.Euler(Math.PI / 15, 0, 0);
         this.cameraPosition = new THREE.Vector3(0, 0, 0);
         // instead of rotating the camera along the Z axis, it might just be easiest
         // to rotate the world by pi/4 along the Z. then we can just rotate the camera
@@ -43,7 +43,7 @@ class Scene extends Component {
 
         return (
             <React3 alpha
-                antialias={false}
+                antialias={true}
                 mainCamera="camera"
                 width={width}
                 height={height}
