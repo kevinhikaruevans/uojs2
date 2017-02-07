@@ -1,6 +1,6 @@
 import PackageBase from 'core/package-base'
 import { Package } from 'component/helpers'
-
+import { actions as map } from 'component/map'
 import { actions as statusInfo } from 'component/status-info'
 
 class _0xBF extends PackageBase {
@@ -38,7 +38,8 @@ class _0xBF extends PackageBase {
         switch(command) {
             // (SetMap) Subcommand 0x08: The index of the map the player is located within.
             case 0x08:
-                console.log('SetMap', _package.nextByte());
+                const id = _package.nextByte();
+                dispatch(map.updateMaster({ id }));
                 break;
             // (MapDiff) Subcommand 0x18: The count of map diffs that were received.
             case 0x18:

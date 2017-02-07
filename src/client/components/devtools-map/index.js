@@ -23,7 +23,7 @@ class DevtoolsMap extends Component {
             return this.props.tiles.map((tile, index) => {
                 return(
                     <div key={index} className={style['devtools-map__tile']}>
-                        <img className={style['devtools-map__img']} src={`http://107.161.24.129:2590/land?id=${tile.ID}`} />
+                        <img className={style['devtools-map__img']} src={`http://107.161.24.129:2590/land?id=${tile.id}`} />
                     </div>
                 )
             })

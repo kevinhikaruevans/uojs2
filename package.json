@@ -71,9 +71,12 @@
     "react-dom": "15.4.1",
     "react-redux": "5.0.1",
     "react-router-async": "0.5.3",
+    "react-three-renderer": "3.0.2",
     "redux": "3.6.0",
     "redux-actions-helpers": "1.0.2",
     "redux-thunk": "2.1.0",
+    "three": "0.83.0",
+    "uodatareader": "1.0.8",
     "ws": "1.1.1"
   }
 }

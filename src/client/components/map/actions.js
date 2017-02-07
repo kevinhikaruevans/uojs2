@@ -1,33 +1,110 @@
 import { createAction } from 'redux-actions-helpers'
 
-export const update = createAction('@@map/UPDATE', ({ x, y, tiles }) => ({
+export const updateTiles = createAction('@@map/UPDATE_TILES', ({ x, y, tiles }) => ({
     x,
     y,
     tiles
 }));
 
-export const updateMaster = ({ x, y }) => (dispatch) => {
-    x = Math.round(x / 8);
-    y = Math.round(y / 8);
+export const updateMap = createAction('@@map/UPDATE_MAP', ({ id }) => ({
+    id
+}));
 
-    const fetch = window.fetch(`http://107.161.24.129:2590/map?y=${y}&x=${x}`);
+export const updateCoordinates = createAction('@@map/UPDATE_COORDINATES', ({ x, y }) => ({
+    x,
+    y
+}));
 
-    fetch
+const requestTiles = ({ x, y, id, size, transport, dispatch }) => {
+    let range = ~~(size / 2);
+    let requestX = x - range;
+    let requestY = y - range;
+    const request = transport.sendObject({
+        event  : 'map:tiles',
+        payout : {
+            x : requestX,
+            y : requestY,
+            id,
+            size
+        }
+    });
+
+    request
         .then(
-            (result) => result.json(),
-            (error) => console.error(error)
-        )
-        .then(
-            (tiles) => {
-                dispatch(update({
-                    x,
-                    y,
-                    tiles
-                }))
-            }
+            (tiles) => dispatch(updateTiles({
+                x : requestX,
+                y : requestY,
+                tiles
+            })),
+            console.error
         );
+
+};
+
+/*
+export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) => {
+    if (id) {
+        dispatch(updateMap({ id }));
+    }
+    if (x && y) {
+        dispatch(updateCoordinates({ x, y }));
+    }
+
+    const state = getState().map;
+    x = x || state.x;
+    y = y || state.y;
+    id = id === undefined ? state.id : id;
+
+    console.log('update master', x, y, id);
+
+    if (x && y && id !== null && id !== undefined) {
+        if (lastMapRequest.x === x
+            && lastMapRequest.y === y) {
+            return;
+        } else {
+            lastMapRequest = {
+                x,
+                y
+            };
+        }
+        requestTiles({
+            x,
+            y,
+            id,
+            dispatch,
+            getState,
+            transport
+        });
+    }
+};*/
+
+export const updateMaster = ({ x, y, id }) => (dispatch, getState, transport) => {
+    if (id) {
+        dispatch(updateMap({ id }));
+    }
+    if (x && y) {
+        dispatch(updateCoordinates({ x, y }));
+    }
+
+    const state = getState().map;
+
+    x = x || state.x;
+    y = y || state.y;
+    id = id === undefined ? state.id : id;
+    if (x && y && id !== null && id !== undefined) {
+        requestTiles({
+            x,
+            y,
+            id,
+            size : 17,
+            transport,
+            dispatch
+        });
+    }
 };
 
 export default {
+    updateCoordinates,
+    updateMap,
     updateMaster
-}
+};

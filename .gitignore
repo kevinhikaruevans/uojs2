@@ -4,3 +4,7 @@ node_modules/
 .npm/
 .idea/
 configs/local_development.js
+uo/
+
+public/
+!public/index.html

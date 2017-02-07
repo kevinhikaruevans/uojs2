@@ -4,7 +4,13 @@ const config = require('./../../configs');
 const { connect } = require('net');
 const { Server } = require('ws');
 const debug = require('debug')('proxy:ws');
-
+const uodatareader = require('uodatareader')({
+    baseDirectory: config['uo.directory'],
+    maps: [
+        {fileIndex: 0, mapId: 0, width: 6144, height: 4096},
+        {fileIndex: 0, mapId: 1, width: 6144, height: 4096}
+    ]
+});
 const wss = new Server({
     host : config['ws.server.host'],
     port : config['ws.port']
@@ -61,6 +67,22 @@ wss.on('connection', ws => {
                             });
                             Proxy.end();
                         }
+                        break;
+
+                    case 'map:tiles':
+                        const { x, y, id, size } = payout;
+                        const map = uodatareader.maps[id];
+                        console.time('Request' + id, map);
+                        const block = map ? map.getTiles(x, y, size) : [];
+                        console.timeEnd('Request' + id);
+                        //console.log('block', block);
+                        debug('Map block request (%d, %d) -> length: %d', x, y, block.length);
+
+                        ws.send(JSON.stringify({
+                            uid,
+                            event,
+                            payout : block
+                        }));
                         break;
                 }
                 break;

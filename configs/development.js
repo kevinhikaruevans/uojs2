@@ -15,6 +15,9 @@ module.exports = {
     "ws.server.host"    : "0.0.0.0",
     "ws.port"           : 2594,
 
+    // Directory to UO
+    "uo.directory"      : "../tmp/uo/",
+
     // Components
     "component.ping.interval-default"   : 5,
     "component.ping.interval-list"      : [
