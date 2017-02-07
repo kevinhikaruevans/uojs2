@@ -15,6 +15,8 @@ class MapTile extends Component {
         id : 1
     };
     updateVertices = (nextProps) => {
+
+        console.info('updateVertices')
         const geometry = this.geo;
         const props    = nextProps || this.props;
 
@@ -47,6 +49,7 @@ class MapTile extends Component {
         geometry.attributes.position.needsUpdate = true;
     }
     updateUVs = () => {
+        console.info('updateUVs')
         const geometry = this.geo;
 
         // the value is the approx. distance between each tile

@@ -21,7 +21,7 @@ class Map extends Component {
         const tiles = this.props.tiles;
         const selfX = this.props.x;
         const selfY = this.props.y;
-        console.log('tiles', tiles);
+        // console.log('tiles', tiles);
         return tiles.map((row, _y) => {
             return row.map((tile, _x) => {
                 //const x = _x - selfX;
@@ -29,6 +29,8 @@ class Map extends Component {
                 const x = _x - selfX;
                 const y = selfY - _y;
                 const z = tile.z;
+
+                console.log('YX', _y, _x, tiles);
                 const sides = [
                     tiles[_y][_x - 1],
                     tiles[_y - 1] ? tiles[_y - 1][_x] : null,
@@ -73,6 +75,7 @@ class Map extends Component {
         console.log('tiles', tiles);
 
         return tiles.reduce((arr, row, _x) => {
+            console.log('HERE', arr, row, _x)
             return arr.concat(
                 row.map((tile, _y) => {
                     const x = _x - selfX;
