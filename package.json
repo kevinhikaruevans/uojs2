@@ -76,7 +76,7 @@
     "redux-actions-helpers": "1.0.2",
     "redux-thunk": "2.1.0",
     "three": "0.83.0",
-    "uodatareader": "1.0.8",
+    "uodatareader": "1.0.9",
     "ws": "1.1.1"
   }
 }
