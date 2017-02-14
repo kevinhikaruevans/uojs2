@@ -45,7 +45,6 @@ class Scene extends Component {
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth / 2, window.innerHeight);
 
-
         const scene = new THREE.Scene();
 
         scene.add(this.axisHelper);
@@ -126,8 +125,6 @@ class Scene extends Component {
 
                     const tile = THREE.Mesh(geometry, material);
 
-
-
                     group.add(tile);
                 }
         }
@@ -150,8 +147,9 @@ class Scene extends Component {
 
         const result = new THREE.OrthographicCamera(-1 * viewportSize * aspect, viewportSize * aspect, viewportSize, -1 * viewportSize, -100, 100);
 
-        result.setRotationFromEuler(this.cameraRotation);
-        result.position.set(this.cameraPosition.x, this.cameraPosition.y, this.cameraPosition.z)
+        // result.setRotationFromEuler(this.cameraRotation);
+        // result.position.set(this.cameraPosition.x, this.cameraPosition.y, this.cameraPosition.z)
+        result.position.x = 100;
         // console.log(result.getWorldDirection(this.cameraPosition), this.cameraPosition);
 
         return result;
