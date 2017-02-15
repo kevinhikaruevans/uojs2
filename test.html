@@ -28,14 +28,17 @@
 
         //
         const scene = new THREE.Scene();
+        const iCamera = camera();
 
         scene.add(new THREE.AxisHelper(10));
 
         const tiles = new THREE.Object3D();
 
+        console.log(map.length)
         for(let y in map) {
             for(let x in map[y]) {
                 const geometry = new THREE.PlaneBufferGeometry(1, 1);
+
                 const z = map[y][x].z;
                 const sides = [
                     map[y][x - 1] ? map[y][x - 1] : null,
@@ -49,7 +52,7 @@
                     map[y - 1] ? map[y - 1][x + 1] : null,
                     map[y + 1] ? map[y + 1][x + 1] : null
                 ];
-                const position = new THREE.Vector3(x, y, z);
+                const position = new THREE.Vector3(x - (map[y].length - (map[y].length / 2)), y - (map.length - (map.length / 2)), z);
                 const tileZ    = position.z;
 
                 const zDeltas = [
@@ -66,121 +69,46 @@
                     0.5, -0.5, zDeltas[3],
                 ];
 
+
+                const delta = 0.04;
+//                console.log(geometry)
+                geometry.attributes.uv.setXY( 3, 0.5,         0.0 + delta );
+                geometry.attributes.uv.setXY( 2, 0.0 + delta, 0.5         );
+                geometry.attributes.uv.setXY( 1, 1.0 - delta, 0.5         );
+                geometry.attributes.uv.setXY( 0, 0.5,         1.0 - delta );
+
+//                console.log(geometry.attributes.position)
                 vertices.forEach((value, index) => {
                     geometry.attributes.position.array[index] = value
                 });
 
-                //do we need to force an update here?
-                geometry.verticesNeedUpdate = true;
-                geometry.attributes.position.needsUpdate = true;
+                /*
 
+                                //do we need to force an update here?
+                */
+
+                geometry.attributes.position.needsUpdate = true;
+                geometry.verticesNeedUpdate = true;
 
                 const loader = new THREE.TextureLoader()
                 loader.setCrossOrigin('')
                 loader.load(`http://107.161.24.129:2590/land?id=${map[y][x].id}`, (texture) => {
 //            console.log(texture)
 
-            texture.magFilter = THREE.LinearFilter;
-            texture.minFilter = THREE.LinearFilter;
+//                    texture.magFilter = THREE.LinearFilter;
+//                    texture.minFilter = THREE.LinearFilter;
 
                     const material = new THREE.MeshBasicMaterial({ map : texture });
 
                     const tile = new THREE.Mesh(geometry, material);
-
+                    // TODO: set matrix Vector3
+                    tile.position.set(position.x, position.y, position.z);
+//                    tile.updateMatrix()
                     tiles.add(tile);
-                    renderer.render(scene, camera())
+                    renderer.render(scene, iCamera)
                 });
             }
         }
-
-
-
-
-
-//        console.log('asd', texture);
-
-        /*
-                for(let y in this.props.tiles) {
-                    for(let x in this.props.tiles[y]) {
-                        console.log(1111111, y, x);
-                        const x_ = x - this.props.x;
-                        const y_ = this.props.y - y;
-                        const z = this.props.tiles[y][x].z;
-
-                        const sides = [
-                            this.props.tiles[y_][x_ - 1],
-                            this.props.tiles[y_ - 1] ? this.props.tiles[y_ - 1][x_] : null,
-                            this.props.tiles[y_ + 1] ? this.props.tiles[y_ + 1][x_] : null,
-                            this.props.tiles[y_][x_ + 1]
-                        ];
-                        const corners = [
-                            this.props.tiles[y_ - 1] ? this.props.tiles[y_ - 1][x_ - 1] : null,
-                            this.props.tiles[y_ + 1] ? this.props.tiles[y_ + 1][x_ - 1] : null,
-                            this.props.tiles[y_ - 1] ? this.props.tiles[y_ - 1][x_ + 1] : null,
-                            this.props.tiles[y_ + 1] ? this.props.tiles[y_ + 1][x_ + 1] : null
-                        ];
-
-                        const position = new THREE.Vector3(x_, y_, z);
-                        /!*
-                         const props = {
-                         position : new THREE.Vector3(x_, y_, z),
-                         corners,
-                         sides,
-                         id: this.props.tiles[y][x].id,
-                         key : `${x}.${y}`
-                         };
-
-                         return <MapTile {...props} />*!/
-
-                        const geometry = new THREE.PlaneBufferGeometry();
-
-                        const tileZ    = position.z;
-
-                        const zDeltas = [
-                            0,
-                            sides[3]   ? sides[3].z - tileZ   : 0,
-                            sides[2]   ? sides[2].z - tileZ   : 0,
-                            corners[3] ? corners[3].z - tileZ : 0,
-                        ];
-
-                        const vertices = [
-                            -0.5,  0.5, zDeltas[0],
-                            0.5,  0.5, zDeltas[1],
-                            -0.5, -0.5, zDeltas[2],
-                            0.5, -0.5, zDeltas[3],
-                        ];
-
-                        vertices.forEach((value, index) => { geometry.attributes.position.array[index] = value });
-
-                        //do we need to force an update here?
-                        geometry.verticesNeedUpdate = true;
-                        geometry.attributes.position.needsUpdate = true;
-
-
-
-                        /!*
-                         <texture magFilter={THREE.LinearFilter}
-                         minFilter={THREE.LinearFilter}
-                         url={`http://107.161.24.129:2590/land?id=${~~this.props.id}`}
-                         />
-                         *!/
-
-                        const texture = new THREE.TextureLoader().load(`http://107.161.24.129:2590/land?id=${~~this.props.tiles[y][x].id}`);
-                        texture.magFilter = THREE.LinearFilter;
-                        texture.minFilter = THREE.LinearFilter;
-                        console.log(texture)
-
-                        const material = new THREE.MeshBasicMaterial({ map : texture });
-
-                        const tile = THREE.Mesh(geometry, material);
-
-
-
-                        group.add(tile);
-                    }
-                }
-        */
-
 
         const world = new THREE.Object3D();
         world.setRotationFromEuler(new THREE.Euler(0, 0, -1 * Math.PI / 4)) // this.worldRotation
@@ -213,7 +141,12 @@
             return result;
         }
 
-        renderer.render(scene, camera())
+        function render() {
+            requestAnimationFrame(render);
+            console.log('RAF')
+            renderer.render(scene, iCamera)
+        }
+        render();
     </script>
 </body>
 </html>
