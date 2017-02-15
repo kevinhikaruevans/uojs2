@@ -34,18 +34,32 @@
 
         const tiles = new THREE.Object3D();
 
-        console.log(map.length)
-        for(let y in map) {
-            for(let x in map[y]) {
+//        console.log(map.length, map)
+        for(let y = 0; y < map.length; y++) {
+            for(let x = 0; x < map[y].length; x++) {
                 const geometry = new THREE.PlaneBufferGeometry(1, 1);
 
                 const z = map[y][x].z;
+//                console.log('y - x', y, x)
+//                console.log('[y][x - 1]', map[y] && map[y][x - 1]);
+//                console.log('[y - 1][x]', map[y - 1] && map[y - 1][x]);
+//                console.log('[y + 1][x]', map[y + 1] && map[y + 1][x]);
+//                console.log('[y][x + 1]', y, x, x + 1, map[y], map[y] && map[y][x + 1]);
+                /*const sides = [
+                    map[y][x - 1] ? map[y][x - 1] : null, // 0
+                    map[y - 1] ? map[y - 1][x] : null, // 1
+                    map[y + 1] ? map[y + 1][x] : null, // 2
+                    map[y][x + 1] ? map[y][x + 1] : null // 3
+                ];
+*/
                 const sides = [
-                    map[y][x - 1] ? map[y][x - 1] : null,
+                    map[y][x - 1],
                     map[y - 1] ? map[y - 1][x] : null,
                     map[y + 1] ? map[y + 1][x] : null,
-                    map[y][x + 1] ? map[y][x + 1] : null
+                    map[y][x + 1]
                 ];
+
+//                console.log('sides', sides);
                 const corners = [
                     map[y - 1] ? map[y - 1][x - 1] : null,
                     map[y + 1] ? map[y + 1][x - 1] : null,
@@ -55,19 +69,21 @@
                 const position = new THREE.Vector3(x - (map[y].length - (map[y].length / 2)), y - (map.length - (map.length / 2)), z);
                 const tileZ    = position.z;
 
+//                console.log('aaaa', sides[3], sides[2], corners[3])
                 const zDeltas = [
                     0,
                     sides[3]   ? sides[3].z - tileZ   : 0,
                     sides[2]   ? sides[2].z - tileZ   : 0,
                     corners[3] ? corners[3].z - tileZ : 0,
                 ];
+//                console.log('zDelta', zDeltas)
 
-                const vertices = [
+                const vertices = new Float32Array([
                     -0.5,  0.5, zDeltas[0],
                     0.5,  0.5, zDeltas[1],
                     -0.5, -0.5, zDeltas[2],
                     0.5, -0.5, zDeltas[3],
-                ];
+                ]);
 
 
                 const delta = 0.04;
@@ -77,6 +93,10 @@
                 geometry.attributes.uv.setXY( 1, 1.0 - delta, 0.5         );
                 geometry.attributes.uv.setXY( 0, 0.5,         1.0 - delta );
 
+//                geometry.attributes.position.array = vertices
+//                console.log(geometry.attributes.position.array);
+
+//                console.log()
 //                console.log(geometry.attributes.position)
                 vertices.forEach((value, index) => {
                     geometry.attributes.position.array[index] = value
@@ -89,6 +109,7 @@
 
                 geometry.attributes.position.needsUpdate = true;
                 geometry.verticesNeedUpdate = true;
+                geometry.normalsNeedUpdate = true;
 
                 const loader = new THREE.TextureLoader()
                 loader.setCrossOrigin('')
