@@ -53,7 +53,7 @@ class MapTile extends Component {
         // since the "square" on the diamond is only an approximation, we need
         // expand the texture past the transparent pixels...
         // set it to 0.0 if you'd like to see what I mean...
-        const delta = 0.04;
+        const delta = 0.05;
         // map to vertices on the "diamond" tile:
         geometry.attributes.uv.setXY( 3, 0.5,         0.0 + delta );
         geometry.attributes.uv.setXY( 2, 0.0 + delta, 0.5         );
@@ -62,7 +62,7 @@ class MapTile extends Component {
     }
     componentWillReceiveProps = (nextProps) => this.updateVertices(nextProps)
 
-    componentDidMount = () => this.updateUVs()
+    //componentDidMount = () => this.updateUVs()
 
     render() {
         return (
@@ -74,7 +74,7 @@ class MapTile extends Component {
                 <meshBasicMaterial>
                     <texture magFilter={THREE.LinearFilter}
                         minFilter={THREE.LinearFilter}
-                        url={`http://107.161.24.129:2590/land?id=${~~this.props.id}`}
+                        url={`http://127.0.0.1:666/texture/${~~this.props.id}`}
                     />
                 </meshBasicMaterial>
             </mesh>

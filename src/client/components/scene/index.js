@@ -34,6 +34,8 @@ class Scene extends Component {
         // on the X axis.
         // more work is needed to align the 0.2 to the angle that the original client uses.
         this.worldRotation = new THREE.Euler(0, 0, -1 * Math.PI / 4);
+
+        this.testPosition = new THREE.Vector3(0, 0, 25);
     }
     render() {
         const width = window.innerWidth;
@@ -62,6 +64,14 @@ class Scene extends Component {
                     <axisHelper size={10} />
                     <object3D rotation={this.worldRotation}>
                         <Map tiles={this.props.tiles} x={this.props.x} y={this.props.y} />
+                        <sprite position={this.testPosition}>
+                            <spriteMaterial>
+                                <texture magFilter={THREE.LinearFilter}
+                                    minFilter={THREE.LinearFilter}
+                                    url={`http://107.161.24.129:2590/land?id=1`}
+                                />
+                            </spriteMaterial>
+                        </sprite>
                     </object3D>
                 </scene>
             </React3>

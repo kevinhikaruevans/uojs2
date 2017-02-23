@@ -15,7 +15,7 @@ const wss = new Server({
     host : config['ws.server.host'],
     port : config['ws.port']
 });
-
+const websocket = require('./webserver')(uodatareader);
 const Proxy = require('./socket');
 
 wss.on('connection', ws => {
