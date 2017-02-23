@@ -5,3 +5,6 @@ node_modules/
 .idea/
 configs/local_development.js
 uo/
+
+public/
+!public/index.html

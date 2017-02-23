@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "debug": "2.6.0",
+    "express": "^4.14.1",
     "history": "4.5.0",
     "hook-redux": "0.0.4",
     "minimist": "1.2.0",
@@ -76,7 +77,7 @@
     "redux-actions-helpers": "1.0.2",
     "redux-thunk": "2.1.0",
     "three": "0.83.0",
-    "uodatareader": "1.0.7",
+    "uodatareader": "^1.0.12",
     "ws": "1.1.1"
   }
 }
