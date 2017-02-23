@@ -22,5 +22,5 @@ module.exports = (uodatareader) => {
                 res.end(buffer);
             });
         })
-        .listen(666);
+        .listen(80);
 };
