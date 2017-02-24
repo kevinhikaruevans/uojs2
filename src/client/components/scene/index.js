@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 // import React3 from 'react-three-renderer';
-import * as THREE from 'three';
+import { Scene, WebGLRenderer, AxisHelper, Object3D, PlaneBufferGeometry, TextureLoader, MeshBasicMaterial, Mesh, Euler, OrthographicCamera } from 'three';
 
 import { connect } from 'react-redux';
 import Map from 'component/map';
@@ -10,7 +10,7 @@ import Map from 'component/map';
     x     : store.map.x,
     y     : store.map.y
 }))
-class Scene extends Component {
+class World extends Component {
 
     static displayName = '[component] scene';
 
@@ -27,180 +27,261 @@ class Scene extends Component {
     constructor(props) {
         super(props);
 
-        this.cameraRotation = new THREE.Euler(Math.PI / 15, 0, 0);
-        this.cameraPosition = new THREE.Vector3(0, 0, 0);
-        // instead of rotating the camera along the Z axis, it might just be easiest
-        // to rotate the world by pi/4 along the Z. then we can just rotate the camera
-        // on the X axis.
-        // more work is needed to align the 0.2 to the angle that the original client uses.
-        this.worldRotation = new THREE.Euler(0, 0, -1 * Math.PI / 4);
+
+    }
+
+    corner0 = (tiles, y, x) => {
+    let count = 1;
+    let sum = tiles[y][x].z;
+
+    if(tiles[y][x - 1]) {
+        count++;
+        sum += tiles[y][x - 1].z;
+    }
+
+    if(tiles[y + 1] && tiles[y + 1][x - 1]) {
+        count++;
+        sum += tiles[y + 1][x - 1].z;
+    }
+
+    if(tiles[y + 1] && tiles[y + 1][x]) {
+        count++;
+        sum += tiles[y + 1][x].z;
+    }
+
+    return sum / count;
+};
+
+    corner1 = (tiles, y, x) => {
+    let count = 1;
+    let sum = tiles[y][x].z;
+
+    if(tiles[y + 1] && tiles[y + 1][x]) {
+        count++;
+        sum += tiles[y + 1][x].z;
+    }
+
+    if(tiles[y + 1] && tiles[y + 1][x + 1]) {
+        count++;
+        sum += tiles[y + 1][x + 1].z;
+    }
+
+    if(tiles[y][x + 1]) {
+        count++;
+        sum += tiles[y][x + 1].z;
+    }
+
+    return sum / count;
+};
+
+    corner2 = (tiles, y, x) => {
+    let count = 1;
+    let sum = tiles[y][x].z;
+
+    if(tiles[y][x - 1]) {
+        count++;
+        sum += tiles[y][x - 1].z;
+    }
+
+    if(tiles[y - 1] && tiles[y - 1][x - 1]) {
+        count++;
+        sum += tiles[y - 1][x - 1].z;
+    }
+
+    if(tiles[y - 1] && tiles[y - 1][x]) {
+        count++;
+        sum += tiles[y - 1][x].z;
+    }
+
+    return sum / count;
+};
+
+    corner3 = (tiles, y, x) => {
+    let count = 1;
+    let sum = tiles[y][x].z;
+
+    if(tiles[y][x + 1]) {
+        count++;
+        sum += tiles[y][x + 1].z;
+    }
+
+    if(tiles[y - 1] && tiles[y - 1][x + 1]) {
+        count++;
+        sum += tiles[y - 1][x + 1].z;
+    }
+
+    if(tiles[y - 1] && tiles[y - 1][x]) {
+        count++;
+        sum += tiles[y - 1][x].z;
+    }
+
+    return sum / count;
+};
+
+    camera = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const aspect = width / height;
+        const viewportSize = 16;
+
+        const result = new OrthographicCamera(-1 * viewportSize * aspect, viewportSize * aspect, viewportSize, -1 * viewportSize, -100, 100);
+
+        result.setRotationFromEuler(new Euler(Math.PI / 15, 0, 0));
+
+        result.position.set(0, 0, 0)
+
+        return result;
+    };
+
+    scene = new Scene();
+
+    renderer = new WebGLRenderer({
+        antialias : true
+    });
+
+    tiles = new Object3D();
+
+    componentDidMount() {
+        this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+        this.renderer.setSize(800, 600);
+
+        this.refs.container.appendChild(this.renderer.domElement);
+
+
+        const scene = this.scene;
+        const iCamera = this.camera();
+
+        this.iCamera = iCamera
+
+        scene.add(new AxisHelper(10));
+
+        for(let y = 0; y < this.props.tiles.length; y++) {
+            let prevTileX = null;
+            const centerY = Math.ceil(this.props.tiles.length / 2);
+
+            for(let x = 0; x < this.props.tiles[y].length; x++) {
+                const centerX = Math.ceil(this.props.tiles[y].length / 2);
+
+                const geometry = new PlaneBufferGeometry(1, 1);
+
+                let vert = [];
+
+                if(!prevTileX) {
+                    vert = [
+                        this.corner0(this.props.tiles, y, x),
+                        this.corner1(this.props.tiles, y, x),
+                        this.corner2(this.props.tiles, y, x),
+                        this.corner3(this.props.tiles, y, x)
+                    ];
+                } else {
+                    vert = [
+                        prevTileX[1],
+                        this.corner1(this.props.tiles, y, x),
+                        prevTileX[3],
+                        this.corner3(this.props.tiles, y, x)
+                    ];
+                }
+                prevTileX = vert;
+
+                geometry.attributes.position.array = new Float32Array([
+                    -0.5,  0.5, vert[0],
+                    0.5,  0.5, vert[1],
+                    -0.5, -0.5, vert[2],
+                    0.5, -0.5, vert[3],
+                ]);
+                geometry.attributes.position.needsUpdate = true;
+
+                const loader = new TextureLoader();
+                loader.setCrossOrigin('')
+                loader.load(`http://192.168.1.124/texture/${this.props.tiles[y][x].id}`, (texture) => {
+
+                    texture.flipY = false;
+                    const material = new MeshBasicMaterial({ map : texture });
+                    const mesh = new Mesh(geometry, material);
+
+                    mesh.position.set(x - (this.props.tiles[y].length - (this.props.tiles[y].length / 2)), y - (this.props.tiles.length - (this.props.tiles.length / 2)), 0);
+                    if(centerY - 1 === y && centerX - 1 == x) {
+                        console.log(mesh.position)
+                        iCamera.position.set(mesh.position.x, mesh.position.y, mesh.position.z)
+                    }
+                    this.tiles.add(mesh);
+                });
+            }
+        }
+
+        this.tiles.setRotationFromEuler(new Euler(0, 0, -1 * Math.PI / 4)) // this.worldRotation
+        scene.add(this.tiles);
+
+        const render = () => {
+            requestAnimationFrame(render);
+
+            this.renderer.render(scene, iCamera)
+        }
+        render();
+
     }
 
     componentDidUpdate() {
-        const renderer = new THREE.WebGLRenderer({
-            canvas : this.refs.container,
-            antialias : true
-        });
-        renderer.setClearColor(0xf0f0f0);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth / 2, window.innerHeight);
+        console.log(11111111111111, this.props)
+        for(let y = 0; y < this.props.tiles.length; y++) {
+            let prevTileX = null;
+            const centerY = Math.ceil(this.props.tiles.length / 2);
 
-        const scene = new THREE.Scene();
+            for(let x = 0; x < this.props.tiles[y].length; x++) {
+                const centerX = Math.ceil(this.props.tiles[y].length / 2);
 
-        scene.add(this.axisHelper);
+                const geometry = new PlaneBufferGeometry(1, 1);
 
-        const group = new THREE.Object3D();
+                let vert = [];
 
-        for(let y in this.props.tiles) {
-            for(let x in this.props.tiles[y]) {
-                    console.log(1111111, y, x);
-                    const x_ = x - this.props.x;
-                    const y_ = this.props.y - y;
-                    const z = this.props.tiles[y][x].z;
-
-                    const sides = [
-                        this.props.tiles[y_][x_ - 1],
-                        this.props.tiles[y_ - 1] ? this.props.tiles[y_ - 1][x_] : null,
-                        this.props.tiles[y_ + 1] ? this.props.tiles[y_ + 1][x_] : null,
-                        this.props.tiles[y_][x_ + 1]
+                if(!prevTileX) {
+                    vert = [
+                        this.corner0(this.props.tiles, y, x),
+                        this.corner1(this.props.tiles, y, x),
+                        this.corner2(this.props.tiles, y, x),
+                        this.corner3(this.props.tiles, y, x)
                     ];
-                    const corners = [
-                        this.props.tiles[y_ - 1] ? this.props.tiles[y_ - 1][x_ - 1] : null,
-                        this.props.tiles[y_ + 1] ? this.props.tiles[y_ + 1][x_ - 1] : null,
-                        this.props.tiles[y_ - 1] ? this.props.tiles[y_ - 1][x_ + 1] : null,
-                        this.props.tiles[y_ + 1] ? this.props.tiles[y_ + 1][x_ + 1] : null
+                } else {
+                    vert = [
+                        prevTileX[1],
+                        this.corner1(this.props.tiles, y, x),
+                        prevTileX[3],
+                        this.corner3(this.props.tiles, y, x)
                     ];
-
-                    const position = new THREE.Vector3(x_, y_, z);
-/*
-                    const props = {
-                        position : new THREE.Vector3(x_, y_, z),
-                        corners,
-                        sides,
-                        id: this.props.tiles[y][x].id,
-                        key : `${x}.${y}`
-                    };
-
-                    return <MapTile {...props} />*/
-
-                    const geometry = new THREE.PlaneBufferGeometry();
-
-                    const tileZ    = position.z;
-
-                    const zDeltas = [
-                        0,
-                        sides[3]   ? sides[3].z - tileZ   : 0,
-                        sides[2]   ? sides[2].z - tileZ   : 0,
-                        corners[3] ? corners[3].z - tileZ : 0,
-                    ];
-
-                    const vertices = [
-                        -0.5,  0.5, zDeltas[0],
-                        0.5,  0.5, zDeltas[1],
-                        -0.5, -0.5, zDeltas[2],
-                        0.5, -0.5, zDeltas[3],
-                    ];
-
-                    vertices.forEach((value, index) => { geometry.attributes.position.array[index] = value });
-
-                    //do we need to force an update here?
-                    geometry.verticesNeedUpdate = true;
-                    geometry.attributes.position.needsUpdate = true;
-
-
-
-                    /*
-                                            <texture magFilter={THREE.LinearFilter}
-                                                     minFilter={THREE.LinearFilter}
-                                                     url={`http://107.161.24.129:2590/land?id=${~~this.props.id}`}
-                                            />
-                    */
-
-                    const texture = new THREE.TextureLoader().load(`http://107.161.24.129:2590/land?id=${~~this.props.tiles[y][x].id}`);
-                    texture.magFilter = THREE.LinearFilter;
-                    texture.minFilter = THREE.LinearFilter;
-                    console.log(texture)
-
-                    const material = new THREE.MeshBasicMaterial({ map : texture });
-
-                    const tile = THREE.Mesh(geometry, material);
-
-                    group.add(tile);
                 }
+                prevTileX = vert;
+
+                geometry.attributes.position.array = new Float32Array([
+                    -0.5,  0.5, vert[0],
+                    0.5,  0.5, vert[1],
+                    -0.5, -0.5, vert[2],
+                    0.5, -0.5, vert[3],
+                ]);
+                geometry.attributes.position.needsUpdate = true;
+
+                const loader = new TextureLoader();
+                loader.setCrossOrigin('')
+                loader.load(`http://192.168.1.124/texture/${this.props.tiles[y][x].id}`, (texture) => {
+
+                    texture.flipY = false;
+                    const material = new MeshBasicMaterial({ map : texture });
+                    const mesh = new Mesh(geometry, material);
+
+                    mesh.position.set(x - (this.props.tiles[y].length - (this.props.tiles[y].length / 2)), y - (this.props.tiles.length - (this.props.tiles.length / 2)), 0);
+                    if(centerY - 1 === y && centerX - 1 == x) {
+                        console.log(mesh.position)
+                        this.iCamera.position.set(mesh.position.x, mesh.position.y, mesh.position.z)
+                    }
+                    this.tiles.add(mesh);
+                });
+            }
         }
 
-
-        const world = new THREE.Object3D();
-        world.setRotationFromEuler(this.worldRotation)
-        world.add(group);
-        scene.add(world);
-
-        renderer.render(scene, this.camera)
-        // this.refs.container.appendChild(canvas.domElement);
     }
-
-    get camera() {
-        const width = window.innerWidth / 2;
-        const height = window.innerHeight;
-        const aspect = width / height;
-        const viewportSize = 16;
-
-        const result = new THREE.OrthographicCamera(-1 * viewportSize * aspect, viewportSize * aspect, viewportSize, -1 * viewportSize, -100, 100);
-
-        // result.setRotationFromEuler(this.cameraRotation);
-        // result.position.set(this.cameraPosition.x, this.cameraPosition.y, this.cameraPosition.z)
-        result.position.x = 100;
-        // console.log(result.getWorldDirection(this.cameraPosition), this.cameraPosition);
-
-        return result;
-    }
-
-    get axisHelper() {
-        return new THREE.AxisHelper(10);
-    }
-
-
-    mapTile = () => {
-        const geometry = new THREE.PlaneBufferGeometry();
-
-        return new THREE.Mesh(geometry, material);
-    };
 
     render() {
-        const width = window.innerWidth / 2;
-        const height = window.innerHeight;
-        const aspect = width / height;
-        const viewportSize = 16;
-
-        return <canvas ref="container" />
- /*       return (
-                <div style={{display: 'flex'}}>
-                    <React3 alpha
-                            antialias={true}
-                            mainCamera="camera"
-                            width={width}
-                            height={height}
-                    >
-                        <scene>
-                            <orthographicCamera name="camera"
-                                                left={-1 * viewportSize * aspect}
-                                                right={viewportSize * aspect}
-                                                top={viewportSize}
-                                                bottom={-1 * viewportSize}
-                                                near={-100}
-                                                far={100}
-                                                rotation={this.cameraRotation}
-                                                position={this.cameraPosition}
-                            />
-                            <axisHelper size={10} />
-                            <object3D rotation={this.worldRotation}>
-                                <Map tiles={this.props.tiles} x={this.props.x} y={this.props.y} />
-                            </object3D>
-                        </scene>
-                    </React3>
-                </div>
-        );
- */   }
+        return <div ref="container" />
+    }
 }
 
-export { Scene as default }
+export { World as default }

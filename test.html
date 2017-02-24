@@ -22,9 +22,9 @@
             canvas : document.getElementById('container'),
             antialias : true
         });
-        renderer.setClearColor(0xf0f0f0);
+
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(800, 600);
 
         //
         const scene = new THREE.Scene();
@@ -55,7 +55,6 @@
 
             return sum / count;
         };
-
         const corner1 = (tiles, y, x) => {
             let count = 1;
             let sum = tiles[y][x].z;
@@ -77,7 +76,6 @@
 
             return sum / count;
         };
-
         const corner2 = (tiles, y, x) => {
             let count = 1;
             let sum = tiles[y][x].z;
@@ -99,7 +97,6 @@
 
             return sum / count;
         };
-
         const corner3 = (tiles, y, x) => {
             let count = 1;
             let sum = tiles[y][x].z;
@@ -127,8 +124,11 @@
 //        console.log(map.length, map)
         for(let y = 0; y < map.length; y++) {
             let prevTileX = null;
+            const centerY = Math.ceil(map.length / 2);
 
             for(let x = 0; x < map[y].length; x++) {
+                const centerX = Math.ceil(map[y].length / 2);
+
                 const geometry = new THREE.PlaneBufferGeometry(2, 2);
 
                 let vert = [];
@@ -158,106 +158,23 @@
                 ]);
                 geometry.attributes.position.needsUpdate = true;
 
-
-                const delta = 0.04;
-
-//                geometry.attributes.uv.setXY( 3, 0.5, delta );
-//                geometry.attributes.uv.setXY( 2, delta, 0.5);
-//                geometry.attributes.uv.setXY( 1, 1.0 - delta, 0.5);
-//                geometry.attributes.uv.setXY(0, 0.5, 1); // 0 0
-//                geometry.attributes.uv.setXY(1, 1, 0.5); // 0 0
-//                geometry.attributes.uv.setXY(2, 0, 0.5); // 0 0
-
-                geometry.attributes.uv.setXY(0, 0, 1);
-                geometry.attributes.uv.setXY(1, 1, 1);
-                geometry.attributes.uv.setXY(2, 0, 0);
-                geometry.attributes.uv.setXY(3, 1, 0);
-//                geometry.mirrorX();
-/*
-                0:0
-                1:1
-                2:1
-                3:1
-                4:0
-                5:0
-                6:1
-                7:0
-*/
-
-//                console.log(geometry.attributes.uv)
-/*
-                const loader = new THREE.TextureLoader()
-                loader.setCrossOrigin('')
-                loader.load(`http://107.161.24.129:2590/land?id=${map[y][x].id}`, (texture) => {
-                    //            console.log(texture)
-
-                    //                    texture.magFilter = THREE.LinearFilter;
-                    //                    texture.minFilter = THREE.LinearFilter;
-
-                    const material = new THREE.MeshBasicMaterial({ map : texture });
-
-                    const tile = new THREE.Mesh(geometry, material);
-                    // TODO: set matrix Vector3
-                    tile.position.set(position.x, position.y, 0);
-                    //                    tile.updateMatrix()
-                    tiles.add(tile);
-                    renderer.render(scene, iCamera)
-                });
-*/
-
-/*
-                const material = new THREE.MeshBasicMaterial({
-                    color: 0x072534,
-                    side: THREE.DoubleSide,
-                    wireframe: true
-                });
-*/
-
-//                const tile = new THREE.Mesh(geometry, material);
-                // TODO: set matrix Vector3
-//                tile.position.set(x - (map[y].length - (map[y].length / 2)), y - (map.length - (map.length / 2)), 0);
-//                    tile.updateMatrix()
-
                 const loader = new THREE.TextureLoader();
                 loader.setCrossOrigin('')
                 loader.load(`http://192.168.1.124/texture/${map[y][x].id}`, (texture) => {
-//                    texture.magFilter = THREE.LinearFilter;
-//                    texture.minFilter = THREE.LinearFilter;
-//                    texture.wrapT = THREE.EquirectangularReflectionMapping;
-//                    texture.wrapS = THREE.EquirectangularReflectionMapping;
+
                     texture.flipY = false;
                     const material = new THREE.MeshBasicMaterial({ map : texture });
                     const mesh = new THREE.Mesh(geometry, material);
 
                     mesh.position.set(x - (map[y].length - (map[y].length / 2)), y - (map.length - (map.length / 2)), 0);
+                    if(centerY - 1 === y && centerX - 1 == x) {
+                        console.log(mesh.position)
+                        iCamera.position.set(mesh.position.x, mesh.position.y, mesh.position.z)
+                    }
                     tiles.add(mesh);
-//                    renderer.render(scene, iCamera)
                 });
-                /*
-
-                                loader.load(`http://107.161.24.129:2590/land?id=${map[y][x].id}`, (texture) => {
-                //            console.log(texture)
-
-                                    texture.magFilter = THREE.LinearFilter;
-                                    texture.minFilter = THREE.LinearFilter;
-
-                                    const material = new THREE.MeshBasicMaterial({ map : texture });
-
-                                    const tile = new THREE.Mesh(geometry, material);
-                                    // TODO: set matrix Vector3
-                                    tile.position.set(position.x, position.y, position.z);
-                //                    tile.updateMatrix()
-                                    tiles.add(tile);
-                                    renderer.render(scene, iCamera)
-                                });
-                */
             }
         }
-
-
-//        tiles.scale = new THREE.Vector3(0.5, 0.5, 0.5)
-
-        tiles.scale.set(0.5,0.5,0.5)
 
         tiles.setRotationFromEuler(new THREE.Euler(0, 0, -1 * Math.PI / 4)) // this.worldRotation
         scene.add(tiles);
@@ -274,9 +191,8 @@
             this.cameraRotation = new THREE.Euler(Math.PI / 15, 0, 0);
 
             result.setRotationFromEuler(this.cameraRotation);
-//            result.position.x = 100
+
             result.position.set(0, 0, 0)
-            // console.log(result.getWorldDirection(this.cameraPosition), this.cameraPosition);
 
             return result;
         }
